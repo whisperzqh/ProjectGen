@@ -1,0 +1,11 @@
+# Core dependencies
+click>=7.0
+dateparser>=1.0
+pandas>=1.0
+py-lru-cache~=0.1.4
+six
+
+# Test dependencies
+pytest
+pytest-cov
+cogapp

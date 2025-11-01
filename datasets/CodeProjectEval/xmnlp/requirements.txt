@@ -1,0 +1,8 @@
+tokenizers
+scikit-learn
+numpy>=1.21.6,<2.0
+onnxruntime==1.12.0
+pytest
+pytest-cov
+flake8
+langml

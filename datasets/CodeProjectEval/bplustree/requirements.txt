@@ -1,0 +1,12 @@
+# Core dependencies
+rwlock
+cachetools
+
+# Optional dependencies for testing
+pytest
+pytest-cov
+python-coveralls
+pycodestyle
+
+# Optional datetime serialization dependency
+temporenc

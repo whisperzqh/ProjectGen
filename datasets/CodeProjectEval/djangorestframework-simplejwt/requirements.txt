@@ -1,0 +1,39 @@
+# Core dependencies
+django>=4.2
+djangorestframework>=3.14
+pyjwt>=1.7.1
+
+# Testing dependencies
+cryptography
+freezegun
+pytest
+pytest-cov
+pytest-django
+pytest-xdist
+tox
+
+# Linting and code style
+ruff
+yesqa
+pyupgrade
+pre-commit
+
+# Typing support
+mypy
+django-stubs
+djangorestframework-stubs
+types-pytz
+
+# Documentation
+Sphinx
+sphinx_rtd_theme>=0.1.9
+
+# Development tools
+pytest-watch
+wheel
+twine
+ipython
+
+# Optional crypto & jose support
+python-jose==3.3.0
+cryptography>=3.3.1

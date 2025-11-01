@@ -1,0 +1,12 @@
+├── tinydb
+│   ├── database.py
+│   ├── __init__.py
+│   ├── middlewares.py
+│   ├── mypy_plugin.py
+│   ├── operations.py
+│   ├── py.typed
+│   ├── queries.py
+│   ├── storages.py
+│   ├── table.py
+│   ├── utils.py
+│   └── version.py

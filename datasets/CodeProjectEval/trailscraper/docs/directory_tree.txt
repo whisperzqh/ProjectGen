@@ -1,0 +1,16 @@
+├── trailscraper
+│   ├── boto_service_definitions.py
+│   ├── cli.py
+│   ├── cloudtrail.py
+│   ├── collection_utils.py
+│   ├── guess.py
+│   ├── iam.py
+│   ├── __init__.py
+│   ├── known-iam-actions.txt
+│   ├── policy_generator.py
+│   ├── record_sources
+│   │   ├── cloudtrail_api_record_source.py
+│   │   ├── __init__.py
+│   │   └── local_directory_record_source.py
+│   ├── s3_download.py
+│   └── time_utils.py

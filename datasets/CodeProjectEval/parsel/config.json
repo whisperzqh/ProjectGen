@@ -1,0 +1,16 @@
+{
+    "PRD": "docs/PRD.md",
+    "UML": ["docs/UML.md", "docs/UML_pyreverse.md"],
+    "dependencies": "requirements.txt",
+    "architecture_design": "docs/architecture_design.md",
+    "language": "python",
+    "source_code": "parsel",
+    "unit_tests": "unit_tests",
+    "check_tests": "check_tests",
+    "usage_examples": "", 
+    "required_files":["requirements.txt"],
+    "setup_shell_script": "setup_shell_script.sh",
+    
+    "unit_test_script": "pytest --cov=parsel --cov-report=json:unit_test_cov.json --json-report --json-report-file=unit_test_report.json unit_tests",
+    "check_test_script": "pytest --cov=parsel --cov-report=json:check_test_cov.json --json-report --json-report-file=check_test_report.json check_tests"
+}

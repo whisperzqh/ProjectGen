@@ -1,0 +1,9 @@
+# Core runtime dependency
+wrapt<2,>=1.10
+
+# Development dependencies
+tox
+PyTest
+PyTest-Cov
+bump2version < 1
+setuptools; python_version >='3.12'

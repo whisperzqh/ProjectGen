@@ -1,0 +1,20 @@
+├── cookiecutter
+│   ├── cli.py
+│   ├── config.py
+│   ├── environment.py
+│   ├── exceptions.py
+│   ├── extensions.py
+│   ├── find.py
+│   ├── generate.py
+│   ├── hooks.py
+│   ├── __init__.py
+│   ├── log.py
+│   ├── __main__.py
+│   ├── main.py
+│   ├── prompt.py
+│   ├── replay.py
+│   ├── repository.py
+│   ├── utils.py
+│   ├── vcs.py
+│   ├── VERSION.txt
+│   └── zipfile.py

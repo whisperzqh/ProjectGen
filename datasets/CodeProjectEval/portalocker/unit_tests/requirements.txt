@@ -1,0 +1,2 @@
+# mypy: skip-file
+-e.[tests]

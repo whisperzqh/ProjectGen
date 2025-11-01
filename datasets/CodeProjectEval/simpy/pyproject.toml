@@ -1,0 +1,122 @@
+[build-system]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm[toml]>=8.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simpy"
+description = "Event discrete, process based simulation for Python."
+readme = "README.rst"
+license = { text = "MIT" }
+requires-python = ">= 3.8"
+authors = [
+    { name = "Ontje Lünsdorf", email = "the_com@gmx.de" },
+    { name = "Stefan Scherfke", email = "stefan@sofa-rockers.org" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://simpy.readthedocs.io"
+Documentation = "https://simpy.readthedocs.io"
+"Source code" = "https://gitlab.com/team-simpy/simpy/"
+
+[tool.setuptools]
+license-files = ["LICENSE.rst"]
+packages = ["simpy"]
+
+[tool.mypy]
+pretty = true
+show_error_codes = true
+files = ["src/simpy"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+include = [
+    "src/simpy/*",
+    "docs/*",
+    "tests/*",
+]
+
+[tool.ruff]
+
+[tool.ruff.lint]
+# See https://docs.astral.sh/ruff/rules/
+select = [
+    "F", # Pyflakes
+    "E", # Pycodestyle
+    "W", # Pycodestyle
+    "I", # isort
+    "N", # pep8-naming
+    "UP", # pyupgrade
+    "YTT", # flake8-2020
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "FA", # flake8-future-annotations
+    "ISC", # flake8-implicit-str-concat
+    "ICN", # flake8-import-conventions
+    "PIE", # flake8-pie
+    "INP", # flake8-no-pep40
+    "T20", # flake8-print
+    "PT", # flake8-pytest-style
+    "PYI", # flake8-pyi
+    "RSE", # flake8-raise
+    "RET", # flake8-return
+    "SLOT", # flake8-slots
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+    "TCH", # flake8-type-checking
+    "PL", # Pylint
+    "TRY", # tryceratops
+    "FLY", # flynt
+    "PERF", # Perflint
+    "RUF", # ruff-specific
+]
+ignore = [
+    "ISC001", # Implicitly concatenated string literals on one line
+    "N818", # Require "Error" suffix on exception type names
+    "UP006", # Use 'type' instead of 'Type' for annotations
+    "UP007", # Use 'X | Y' instead of 'Optional' in annotations
+    "PYI034", # Confused by Put.__enter__ and Get.__enter__
+    "PYI041", # Use `float` instead of `int | float`
+    "RET505", # Unnecessary `else` after `return` statement
+    "RET506", # Unnecessary `else` after `raise` statement
+    "SIM105", # Use `contextlib.suppress()` instead of try-except-pass
+    "TRY003", # Avoid specifying long messages outside the exception class
+]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.isort]
+known-first-party = ["simpy"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"docs/*" = ["INP001"]
+"docs/examples/code/*" = ["T20"]
+"tests/*" = ["PLR2004", "PLR0913", "PERF203"]

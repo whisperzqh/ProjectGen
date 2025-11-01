@@ -1,0 +1,11 @@
+mypy
+pytest
+pytest-benchmark
+pytest-cov
+ruff
+setuptools_scm
+sphinx
+tox
+twine
+types-setuptools
+wheel

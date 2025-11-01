@@ -1,0 +1,13 @@
+# Core dependencies
+# voluptuous has no runtime dependencies
+# Requires Python >= 3.9
+
+# Development and formatting tools
+black
+isort
+
+# Type checking
+mypy
+
+# Testing
+pytest

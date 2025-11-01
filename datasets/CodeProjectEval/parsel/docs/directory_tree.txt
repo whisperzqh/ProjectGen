@@ -1,0 +1,7 @@
+├── parsel
+│   ├── csstranslator.py
+│   ├── __init__.py
+│   ├── py.typed
+│   ├── selector.py
+│   ├── utils.py
+│   └── xpathfuncs.py

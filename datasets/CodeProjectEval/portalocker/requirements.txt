@@ -1,0 +1,33 @@
+# Core dependencies
+pywin32>=226; platform_system == "Windows"
+
+# Optional dependencies
+redis
+
+# Testing dependencies
+coverage-conditional-plugin>=0.9.0
+pytest>=5.4.1
+pytest-cov>=2.8.1
+pytest-mypy>=0.8.0
+pytest-rerunfailures>=15.0
+pytest-timeout>=2.1.0
+sphinx>=6.0.0
+types-pywin32>=310.0.0.20250429
+types-redis
+
+# Development dependencies
+lefthook>=1.11.13
+mypy>=1.15.0
+pyright>=1.1.401
+ruff>=0.11.11
+tox>=4.26.0
+
+# Documentation dependencies
+portalocker[tests]
+portalocker[redis]
+
+# Typing support
+mypy>=1.15.0
+types-redis
+types-pywin32>=310.0.0.20250429
+pyright>=1.1.401

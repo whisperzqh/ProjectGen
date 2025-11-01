@@ -1,0 +1,12 @@
+.
+├── portalocker
+│   ├── __about__.py
+│   ├── constants.py
+│   ├── exceptions.py
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── portalocker.py
+│   ├── py.typed
+│   ├── redis.py
+│   ├── types.py
+│   └── utils.py
