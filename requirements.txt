@@ -13,3 +13,4 @@ langgraph-sdk==0.2.9
 langml==0.4.2
 langsmith==0.4.8
 rank-bm25==0.2.2
+tree-sitter==0.21.0

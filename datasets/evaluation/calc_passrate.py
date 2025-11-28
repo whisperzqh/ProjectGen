@@ -17,29 +17,11 @@ def output_process(process):
             outputs.append(output.strip().decode())
     return outputs
 
-def parse_pytest_summary(output: str):
-    """
-    Parse pytest output to extract number of passed, failed, and total tests.
-    Works even if some categories are missing.
-    """
-    passed = failed = skipped = 0
-
-    matches = re.findall(r"(\d+)\s+(passed|failed|skipped)", output)
-    for count, label in matches:
-        count = int(count)
-        if label == "passed":
-            passed = count
-        elif label == "failed":
-            failed = count
-        elif label == "skipped":
-            skipped = count
-
-    return {"passed": passed, "failed": failed, "skipped": skipped}
-
 class Test:
-    def __init__(self, src_path, tgt_path, logger=None):
+    def __init__(self, src_path, tgt_path, test_mode, logger=None):
         self.src_path = src_path
         self.tgt_path = tgt_path
+        self.test_mode = test_mode
         with open(os.path.join(self.src_path, "config.json"), "r") as f:
             self.config = json.load(f)
         self.usage_examples = self.config["usage_examples"]
@@ -50,12 +32,10 @@ class Test:
         self.logger = logger
         self.check_tests_path = self.config["check_tests"]
         self.check_tests_command = self.config["check_test_script"]
-        self.env_vars = self.config.get("env_vars", {})
     
     def copy_files(self, file_path):
-        if not file_path:
-            return
         tgt_full_path = os.path.join(self.tgt_path, file_path)
+        print(f"Copying {file_path} to {tgt_full_path}")
         if os.path.exists(tgt_full_path):
             if os.path.isdir(tgt_full_path):
                 shutil.rmtree(tgt_full_path)
@@ -102,18 +82,14 @@ class Test:
                 print(output.strip().decode())
                 outputs.append(output.strip().decode())
 
+        # exit code
         rc = process.poll()
         return "\n".join(outputs), rc
 
     def check_tests(self, path, language, test_mode):
-        passed = 0
-        total = 0
         if language == "python":
             env = os.environ.copy()
             env["PYTHONPATH"] = path
-            if self.env_vars:
-                for k, v in self.env_vars.items():
-                    env[k] = v
             process = subprocess.Popen(
                 ["pytest", "--cov=.", test_mode],
                 cwd=path, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
@@ -123,6 +99,8 @@ class Test:
                 process = subprocess.Popen(self.unit_tests_command, shell=True, cwd=path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             elif test_mode == "check_tests":
                 process = subprocess.Popen(self.check_tests_command, shell=True, cwd=path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            else:
+                process = subprocess.Popen(self.acceptance_tests_command, shell=True, cwd=path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         try:
             outputs = list()
             while True:
@@ -133,23 +111,26 @@ class Test:
                     print(output.strip().decode())
                     outputs.append(output.strip().decode())
             check_output = '\n'.join(outputs)
-            m_total = re.search(r"collected (\d+) items", check_output)
-            if m_total:
-                total = int(m_total.group(1))
-            stats = parse_pytest_summary(check_output)
-            passed = stats["passed"]
         except subprocess.TimeoutExpired:
             check_output = "check_tests function has timed out."
-        return check_output, passed, total
+        return check_output
 
     def test(self, path, language):
         self.setup_implementation()
-        check_test_output, passed, total = self.check_tests(path, language, "check_tests")
-        test_output = f"[check test] Passed {passed} out of {total} test cases.\n{check_test_output}"
+        check_output = self.check_tests(path, language, self.test_mode)
+        return check_output
 
-        # test_msg = "**[Evaluation results]**\n\n"
-        # test_msg += test_output
-        # if self.logger:
-        #     self.logger.info(test_msg)
+if __name__ == "__main__":
+    dataset_dir = '../CodeProjectEval'
+    output_dir = '../../CodeProjectEval_outputs'
 
-        return test_output, passed, total
+    repo_list = [d for d in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, d))]
+
+    for repo_name in repo_list:
+        repo_dir = os.path.join(output_dir, repo_name)
+        print(repo_dir)
+        t = Test(f"{dataset_dir}/{repo_name}", repo_dir, "unit_tests")
+        test_output = t.test(repo_dir, "python")
+        f = open(f"{repo_dir}/unit_test_results.txt", "w")
+        f.write(test_output)
+        f.close()
