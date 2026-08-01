@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CookieList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">CookieList.java</span></div><h1>CookieList.java</h1><pre class="source lang-java linenums">package org.json;
+
+/*
+Public Domain.
+ */
+
+/**
+ * Convert a web browser cookie list string to a JSONObject and back.
+ * @author JSON.org
+ * @version 2015-12-09
+ */
+public class CookieList {
+
+    /**
+     * Constructs a new CookieList object.
+     * @deprecated (Utility class cannot be instantiated)
+     */
+    @Deprecated
+<span class="nc" id="L19">    public CookieList() {</span>
+<span class="nc" id="L20">    }</span>
+ 
+    /**
+     * Convert a cookie list into a JSONObject. A cookie list is a sequence
+     * of name/value pairs. The names are separated from the values by '='.
+     * The pairs are separated by ';'. The names and the values
+     * will be unescaped, possibly converting '+' and '%' sequences.
+     *
+     * To add a cookie to a cookie list,
+     * cookielistJSONObject.put(cookieJSONObject.getString(&quot;name&quot;),
+     *     cookieJSONObject.getString(&quot;value&quot;));
+     * @param string  A cookie list string
+     * @return A JSONObject
+     * @throws JSONException if a called function fails
+     */
+    public static JSONObject toJSONObject(String string) throws JSONException {
+<span class="fc" id="L36">        JSONObject jo = new JSONObject();</span>
+<span class="fc" id="L37">        JSONTokener x = new JSONTokener(string);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        while (x.more()) {</span>
+<span class="fc" id="L39">            String name = Cookie.unescape(x.nextTo('='));</span>
+<span class="fc" id="L40">            x.next('=');</span>
+<span class="fc" id="L41">            jo.put(name, Cookie.unescape(x.nextTo(';')));</span>
+<span class="fc" id="L42">            x.next();</span>
+<span class="fc" id="L43">        }</span>
+<span class="fc" id="L44">        return jo;</span>
+    }
+
+    /**
+     * Convert a JSONObject into a cookie list. A cookie list is a sequence
+     * of name/value pairs. The names are separated from the values by '='.
+     * The pairs are separated by ';'. The characters '%', '+', '=', and ';'
+     * in the names and values are replaced by &quot;%hh&quot;.
+     * @param jo A JSONObject
+     * @return A cookie list string
+     * @throws JSONException if a called function fails
+     */
+    public static String toString(JSONObject jo) throws JSONException {
+<span class="fc" id="L57">        boolean             isEndOfPair = false;</span>
+<span class="fc" id="L58">        final StringBuilder sb = new StringBuilder();</span>
+        // Don't use the new entrySet API to maintain Android support
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (final String key : jo.keySet()) {</span>
+<span class="fc" id="L61">            final Object value = jo.opt(key);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (!JSONObject.NULL.equals(value)) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                if (isEndOfPair) {</span>
+<span class="fc" id="L64">                    sb.append(';');</span>
+                }
+<span class="fc" id="L66">                sb.append(Cookie.escape(key));</span>
+<span class="fc" id="L67">                sb.append(&quot;=&quot;);</span>
+<span class="fc" id="L68">                sb.append(Cookie.escape(value.toString()));</span>
+<span class="fc" id="L69">                isEndOfPair = true;</span>
+            }
+<span class="fc" id="L71">        }</span>
+<span class="fc" id="L72">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

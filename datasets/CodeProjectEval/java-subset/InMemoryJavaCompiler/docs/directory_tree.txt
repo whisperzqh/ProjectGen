@@ -1,0 +1,12 @@
+src
+  ├── main
+  │   └── java
+  │       └── org
+  │           └── mdkt
+  │               └── compiler
+  │                   ├── CompilationException.java
+  │                   ├── CompiledCode.java
+  │                   ├── DynamicClassLoader.java
+  │                   ├── ExtendedStandardJavaFileManager.java
+  │                   ├── InMemoryJavaCompiler.java
+  │                   └── SourceCode.java

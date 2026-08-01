@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONMLParserConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">JSONMLParserConfiguration.java</span></div><h1>JSONMLParserConfiguration.java</h1><pre class="source lang-java linenums">package org.json;
+/*
+Public Domain.
+*/
+
+/**
+ * Configuration object for the XML to JSONML parser. The configuration is immutable.
+ */
+@SuppressWarnings({&quot;&quot;})
+public class JSONMLParserConfiguration extends ParserConfiguration {
+
+    /**
+     * We can override the default maximum nesting depth if needed.
+     */
+    public static final int DEFAULT_MAXIMUM_NESTING_DEPTH = ParserConfiguration.DEFAULT_MAXIMUM_NESTING_DEPTH;
+
+    /** Original Configuration of the XML to JSONML Parser. */
+<span class="fc" id="L18">    public static final JSONMLParserConfiguration ORIGINAL</span>
+        = new JSONMLParserConfiguration();
+    /** Original configuration of the XML to JSONML Parser except that values are kept as strings. */
+<span class="fc" id="L21">    public static final JSONMLParserConfiguration KEEP_STRINGS</span>
+<span class="fc" id="L22">        = new JSONMLParserConfiguration().withKeepStrings(true);</span>
+
+    /**
+     * Default parser configuration. Does not keep strings (tries to implicitly convert values).
+     */
+    public JSONMLParserConfiguration() {
+<span class="fc" id="L28">        super();</span>
+<span class="fc" id="L29">        this.maxNestingDepth = DEFAULT_MAXIMUM_NESTING_DEPTH;</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Configure the parser string processing and use the default CDATA Tag Name as &quot;content&quot;.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @param maxNestingDepth &lt;code&gt;int&lt;/code&gt; to limit the nesting depth
+     */
+    protected JSONMLParserConfiguration(final boolean keepStrings, final int maxNestingDepth) {
+<span class="fc" id="L39">        super(keepStrings, maxNestingDepth);</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * Provides a new instance of the same configuration.
+     */
+    @Override
+    protected JSONMLParserConfiguration clone() {
+        // future modifications to this method should always ensure a &quot;deep&quot;
+        // clone in the case of collections. i.e. if a Map is added as a configuration
+        // item, a new map instance should be created and if possible each value in the
+        // map should be cloned as well. If the values of the map are known to also
+        // be immutable, then a shallow clone of the map is acceptable.
+<span class="fc" id="L52">        return new JSONMLParserConfiguration(</span>
+                this.keepStrings,
+                this.maxNestingDepth
+        );
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public JSONMLParserConfiguration withKeepStrings(final boolean newVal) {
+<span class="fc" id="L61">        return super.withKeepStrings(newVal);</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public JSONMLParserConfiguration withMaxNestingDepth(int maxNestingDepth) {
+<span class="fc" id="L67">        return super.withMaxNestingDepth(maxNestingDepth);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

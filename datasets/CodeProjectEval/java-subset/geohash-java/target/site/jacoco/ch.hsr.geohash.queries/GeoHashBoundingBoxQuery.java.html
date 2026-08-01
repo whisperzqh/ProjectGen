@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoHashBoundingBoxQuery.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geohash-java</a> &gt; <a href="index.source.html" class="el_package">ch.hsr.geohash.queries</a> &gt; <span class="el_source">GeoHashBoundingBoxQuery.java</span></div><h1>GeoHashBoundingBoxQuery.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2010, Silvio Heuberger @ IFS www.ifs.hsr.ch
+ *
+ * This code is release under the Apache License 2.0.
+ * You should have received a copy of the license
+ * in the LICENSE file. If you have not, see
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+package ch.hsr.geohash.queries;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.hsr.geohash.BoundingBox;
+import ch.hsr.geohash.GeoHash;
+import ch.hsr.geohash.WGS84Point;
+import ch.hsr.geohash.util.GeoHashSizeTable;
+
+/**
+ * This class returns the hashes covering a certain bounding box. There are
+ * either 1,2 or 4 such hashes, depending on the position of the bounding box
+ * on the geohash grid.
+ */
+public class GeoHashBoundingBoxQuery implements GeoHashQuery, Serializable {
+	private static final long serialVersionUID = 9223256928940522683L;
+	/* there can be up to 8 hashes since it can be 2 separate queries */
+<span class="fc" id="L28">	private List&lt;GeoHash&gt; searchHashes = new ArrayList&lt;&gt;(8);</span>
+	/* the combined bounding box of those hashes. */
+	private BoundingBox boundingBox;
+
+<span class="fc" id="L32">	public GeoHashBoundingBoxQuery(BoundingBox bbox) {</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		if (!bbox.intersects180Meridian()) {</span>
+			// In this case one query is enough
+<span class="fc" id="L35">			generateSearchHashes(bbox);</span>
+		} else {
+			// In this case we need two queries
+<span class="fc" id="L38">			BoundingBox eastBox = new BoundingBox(bbox.getSouthLatitude(), bbox.getNorthLatitude(), bbox.getWestLongitude(), 180);</span>
+<span class="fc" id="L39">			BoundingBox westBox = new BoundingBox(bbox.getSouthLatitude(), bbox.getNorthLatitude(), -180, bbox.getEastLongitude());</span>
+
+<span class="fc" id="L41">			generateSearchHashes(eastBox);</span>
+<span class="fc" id="L42">			generateSearchHashes(westBox);</span>
+		}
+
+		// Finally create the combined bounding box
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		for (GeoHash hash : searchHashes) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">			if (boundingBox == null)</span>
+<span class="fc" id="L48">				boundingBox = new BoundingBox(hash.getBoundingBox());</span>
+			else
+<span class="fc" id="L50">				boundingBox.expandToInclude(hash.getBoundingBox());</span>
+<span class="fc" id="L51">		}</span>
+
+		// Check the search hashes on a query over the full planet
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (GeoHash hash : searchHashes) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">			if (hash.significantBits() == 0) {</span>
+<span class="fc" id="L56">				searchHashes.clear();</span>
+<span class="fc" id="L57">				searchHashes.add(hash);</span>
+<span class="fc" id="L58">				return;</span>
+			}
+<span class="fc" id="L60">		}</span>
+
+		// Check the search hashes on possible duplicates
+<span class="fc" id="L63">		List&lt;GeoHash&gt; toRemove = new ArrayList&lt;GeoHash&gt;(searchHashes.size() - 1);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		for (GeoHash hash : searchHashes) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			for (GeoHash hashToCompare : searchHashes) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">				if (hashToCompare.significantBits() &lt; hash.significantBits()) {</span>
+<span class="fc" id="L67">					long hashCopy = hash.longValue();</span>
+<span class="fc" id="L68">					long hashCompareCopy = hashToCompare.longValue();</span>
+<span class="fc" id="L69">					int equalBits = 0;</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">					while ((hashCompareCopy &amp; GeoHash.FIRST_BIT_FLAGGED) == (hashCopy &amp; GeoHash.FIRST_BIT_FLAGGED)) {</span>
+<span class="nc" id="L71">						hashCompareCopy &lt;&lt;= 1;</span>
+<span class="nc" id="L72">						hashCopy &lt;&lt;= 1;</span>
+<span class="nc" id="L73">						equalBits++;</span>
+					}
+
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">					if (equalBits == hashToCompare.significantBits()) {</span>
+<span class="nc" id="L77">						toRemove.add(hash);</span>
+<span class="nc" id="L78">						break;</span>
+					}
+				}
+<span class="fc" id="L81">			}</span>
+<span class="fc" id="L82">		}</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">		for (GeoHash hash : toRemove) {</span>
+<span class="nc" id="L84">			searchHashes.remove(hash);</span>
+<span class="nc" id="L85">		}</span>
+<span class="fc" id="L86">	}</span>
+
+	private void generateSearchHashes(BoundingBox bbox) {
+<span class="fc" id="L89">		int fittingBits = GeoHashSizeTable.numberOfBitsForOverlappingGeoHash(bbox);</span>
+<span class="fc" id="L90">		WGS84Point center = bbox.getCenter();</span>
+<span class="fc" id="L91">		GeoHash centerHash = GeoHash.withBitPrecision(center.getLatitude(), center.getLongitude(), fittingBits);</span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		if (hashContainsBoundingBox(centerHash, bbox)) {</span>
+			// If the centerHash completly fits into the provided bounding box, just add the hash and continue
+<span class="fc" id="L95">			searchHashes.add(centerHash);</span>
+		} else {
+			// Else the search has to be extended to the adjacent geohashes
+<span class="fc" id="L98">			expandSearch(centerHash, bbox);</span>
+		}
+<span class="fc" id="L100">	}</span>
+
+	private void expandSearch(GeoHash centerHash, BoundingBox bbox) {
+<span class="fc" id="L103">		searchHashes.add(centerHash);</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		for (GeoHash adjacent : centerHash.getAdjacent()) {</span>
+<span class="fc" id="L106">			BoundingBox adjacentBox = adjacent.getBoundingBox();</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">			if (adjacentBox.intersects(bbox) &amp;&amp; !searchHashes.contains(adjacent)) {</span>
+<span class="fc" id="L108">				searchHashes.add(adjacent);</span>
+			}
+		}
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * Checks if the provided hash completely(!) contains the provided bounding box
+	 *
+	 * @param hash
+	 * @param bbox
+	 * @return
+	 */
+	private boolean hashContainsBoundingBox(GeoHash hash, BoundingBox bbox) {
+<span class="fc bfc" id="L121" title="All 4 branches covered.">		return hash.contains(bbox.getNorthWestCorner()) &amp;&amp; hash.contains(bbox.getSouthEastCorner());</span>
+	}
+
+	@Override
+	public boolean contains(GeoHash hash) {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		for (GeoHash searchHash : searchHashes) {</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">			if (hash.within(searchHash)) {</span>
+<span class="fc" id="L128">				return true;</span>
+			}
+<span class="fc" id="L130">		}</span>
+<span class="fc" id="L131">		return false;</span>
+	}
+
+	@Override
+	public boolean contains(WGS84Point point) {
+<span class="fc" id="L136">		return contains(GeoHash.withBitPrecision(point.getLatitude(), point.getLongitude(), 64));</span>
+	}
+
+	@Override
+	public List&lt;GeoHash&gt; getSearchHashes() {
+<span class="fc" id="L141">		return searchHashes;</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="fc" id="L146">		StringBuilder bui = new StringBuilder();</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">		for (GeoHash hash : searchHashes) {</span>
+<span class="fc" id="L148">			bui.append(hash).append(&quot;\n&quot;);</span>
+<span class="fc" id="L149">		}</span>
+<span class="fc" id="L150">		return bui.toString();</span>
+	}
+
+	@Override
+	public String getWktBox() {
+<span class="nc" id="L155">		return &quot;BOX(&quot; + boundingBox.getWestLongitude() + &quot; &quot; + boundingBox.getSouthLatitude() + &quot;,&quot; + boundingBox.getEastLongitude() + &quot; &quot; + boundingBox.getNorthLatitude() + &quot;)&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

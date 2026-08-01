@@ -1,0 +1,71 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Compile Testing,com.google.testing.compile,TreeContext,154,0,18,0,35,0,19,0,10,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject,98,27,0,0,24,6,14,2,14,2
+Compile Testing,com.google.testing.compile,CompilationSubject.LinesInFile,83,0,8,0,16,0,9,0,5,0
+Compile Testing,com.google.testing.compile,InMemoryJavaFileManager.InMemoryJavaFileObject,91,0,6,0,23,0,12,0,9,0
+Compile Testing,com.google.testing.compile,Compilation,356,0,18,0,73,0,33,0,24,0
+Compile Testing,com.google.testing.compile,TreeDifference.OneWayDiff,15,0,0,0,6,0,3,0,3,0
+Compile Testing,com.google.testing.compile,Compiler,314,0,14,0,83,0,27,0,20,0
+Compile Testing,com.google.testing.compile,CompilationFailureException,11,0,0,0,2,0,1,0,1,0
+Compile Testing,com.google.testing.compile,CompilationSubject.DiagnosticAtColumn,84,0,6,0,19,0,8,0,5,0
+Compile Testing,com.google.testing.compile,TreeDiffer,70,0,0,0,13,0,5,0,5,0
+Compile Testing,com.google.testing.compile,CompilationRule,41,0,4,0,8,0,7,0,5,0
+Compile Testing,com.google.testing.compile,TreeDiffer.MatchExpectedTreesFilter.new SimpleTreeVisitor() {...},47,0,0,0,7,0,4,0,4,0
+Compile Testing,com.google.testing.compile,TreeDiffer.MatchExpectedTreesFilter.new SimpleTreeVisitor() {...},76,0,6,0,12,0,8,0,5,0
+Compile Testing,com.google.testing.compile,TreeDiffer.DiffVisitor,546,0,97,0,114,0,64,0,15,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CompilationWithWarningsBuilder.FileBuilder,24,0,0,0,6,0,3,0,3,0
+Compile Testing,com.google.testing.compile,CompilationRule.new Statement() {...},42,0,0,0,6,0,2,0,2,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubjectFactory,0,10,0,0,0,2,0,2,0,2
+Compile Testing,com.google.testing.compile,Breadcrumbs.new Function() {...},9,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,TreeDiffer.new SimpleTreeVisitor() {...},22,0,0,0,5,0,3,0,3,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.GeneratedCompilationBuilder,125,0,10,0,31,0,11,0,6,0
+Compile Testing,com.google.testing.compile,CompilationSubject.DiagnosticOnLine,149,0,10,0,31,0,13,0,8,0
+Compile Testing,com.google.testing.compile,InMemoryJavaFileManager.new CacheLoader() {...},11,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,Parser,22,103,1,3,5,21,3,4,2,3
+Compile Testing,com.google.testing.compile,TreeDiffer.TreeFilter,5,0,0,0,1,0,1,0,1,0
+Compile Testing,com.google.testing.compile,JavaSourceSubjectFactory,0,10,0,0,0,2,0,2,0,2
+Compile Testing,com.google.testing.compile,InMemoryJavaFileManager.InMemoryJavaFileObject.new ByteArrayOutputStream() {...},22,0,0,0,5,0,2,0,2,0
+Compile Testing,com.google.testing.compile,InMemoryJavaFileManager.InMemoryJavaFileObject.new StringWriter() {...},24,0,0,0,6,0,2,0,2,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.SingleSourceAdapter,50,20,0,0,11,4,10,1,10,1
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CompilationWithWarningsBuilder,122,0,0,0,25,0,8,0,8,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CompilationWithWarningsBuilder.FileBuilder.1.new CompileTester.ColumnClause() {...},21,0,0,0,4,0,3,0,3,0
+Compile Testing,com.google.testing.compile,CompilationSubject,565,0,28,0,108,0,53,0,36,0
+Compile Testing,com.google.testing.compile,CompilationSubject.DiagnosticInFile,85,0,8,0,19,0,10,0,6,0
+Compile Testing,com.google.testing.compile,TreeDifference,381,0,32,0,63,0,27,0,11,0
+Compile Testing,com.google.testing.compile,AutoValue_TreeDiffer_MethodSignature,99,0,12,0,24,0,12,0,6,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CompilationWithWarningsBuilder.FileBuilder.new CompileTester.LineClause() {...},25,0,0,0,4,0,3,0,3,0
+Compile Testing,com.google.testing.compile,TypeEnumerator.TypeScanner.new Function() {...},29,0,2,0,3,0,3,0,2,0
+Compile Testing,com.google.testing.compile,Parser.ParseResult,22,0,0,0,8,0,4,0,4,0
+Compile Testing,com.google.testing.compile,JavaFileObjects,26,70,4,4,5,13,5,7,1,7
+Compile Testing,com.google.testing.compile,MoreTrees,69,0,0,0,15,0,9,0,9,0
+Compile Testing,com.google.testing.compile,JavaFileObjects.StringSourceJavaFileObject,28,27,0,0,6,5,6,2,6,2
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.UnsuccessfulCompilationBuilder,8,0,0,0,3,0,1,0,1,0
+Compile Testing,com.google.testing.compile,Breadcrumbs,20,0,0,0,5,0,3,0,3,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.SuccessfulCompilationBuilder,8,0,0,0,3,0,1,0,1,0
+Compile Testing,com.google.testing.compile,Compilation.Status,15,0,0,0,3,0,1,0,1,0
+Compile Testing,com.google.testing.compile,TreeDifference.TwoWayDiff,21,0,0,0,8,0,4,0,4,0
+Compile Testing,com.google.testing.compile,AutoValue_Compiler,201,0,24,0,45,0,21,0,9,0
+Compile Testing,com.google.testing.compile,TreeDiffer.MatchExpectedTreesFilter,118,0,4,0,26,0,7,0,5,0
+Compile Testing,com.google.testing.compile,CompilationSubjectFactory,9,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,TreeDiffer.TreeFilter.new TreeDiffer.TreeFilter() {...},7,0,0,0,3,0,3,0,3,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.GeneratedCompilationBuilder.new CompileTester.SuccessfulFileClause() {...},26,0,0,0,6,0,4,0,4,0
+Compile Testing,com.google.testing.compile,MoreTrees.SearchScanner,295,0,56,0,68,0,46,0,18,0
+Compile Testing,com.google.testing.compile,TreeDifference.Builder,81,0,0,0,16,0,8,0,8,0
+Compile Testing,com.google.testing.compile,CompilationSubject.DiagnosticAssertions,54,0,0,0,14,0,5,0,5,0
+Compile Testing,com.google.testing.compile,AutoValue_JavaSourcesSubject_TypedCompilationUnit,99,0,12,0,24,0,12,0,6,0
+Compile Testing,com.google.testing.compile,JavaFileObjectSubjectFactory,9,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,TreeDiffer.MethodSignature,37,0,2,0,9,0,3,0,2,0
+Compile Testing,com.google.testing.compile,TypeEnumerator,11,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,JavaFileObjects.new ByteSource() {...},10,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,JavaFileObjects.ResourceSourceJavaFileObject,10,23,0,0,2,6,2,3,2,3
+Compile Testing,com.google.testing.compile,InMemoryJavaFileManager,299,0,22,0,52,0,25,0,14,0
+Compile Testing,com.google.testing.compile,JavaFileObjects.JarFileJavaFileObject,47,0,4,0,8,0,5,0,3,0
+Compile Testing,com.google.testing.compile,Breadcrumbs.BreadcrumbVisitor,178,0,34,0,21,0,35,0,18,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.TypedCompilationUnit,10,0,0,0,2,0,2,0,2,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CompilationClause,476,15,14,0,90,5,18,2,11,2
+Compile Testing,com.google.testing.compile,CompilationRule.EvaluatingProcessor,50,0,4,0,18,0,8,0,6,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CompilationBuilder,8,0,0,0,3,0,1,0,1,0
+Compile Testing,com.google.testing.compile,JavaFileObjectSubject,238,0,8,0,62,0,19,0,15,0
+Compile Testing,com.google.testing.compile,TypeEnumerator.TypeScanner,132,0,8,0,20,0,12,0,8,0
+Compile Testing,com.google.testing.compile,ForwardingStandardJavaFileManager,86,0,0,0,20,0,8,0,8,0
+Compile Testing,com.google.testing.compile,JavaSourcesSubject.CleanCompilationBuilder,8,0,0,0,3,0,1,0,1,0

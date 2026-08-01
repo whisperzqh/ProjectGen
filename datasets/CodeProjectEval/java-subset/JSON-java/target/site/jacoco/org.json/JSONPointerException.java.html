@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONPointerException.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">JSONPointerException.java</span></div><h1>JSONPointerException.java</h1><pre class="source lang-java linenums">package org.json;
+
+/*
+Public Domain.
+*/
+
+/**
+ * The JSONPointerException is thrown by {@link JSONPointer} if an error occurs
+ * during evaluating a pointer.
+ * 
+ * @author JSON.org
+ * @version 2016-05-13
+ */
+public class JSONPointerException extends JSONException {
+    private static final long serialVersionUID = 8872944667561856751L;
+
+    /**
+     * Constructs a new JSONPointerException with the specified error message.
+     *
+     * @param message The detail message describing the reason for the exception.
+     */
+    public JSONPointerException(String message) {
+<span class="fc" id="L23">        super(message);</span>
+<span class="fc" id="L24">    }</span>
+
+    /**
+     * Constructs a new JSONPointerException with the specified error message and cause.
+     *
+     * @param message The detail message describing the reason for the exception.
+     * @param cause   The cause of the exception.
+     */
+    public JSONPointerException(String message, Throwable cause) {
+<span class="fc" id="L33">        super(message, cause);</span>
+<span class="fc" id="L34">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

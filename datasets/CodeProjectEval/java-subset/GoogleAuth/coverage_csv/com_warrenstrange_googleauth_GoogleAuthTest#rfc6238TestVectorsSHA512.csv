@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticatorConfig,18,40,0,0,6,11,6,3,6,3
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticatorQRGenerator,160,0,16,0,35,0,15,0,6,0
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,ReseedingSecureRandom,132,36,12,4,30,13,11,2,3,2
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticatorKey.Builder,49,0,0,0,14,0,6,0,6,0
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticatorKey,51,0,6,0,16,0,8,0,5,0
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticatorConfig.GoogleAuthenticatorConfigBuilder,99,55,17,5,25,15,15,5,4,5
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticatorException,9,0,0,0,4,0,2,0,2,0
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,KeyRepresentation,0,15,0,0,0,3,0,1,0,1
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,HmacHashFunction,0,21,0,0,0,4,0,1,0,1
+com.warrenstrange:googleauth,com.warrenstrange.googleauth,GoogleAuthenticator,496,125,47,5,119,27,50,7,25,5

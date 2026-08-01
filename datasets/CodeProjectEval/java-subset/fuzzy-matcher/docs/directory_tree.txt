@@ -1,0 +1,30 @@
+src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── intuit
+    │   │           └── fuzzymatcher
+    │   │               ├── component
+    │   │               │   ├── Dictionary.java
+    │   │               │   ├── DocumentMatch.java
+    │   │               │   ├── ElementMatch.java
+    │   │               │   ├── MatchService.java
+    │   │               │   └── TokenRepo.java
+    │   │               ├── domain
+    │   │               │   ├── Document.java
+    │   │               │   ├── ElementClassification.java
+    │   │               │   ├── Element.java
+    │   │               │   ├── ElementType.java
+    │   │               │   ├── Matchable.java
+    │   │               │   ├── Match.java
+    │   │               │   ├── MatchType.java
+    │   │               │   ├── Score.java
+    │   │               │   └── Token.java
+    │   │               ├── exception
+    │   │               │   └── MatchException.java
+    │   │               ├── function
+    │   │               │   ├── PreProcessFunction.java
+    │   │               │   ├── ScoringFunction.java
+    │   │               │   └── TokenizerFunction.java
+    │   │               └── util
+    │   │                   └── Utils.java

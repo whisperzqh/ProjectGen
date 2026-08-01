@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Base32.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geo</a> &gt; <a href="index.source.html" class="el_package">com.github.davidmoten.geo</a> &gt; <span class="el_source">Base32.java</span></div><h1>Base32.java</h1><pre class="source lang-java linenums">package com.github.davidmoten.geo;
+
+import java.util.HashMap;
+
+/**
+ * Conversion methods between long values and geohash-style base 32 encoding.
+ * 
+ * @author dave
+ * 
+ */
+public final class Base32 {
+
+    /**
+     * Constructor.
+     */
+    private Base32() {
+        // prevent instantiation.
+    }
+
+    /**
+     * The characters used for encoding base 32 strings.
+     */
+<span class="nc" id="L23">    private final static char[] characters = { '0', '1', '2', '3', '4', '5',</span>
+            '6', '7', '8', '9', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k',
+            'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+    /**
+     * Used for lookup of index of characters in the above array.
+     */
+<span class="nc" id="L30">    private final static HashMap&lt;Character, Integer&gt; characterIndexes = new HashMap&lt;Character, Integer&gt;();</span>
+
+    static {
+<span class="nc" id="L33">        int i = 0;</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (char c : characters)</span>
+<span class="nc" id="L35">            characterIndexes.put(c, i++);</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * Returns the base 32 encoding of the given length from a {@link Long}
+     * geohash.
+     * 
+     * @param i
+     *            the geohash
+     * @param length
+     *            the length of the returned hash
+     * @return the string geohash
+     */
+    public static String encodeBase32(long i, int length) {
+<span class="nc" id="L49">        char[] buf = new char[65];</span>
+<span class="nc" id="L50">        int charPos = 64;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        boolean negative = i &lt; 0;</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (!negative)</span>
+<span class="nc" id="L53">            i = -i;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        while (i &lt;= -32) {</span>
+<span class="nc" id="L55">            buf[charPos--] = characters[(int) -(i % 32)];</span>
+<span class="nc" id="L56">            i /= 32;</span>
+        }
+<span class="nc" id="L58">        buf[charPos] = characters[(int) -i];</span>
+<span class="nc" id="L59">        String result = padLeftWithZerosToLength(new String(buf, charPos,</span>
+                65 - charPos), length);
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (negative)</span>
+<span class="nc" id="L62">            return &quot;-&quot; + result;</span>
+        else
+<span class="nc" id="L64">            return result;</span>
+    }
+
+    /**
+     * Returns the base 32 encoding of length {@link GeoHash#MAX_HASH_LENGTH}
+     * from a {@link Long} geohash.
+     * 
+     * @param i
+     *            the geohash
+     * @return the base32 geohash
+     */
+    public static String encodeBase32(long i) {
+<span class="nc" id="L76">        return encodeBase32(i, GeoHash.MAX_HASH_LENGTH);</span>
+    }
+
+    /**
+     * Returns the conversion of a base32 geohash to a long.
+     * 
+     * @param hash
+     *            geohash as a string
+     * @return long representation of hash
+     */
+    public static long decodeBase32(String hash) {
+<span class="nc" id="L87">        boolean isNegative = hash.startsWith(&quot;-&quot;);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        int startIndex = isNegative ? 1 : 0;</span>
+<span class="nc" id="L89">        long base = 1;</span>
+<span class="nc" id="L90">        long result = 0;</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        for (int i = hash.length() - 1; i &gt;= startIndex; i--) {</span>
+<span class="nc" id="L92">            int j = getCharIndex(hash.charAt(i));</span>
+<span class="nc" id="L93">            result = result + base * j;</span>
+<span class="nc" id="L94">            base = base * 32;</span>
+        }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (isNegative)</span>
+<span class="nc" id="L97">            result *= -1;</span>
+<span class="nc" id="L98">        return result;</span>
+    }
+
+    /**
+     * Returns the index in the digits array of the character ch. Throws an
+     * {@link IllegalArgumentException} if the character is not found in the
+     * array.
+     * 
+     * @param ch
+     *            character to obtain index for
+     * @return index of ch character in characterIndexes map.
+     */
+    // @VisibleForTesting
+    static int getCharIndex(char ch) {
+<span class="nc" id="L112">        Integer result = characterIndexes.get(ch);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (result == null)</span>
+<span class="nc" id="L114">            throw new IllegalArgumentException(&quot;not a base32 character: &quot; + ch);</span>
+        else
+<span class="nc" id="L116">            return result;</span>
+    }
+
+    /**
+     * Pad left with zeros to desired string length.
+     * 
+     * @param s
+     *            string to pad
+     * @param length
+     * @return padded string with left zeros.
+     */
+    // @VisibleForTesting
+    static String padLeftWithZerosToLength(String s, int length) {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (s.length() &lt; length) {</span>
+<span class="nc" id="L130">            int count = length - s.length();</span>
+<span class="nc" id="L131">            StringBuilder b = new StringBuilder();</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            for (int i = 0; i &lt; count; i++)</span>
+<span class="nc" id="L133">                b.append('0');</span>
+<span class="nc" id="L134">            b.append(s);</span>
+<span class="nc" id="L135">            return b.toString();</span>
+        } else
+<span class="nc" id="L137">            return s;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

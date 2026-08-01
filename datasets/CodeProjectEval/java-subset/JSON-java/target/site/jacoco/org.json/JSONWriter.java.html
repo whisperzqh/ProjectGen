@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">JSONWriter.java</span></div><h1>JSONWriter.java</h1><pre class="source lang-java linenums">package org.json;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
+
+/*
+Public Domain.
+*/
+
+/**
+ * JSONWriter provides a quick and convenient way of producing JSON text.
+ * The texts produced strictly conform to JSON syntax rules. No whitespace is
+ * added, so the results are ready for transmission or storage. Each instance of
+ * JSONWriter can produce one JSON text.
+ * &lt;p&gt;
+ * A JSONWriter instance provides a &lt;code&gt;value&lt;/code&gt; method for appending
+ * values to the
+ * text, and a &lt;code&gt;key&lt;/code&gt;
+ * method for adding keys before values in objects. There are &lt;code&gt;array&lt;/code&gt;
+ * and &lt;code&gt;endArray&lt;/code&gt; methods that make and bound array values, and
+ * &lt;code&gt;object&lt;/code&gt; and &lt;code&gt;endObject&lt;/code&gt; methods which make and bound
+ * object values. All of these methods return the JSONWriter instance,
+ * permitting a cascade style. For example, &lt;pre&gt;
+ * new JSONWriter(myWriter)
+ *     .object()
+ *         .key(&quot;JSON&quot;)
+ *         .value(&quot;Hello, World!&quot;)
+ *     .endObject();&lt;/pre&gt; which writes &lt;pre&gt;
+ * {&quot;JSON&quot;:&quot;Hello, World!&quot;}&lt;/pre&gt;
+ * &lt;p&gt;
+ * The first method called must be &lt;code&gt;array&lt;/code&gt; or &lt;code&gt;object&lt;/code&gt;.
+ * There are no methods for adding commas or colons. JSONWriter adds them for
+ * you. Objects and arrays can be nested up to 200 levels deep.
+ * &lt;p&gt;
+ * This can sometimes be easier than using a JSONObject to build a string.
+ * @author JSON.org
+ * @version 2016-08-08
+ */
+public class JSONWriter {
+    private static final int maxdepth = 200;
+
+    /**
+     * The comma flag determines if a comma should be output before the next
+     * value.
+     */
+    private boolean comma;
+
+    /**
+     * The current mode. Values:
+     * 'a' (array),
+     * 'd' (done),
+     * 'i' (initial),
+     * 'k' (key),
+     * 'o' (object).
+     */
+    protected char mode;
+
+    /**
+     * The object/array stack.
+     */
+    private final JSONObject stack[];
+
+    /**
+     * The stack top index. A value of 0 indicates that the stack is empty.
+     */
+    private int top;
+
+    /**
+     * The writer that will receive the output.
+     */
+    protected Appendable writer;
+
+    /**
+     * Make a fresh JSONWriter. It can be used to build one JSON text.
+     * @param w an appendable object
+     */
+<span class="fc" id="L78">    public JSONWriter(Appendable w) {</span>
+<span class="fc" id="L79">        this.comma = false;</span>
+<span class="fc" id="L80">        this.mode = 'i';</span>
+<span class="fc" id="L81">        this.stack = new JSONObject[maxdepth];</span>
+<span class="fc" id="L82">        this.top = 0;</span>
+<span class="fc" id="L83">        this.writer = w;</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     * Append a value.
+     * @param string A string value.
+     * @return this
+     * @throws JSONException If the value is out of sequence.
+     */
+    private JSONWriter append(String string) throws JSONException {
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (string == null) {</span>
+<span class="nc" id="L94">            throw new JSONException(&quot;Null pointer&quot;);</span>
+        }
+<span class="pc bpc" id="L96" title="1 of 4 branches missed.">        if (this.mode == 'o' || this.mode == 'a') {</span>
+            try {
+<span class="pc bpc" id="L98" title="1 of 4 branches missed.">                if (this.comma &amp;&amp; this.mode == 'a') {</span>
+<span class="fc" id="L99">                    this.writer.append(',');</span>
+                }
+<span class="fc" id="L101">                this.writer.append(string);</span>
+<span class="nc" id="L102">            } catch (IOException e) {</span>
+            	// Android as of API 25 does not support this exception constructor
+            	// however we won't worry about it. If an exception is happening here
+            	// it will just throw a &quot;Method not found&quot; exception instead.
+<span class="nc" id="L106">                throw new JSONException(e);</span>
+<span class="fc" id="L107">            }</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            if (this.mode == 'o') {</span>
+<span class="fc" id="L109">                this.mode = 'k';</span>
+            }
+<span class="fc" id="L111">            this.comma = true;</span>
+<span class="fc" id="L112">            return this;</span>
+        }
+<span class="nc" id="L114">        throw new JSONException(&quot;Value out of sequence.&quot;);</span>
+    }
+
+    /**
+     * Begin appending a new array. All values until the balancing
+     * &lt;code&gt;endArray&lt;/code&gt; will be appended to this array. The
+     * &lt;code&gt;endArray&lt;/code&gt; method must be called to mark the array's end.
+     * @return this
+     * @throws JSONException If the nesting is too deep, or if the object is
+     * started in the wrong place (for example as a key or after the end of the
+     * outermost array or object).
+     */
+    public JSONWriter array() throws JSONException {
+<span class="pc bpc" id="L127" title="2 of 6 branches missed.">        if (this.mode == 'i' || this.mode == 'o' || this.mode == 'a') {</span>
+<span class="fc" id="L128">            this.push(null);</span>
+<span class="fc" id="L129">            this.append(&quot;[&quot;);</span>
+<span class="fc" id="L130">            this.comma = false;</span>
+<span class="fc" id="L131">            return this;</span>
+        }
+<span class="fc" id="L133">        throw new JSONException(&quot;Misplaced array.&quot;);</span>
+    }
+
+    /**
+     * End something.
+     * @param m Mode
+     * @param c Closing character
+     * @return this
+     * @throws JSONException If unbalanced.
+     */
+    private JSONWriter end(char m, char c) throws JSONException {
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (this.mode != m) {</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            throw new JSONException(m == 'a'</span>
+<span class="fc" id="L146">                ? &quot;Misplaced endArray.&quot;</span>
+<span class="fc" id="L147">                : &quot;Misplaced endObject.&quot;);</span>
+        }
+<span class="fc" id="L149">        this.pop(m);</span>
+        try {
+<span class="fc" id="L151">            this.writer.append(c);</span>
+<span class="nc" id="L152">        } catch (IOException e) {</span>
+        	// Android as of API 25 does not support this exception constructor
+        	// however we won't worry about it. If an exception is happening here
+        	// it will just throw a &quot;Method not found&quot; exception instead.
+<span class="nc" id="L156">            throw new JSONException(e);</span>
+<span class="fc" id="L157">        }</span>
+<span class="fc" id="L158">        this.comma = true;</span>
+<span class="fc" id="L159">        return this;</span>
+    }
+
+    /**
+     * End an array. This method most be called to balance calls to
+     * &lt;code&gt;array&lt;/code&gt;.
+     * @return this
+     * @throws JSONException If incorrectly nested.
+     */
+    public JSONWriter endArray() throws JSONException {
+<span class="fc" id="L169">        return this.end('a', ']');</span>
+    }
+
+    /**
+     * End an object. This method most be called to balance calls to
+     * &lt;code&gt;object&lt;/code&gt;.
+     * @return this
+     * @throws JSONException If incorrectly nested.
+     */
+    public JSONWriter endObject() throws JSONException {
+<span class="fc" id="L179">        return this.end('k', '}');</span>
+    }
+
+    /**
+     * Append a key. The key will be associated with the next value. In an
+     * object, every value must be preceded by a key.
+     * @param string A key string.
+     * @return this
+     * @throws JSONException If the key is out of place. For example, keys
+     *  do not belong in arrays or if the key is null.
+     */
+    public JSONWriter key(String string) throws JSONException {
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        if (string == null) {</span>
+<span class="fc" id="L192">            throw new JSONException(&quot;Null key.&quot;);</span>
+        }
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (this.mode == 'k') {</span>
+            try {
+<span class="fc" id="L196">                JSONObject topObject = this.stack[this.top - 1];</span>
+                // don't use the built in putOnce method to maintain Android support
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">				if(topObject.has(string)) {</span>
+<span class="nc" id="L199">					throw new JSONException(&quot;Duplicate key \&quot;&quot; + string + &quot;\&quot;&quot;);</span>
+				}
+<span class="fc" id="L201">                topObject.put(string, true);</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">                if (this.comma) {</span>
+<span class="fc" id="L203">                    this.writer.append(',');</span>
+                }
+<span class="fc" id="L205">                this.writer.append(JSONObject.quote(string));</span>
+<span class="fc" id="L206">                this.writer.append(':');</span>
+<span class="fc" id="L207">                this.comma = false;</span>
+<span class="fc" id="L208">                this.mode = 'o';</span>
+<span class="fc" id="L209">                return this;</span>
+<span class="nc" id="L210">            } catch (IOException e) {</span>
+            	// Android as of API 25 does not support this exception constructor
+            	// however we won't worry about it. If an exception is happening here
+            	// it will just throw a &quot;Method not found&quot; exception instead.
+<span class="nc" id="L214">                throw new JSONException(e);</span>
+            }
+        }
+<span class="fc" id="L217">        throw new JSONException(&quot;Misplaced key.&quot;);</span>
+    }
+
+
+    /**
+     * Begin appending a new object. All keys and values until the balancing
+     * &lt;code&gt;endObject&lt;/code&gt; will be appended to this object. The
+     * &lt;code&gt;endObject&lt;/code&gt; method must be called to mark the object's end.
+     * @return this
+     * @throws JSONException If the nesting is too deep, or if the object is
+     * started in the wrong place (for example as a key or after the end of the
+     * outermost array or object).
+     */
+    public JSONWriter object() throws JSONException {
+<span class="fc bfc" id="L231" title="All 2 branches covered.">        if (this.mode == 'i') {</span>
+<span class="fc" id="L232">            this.mode = 'o';</span>
+        }
+<span class="pc bpc" id="L234" title="1 of 4 branches missed.">        if (this.mode == 'o' || this.mode == 'a') {</span>
+<span class="fc" id="L235">            this.append(&quot;{&quot;);</span>
+<span class="fc" id="L236">            this.push(new JSONObject());</span>
+<span class="fc" id="L237">            this.comma = false;</span>
+<span class="fc" id="L238">            return this;</span>
+        }
+<span class="fc" id="L240">        throw new JSONException(&quot;Misplaced object.&quot;);</span>
+
+    }
+
+
+    /**
+     * Pop an array or object scope.
+     * @param c The scope to close.
+     * @throws JSONException If nesting is wrong.
+     */
+    private void pop(char c) throws JSONException {
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">        if (this.top &lt;= 0) {</span>
+<span class="nc" id="L252">            throw new JSONException(&quot;Nesting error.&quot;);</span>
+        }
+<span class="fc bfc" id="L254" title="All 2 branches covered.">        char m = this.stack[this.top - 1] == null ? 'a' : 'k';</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">        if (m != c) {</span>
+<span class="nc" id="L256">            throw new JSONException(&quot;Nesting error.&quot;);</span>
+        }
+<span class="fc" id="L258">        this.top -= 1;</span>
+<span class="pc bpc" id="L259" title="1 of 2 branches missed.">        this.mode = this.top == 0</span>
+<span class="fc" id="L260">            ? 'd'</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">            : this.stack[this.top - 1] == null</span>
+<span class="nc" id="L262">            ? 'a'</span>
+<span class="pc" id="L263">            : 'k';</span>
+<span class="fc" id="L264">    }</span>
+
+    /**
+     * Push an array or object scope.
+     * @param jo The scope to open.
+     * @throws JSONException If nesting is too deep.
+     */
+    private void push(JSONObject jo) throws JSONException {
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        if (this.top &gt;= maxdepth) {</span>
+<span class="fc" id="L273">            throw new JSONException(&quot;Nesting too deep.&quot;);</span>
+        }
+<span class="fc" id="L275">        this.stack[this.top] = jo;</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">        this.mode = jo == null ? 'a' : 'k';</span>
+<span class="fc" id="L277">        this.top += 1;</span>
+<span class="fc" id="L278">    }</span>
+
+    /**
+     * Make a JSON text of an Object value. If the object has an
+     * value.toJSONString() method, then that method will be used to produce the
+     * JSON text. The method is required to produce a strictly conforming text.
+     * If the object does not contain a toJSONString method (which is the most
+     * common case), then a text will be produced by other means. If the value
+     * is an array or Collection, then a JSONArray will be made from it and its
+     * toJSONString method will be called. If the value is a MAP, then a
+     * JSONObject will be made from it and its toJSONString method will be
+     * called. Otherwise, the value's toString method will be called, and the
+     * result will be quoted.
+     *
+     * &lt;p&gt;
+     * Warning: This method assumes that the data structure is acyclical.
+     *
+     * @param value
+     *            The value to be serialized.
+     * @return a printable, displayable, transmittable representation of the
+     *         object, beginning with &lt;code&gt;{&lt;/code&gt;&amp;nbsp;&lt;small&gt;(left
+     *         brace)&lt;/small&gt; and ending with &lt;code&gt;}&lt;/code&gt;&amp;nbsp;&lt;small&gt;(right
+     *         brace)&lt;/small&gt;.
+     * @throws JSONException
+     *             If the value is or contains an invalid number.
+     */
+    public static String valueToString(Object value) throws JSONException {
+<span class="fc bfc" id="L305" title="All 4 branches covered.">        if (value == null || value.equals(null)) {</span>
+<span class="fc" id="L306">            return &quot;null&quot;;</span>
+        }
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        if (value instanceof JSONString) {</span>
+            String object;
+            try {
+<span class="fc" id="L311">                object = ((JSONString) value).toJSONString();</span>
+<span class="fc" id="L312">            } catch (Exception e) {</span>
+<span class="fc" id="L313">                throw new JSONException(e);</span>
+<span class="fc" id="L314">            }</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">            if (object != null) {</span>
+<span class="fc" id="L316">                return object;</span>
+            }
+<span class="fc" id="L318">            throw new JSONException(&quot;Bad value from toJSONString: &quot; + object);</span>
+        }
+<span class="fc bfc" id="L320" title="All 2 branches covered.">        if (value instanceof Number) {</span>
+            // not all Numbers may match actual JSON Numbers. i.e. Fractions or Complex
+<span class="fc" id="L322">            final String numberAsString = JSONObject.numberToString((Number) value);</span>
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">            if(JSONObject.NUMBER_PATTERN.matcher(numberAsString).matches()) {</span>
+                // Close enough to a JSON number that we will return it unquoted
+<span class="fc" id="L325">                return numberAsString;</span>
+            }
+            // The Number value is not a valid JSON number.
+            // Instead we will quote it as a string
+<span class="nc" id="L329">            return JSONObject.quote(numberAsString);</span>
+        }
+<span class="fc bfc" id="L331" title="All 6 branches covered.">        if (value instanceof Boolean || value instanceof JSONObject</span>
+                || value instanceof JSONArray) {
+<span class="fc" id="L333">            return value.toString();</span>
+        }
+<span class="fc bfc" id="L335" title="All 2 branches covered.">        if (value instanceof Map) {</span>
+<span class="fc" id="L336">            Map&lt;?, ?&gt; map = (Map&lt;?, ?&gt;) value;</span>
+<span class="fc" id="L337">            return new JSONObject(map).toString();</span>
+        }
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        if (value instanceof Collection) {</span>
+<span class="fc" id="L340">            Collection&lt;?&gt; coll = (Collection&lt;?&gt;) value;</span>
+<span class="fc" id="L341">            return new JSONArray(coll).toString();</span>
+        }
+<span class="fc bfc" id="L343" title="All 2 branches covered.">        if (value.getClass().isArray()) {</span>
+<span class="fc" id="L344">            return new JSONArray(value).toString();</span>
+        }
+<span class="fc bfc" id="L346" title="All 2 branches covered.">        if(value instanceof Enum&lt;?&gt;){</span>
+<span class="fc" id="L347">            return JSONObject.quote(((Enum&lt;?&gt;)value).name());</span>
+        }
+<span class="fc" id="L349">        return JSONObject.quote(value.toString());</span>
+    }
+
+    /**
+     * Append either the value &lt;code&gt;true&lt;/code&gt; or the value
+     * &lt;code&gt;false&lt;/code&gt;.
+     * @param b A boolean.
+     * @return this
+     * @throws JSONException if a called function has an error
+     */
+    public JSONWriter value(boolean b) throws JSONException {
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        return this.append(b ? &quot;true&quot; : &quot;false&quot;);</span>
+    }
+
+    /**
+     * Append a double value.
+     * @param d A double.
+     * @return this
+     * @throws JSONException If the number is not finite.
+     */
+    public JSONWriter value(double d) throws JSONException {
+<span class="fc" id="L370">        return this.value(Double.valueOf(d));</span>
+    }
+
+    /**
+     * Append a long value.
+     * @param l A long.
+     * @return this
+     * @throws JSONException if a called function has an error
+     */
+    public JSONWriter value(long l) throws JSONException {
+<span class="fc" id="L380">        return this.append(Long.toString(l));</span>
+    }
+
+
+    /**
+     * Append an object value.
+     * @param object The object to append. It can be null, or a Boolean, Number,
+     *   String, JSONObject, or JSONArray, or an object that implements JSONString.
+     * @return this
+     * @throws JSONException If the value is out of sequence.
+     */
+    public JSONWriter value(Object object) throws JSONException {
+<span class="fc" id="L392">        return this.append(valueToString(object));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONPointer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">JSONPointer.java</span></div><h1>JSONPointer.java</h1><pre class="source lang-java linenums">package org.json;
+
+import static java.lang.String.format;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/*
+Public Domain.
+*/
+
+/**
+ * A JSON Pointer is a simple query language defined for JSON documents by
+ * &lt;a href=&quot;https://tools.ietf.org/html/rfc6901&quot;&gt;RFC 6901&lt;/a&gt;.
+ * 
+ * In a nutshell, JSONPointer allows the user to navigate into a JSON document
+ * using strings, and retrieve targeted objects, like a simple form of XPATH.
+ * Path segments are separated by the '/' char, which signifies the root of
+ * the document when it appears as the first char of the string. Array 
+ * elements are navigated using ordinals, counting from 0. JSONPointer strings
+ * may be extended to any arbitrary number of segments. If the navigation
+ * is successful, the matched item is returned. A matched item may be a
+ * JSONObject, a JSONArray, or a JSON value. If the JSONPointer string building 
+ * fails, an appropriate exception is thrown. If the navigation fails to find
+ * a match, a JSONPointerException is thrown. 
+ * 
+ * @author JSON.org
+ * @version 2016-05-14
+ */
+public class JSONPointer {
+
+    // used for URL encoding and decoding
+    private static final String ENCODING = &quot;utf-8&quot;;
+
+    /**
+     * This class allows the user to build a JSONPointer in steps, using
+     * exactly one segment in each step.
+     */
+    public static class Builder {
+
+        /**
+         * Constructs a new Builder object.
+         */
+<span class="fc" id="L48">        public Builder() {</span>
+<span class="fc" id="L49">        }</span>
+
+        // Segments for the eventual JSONPointer string
+<span class="fc" id="L52">        private final List&lt;String&gt; refTokens = new ArrayList&lt;String&gt;();</span>
+
+        /**
+         * Creates a {@code JSONPointer} instance using the tokens previously set using the
+         * {@link #append(String)} method calls.
+         * @return a JSONPointer object
+         */
+        public JSONPointer build() {
+<span class="fc" id="L60">            return new JSONPointer(this.refTokens);</span>
+        }
+
+        /**
+         * Adds an arbitrary token to the list of reference tokens. It can be any non-null value.
+         * 
+         * Unlike in the case of JSON string or URI fragment representation of JSON pointers, the
+         * argument of this method MUST NOT be escaped. If you want to query the property called
+         * {@code &quot;a~b&quot;} then you should simply pass the {@code &quot;a~b&quot;} string as-is, there is no
+         * need to escape it as {@code &quot;a~0b&quot;}.
+         * 
+         * @param token the new token to be appended to the list
+         * @return {@code this}
+         * @throws NullPointerException if {@code token} is null
+         */
+        public Builder append(String token) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            if (token == null) {</span>
+<span class="fc" id="L77">                throw new NullPointerException(&quot;token cannot be null&quot;);</span>
+            }
+<span class="fc" id="L79">            this.refTokens.add(token);</span>
+<span class="fc" id="L80">            return this;</span>
+        }
+
+        /**
+         * Adds an integer to the reference token list. Although not necessarily, mostly this token will
+         * denote an array index. 
+         * 
+         * @param arrayIndex the array index to be added to the token list
+         * @return {@code this}
+         */
+        public Builder append(int arrayIndex) {
+<span class="fc" id="L91">            this.refTokens.add(String.valueOf(arrayIndex));</span>
+<span class="fc" id="L92">            return this;</span>
+        }
+    }
+
+    /**
+     * Static factory method for {@link Builder}. Example usage:
+     * 
+     * &lt;pre&gt;&lt;code&gt;
+     * JSONPointer pointer = JSONPointer.builder()
+     *       .append(&quot;obj&quot;)
+     *       .append(&quot;other~key&quot;).append(&quot;another/key&quot;)
+     *       .append(&quot;\&quot;&quot;)
+     *       .append(0)
+     *       .build();
+     * &lt;/code&gt;&lt;/pre&gt;
+     * 
+     *  @return a builder instance which can be used to construct a {@code JSONPointer} instance by chained
+     *  {@link Builder#append(String)} calls.
+     */
+    public static Builder builder() {
+<span class="fc" id="L112">        return new Builder();</span>
+    }
+
+    // Segments for the JSONPointer string
+    private final List&lt;String&gt; refTokens;
+
+    /**
+     * Pre-parses and initializes a new {@code JSONPointer} instance. If you want to
+     * evaluate the same JSON Pointer on different JSON documents then it is recommended
+     * to keep the {@code JSONPointer} instances due to performance considerations.
+     * 
+     * @param pointer the JSON String or URI Fragment representation of the JSON pointer.
+     * @throws IllegalArgumentException if {@code pointer} is not a valid JSON pointer
+     */
+<span class="fc" id="L126">    public JSONPointer(final String pointer) {</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (pointer == null) {</span>
+<span class="fc" id="L128">            throw new NullPointerException(&quot;pointer cannot be null&quot;);</span>
+        }
+<span class="fc bfc" id="L130" title="All 4 branches covered.">        if (pointer.isEmpty() || &quot;#&quot;.equals(pointer)) {</span>
+<span class="fc" id="L131">            this.refTokens = Collections.emptyList();</span>
+<span class="fc" id="L132">            return;</span>
+        }
+        String refs;
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (pointer.startsWith(&quot;#/&quot;)) {</span>
+<span class="fc" id="L136">            refs = pointer.substring(2);</span>
+            try {
+<span class="fc" id="L138">                refs = URLDecoder.decode(refs, ENCODING);</span>
+<span class="nc" id="L139">            } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L140">                throw new RuntimeException(e);</span>
+<span class="fc" id="L141">            }</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        } else if (pointer.startsWith(&quot;/&quot;)) {</span>
+<span class="fc" id="L143">            refs = pointer.substring(1);</span>
+        } else {
+<span class="fc" id="L145">            throw new IllegalArgumentException(&quot;a JSON pointer should start with '/' or '#/'&quot;);</span>
+        }
+<span class="fc" id="L147">        this.refTokens = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L148">        int slashIdx = -1;</span>
+<span class="fc" id="L149">        int prevSlashIdx = 0;</span>
+        do {
+<span class="fc" id="L151">            prevSlashIdx = slashIdx + 1;</span>
+<span class="fc" id="L152">            slashIdx = refs.indexOf('/', prevSlashIdx);</span>
+<span class="fc bfc" id="L153" title="All 4 branches covered.">            if(prevSlashIdx == slashIdx || prevSlashIdx == refs.length()) {</span>
+                // found 2 slashes in a row ( obj//next )
+                // or single slash at the end of a string ( obj/test/ )
+<span class="fc" id="L156">                this.refTokens.add(&quot;&quot;);</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            } else if (slashIdx &gt;= 0) {</span>
+<span class="fc" id="L158">                final String token = refs.substring(prevSlashIdx, slashIdx);</span>
+<span class="fc" id="L159">                this.refTokens.add(unescape(token));</span>
+<span class="fc" id="L160">            } else {</span>
+                // last item after separator, or no separator at all.
+<span class="fc" id="L162">                final String token = refs.substring(prevSlashIdx);</span>
+<span class="fc" id="L163">                this.refTokens.add(unescape(token));</span>
+            }
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        } while (slashIdx &gt;= 0);</span>
+        // using split does not take into account consecutive separators or &quot;ending nulls&quot;
+        //for (String token : refs.split(&quot;/&quot;)) {
+        //    this.refTokens.add(unescape(token));
+        //}
+<span class="fc" id="L170">    }</span>
+
+    /**
+     * Constructs a new JSONPointer instance with the provided list of reference tokens.
+     *
+     * @param refTokens A list of strings representing the reference tokens for the JSON Pointer.
+     *                  Each token identifies a step in the path to the targeted value.
+     */
+<span class="fc" id="L178">    public JSONPointer(List&lt;String&gt; refTokens) {</span>
+<span class="fc" id="L179">        this.refTokens = new ArrayList&lt;String&gt;(refTokens);</span>
+<span class="fc" id="L180">    }</span>
+
+    /**
+     * @see &lt;a href=&quot;https://tools.ietf.org/html/rfc6901#section-3&quot;&gt;rfc6901 section 3&lt;/a&gt;
+     */
+    private static String unescape(String token) {
+<span class="fc" id="L186">        return token.replace(&quot;~1&quot;, &quot;/&quot;).replace(&quot;~0&quot;, &quot;~&quot;);</span>
+    }
+
+    /**
+     * Evaluates this JSON Pointer on the given {@code document}. The {@code document}
+     * is usually a {@link JSONObject} or a {@link JSONArray} instance, but the empty
+     * JSON Pointer ({@code &quot;&quot;}) can be evaluated on any JSON values and in such case the
+     * returned value will be {@code document} itself. 
+     * 
+     * @param document the JSON document which should be the subject of querying.
+     * @return the result of the evaluation
+     * @throws JSONPointerException if an error occurs during evaluation
+     */
+    public Object queryFrom(Object document) throws JSONPointerException {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (this.refTokens.isEmpty()) {</span>
+<span class="fc" id="L201">            return document;</span>
+        }
+<span class="fc" id="L203">        Object current = document;</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        for (String token : this.refTokens) {</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">            if (current instanceof JSONObject) {</span>
+<span class="fc" id="L206">                current = ((JSONObject) current).opt(unescape(token));</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">            } else if (current instanceof JSONArray) {</span>
+<span class="fc" id="L208">                current = readByIndexToken(current, token);</span>
+            } else {
+<span class="fc" id="L210">                throw new JSONPointerException(format(</span>
+                        &quot;value [%s] is not an array or object therefore its key %s cannot be resolved&quot;, current,
+                        token));
+            }
+<span class="fc" id="L214">        }</span>
+<span class="fc" id="L215">        return current;</span>
+    }
+
+    /**
+     * Matches a JSONArray element by ordinal position
+     * @param current the JSONArray to be evaluated
+     * @param indexToken the array index in string form
+     * @return the matched object. If no matching item is found a
+     * @throws JSONPointerException is thrown if the index is out of bounds
+     */
+    private static Object readByIndexToken(Object current, String indexToken) throws JSONPointerException {
+        try {
+<span class="fc" id="L227">            int index = Integer.parseInt(indexToken);</span>
+<span class="fc" id="L228">            JSONArray currentArr = (JSONArray) current;</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">            if (index &gt;= currentArr.length()) {</span>
+<span class="fc" id="L230">                throw new JSONPointerException(format(&quot;index %s is out of bounds - the array has %d elements&quot;, indexToken,</span>
+<span class="fc" id="L231">                        Integer.valueOf(currentArr.length())));</span>
+            }
+            try {
+<span class="fc" id="L234">				return currentArr.get(index);</span>
+<span class="nc" id="L235">			} catch (JSONException e) {</span>
+<span class="nc" id="L236">				throw new JSONPointerException(&quot;Error reading value at index position &quot; + index, e);</span>
+			}
+<span class="fc" id="L238">        } catch (NumberFormatException e) {</span>
+<span class="fc" id="L239">            throw new JSONPointerException(format(&quot;%s is not an array index&quot;, indexToken), e);</span>
+        }
+    }
+
+    /**
+     * Returns a string representing the JSONPointer path value using string
+     * representation
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L249">        StringBuilder rval = new StringBuilder();</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        for (String token: this.refTokens) {</span>
+<span class="fc" id="L251">            rval.append('/').append(escape(token));</span>
+<span class="fc" id="L252">        }</span>
+<span class="fc" id="L253">        return rval.toString();</span>
+    }
+
+    /**
+     * Escapes path segment values to an unambiguous form.
+     * The escape char to be inserted is '~'. The chars to be escaped 
+     * are ~, which maps to ~0, and /, which maps to ~1.
+     * @param token the JSONPointer segment value to be escaped
+     * @return the escaped value for the token
+     * 
+     * @see &lt;a href=&quot;https://tools.ietf.org/html/rfc6901#section-3&quot;&gt;rfc6901 section 3&lt;/a&gt;
+     */
+    private static String escape(String token) {
+<span class="fc" id="L266">        return token.replace(&quot;~&quot;, &quot;~0&quot;)</span>
+<span class="fc" id="L267">                .replace(&quot;/&quot;, &quot;~1&quot;);</span>
+    }
+
+    /**
+     * Returns a string representing the JSONPointer path value using URI
+     * fragment identifier representation
+     * @return a uri fragment string
+     */
+    public String toURIFragment() {
+        try {
+<span class="fc" id="L277">            StringBuilder rval = new StringBuilder(&quot;#&quot;);</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">            for (String token : this.refTokens) {</span>
+<span class="fc" id="L279">                rval.append('/').append(URLEncoder.encode(token, ENCODING));</span>
+<span class="fc" id="L280">            }</span>
+<span class="fc" id="L281">            return rval.toString();</span>
+<span class="nc" id="L282">        } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L283">            throw new RuntimeException(e);</span>
+        }
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

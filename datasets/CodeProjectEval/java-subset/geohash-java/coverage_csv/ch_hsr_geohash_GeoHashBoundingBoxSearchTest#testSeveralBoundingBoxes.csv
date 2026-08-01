@@ -1,0 +1,13 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+geohash-java,ch.hsr.geohash,GeoHash,405,1180,40,62,69,169,43,56,18,30
+geohash-java,ch.hsr.geohash,WGS84Point,79,45,8,2,13,8,8,4,3,4
+geohash-java,ch.hsr.geohash,BoundingBox,260,370,54,60,42,61,41,41,7,18
+geohash-java,ch.hsr.geohash.queries,GeoHashBoundingBoxQuery,85,271,8,32,14,52,9,20,3,6
+geohash-java,ch.hsr.geohash.queries,GeoHashCircleQuery,99,0,2,0,16,0,8,0,7,0
+geohash-java,ch.hsr.geohash.util,BoundingBoxGeoHashIterator,67,0,10,0,16,0,10,0,5,0
+geohash-java,ch.hsr.geohash.util,GeoHashSizeTable,3,70,1,7,1,14,2,7,1,4
+geohash-java,ch.hsr.geohash.util,DoubleUtil,3,18,0,2,1,2,1,2,1,1
+geohash-java,ch.hsr.geohash.util,LongUtil,28,0,4,0,7,0,4,0,2,0
+geohash-java,ch.hsr.geohash.util,BoundingBoxSampler,103,0,8,0,23,0,8,0,4,0
+geohash-java,ch.hsr.geohash.util,TwoGeoHashBoundingBox,106,0,2,0,17,0,8,0,7,0
+geohash-java,ch.hsr.geohash.util,VincentyGeodesy,647,0,20,0,65,0,13,0,3,0

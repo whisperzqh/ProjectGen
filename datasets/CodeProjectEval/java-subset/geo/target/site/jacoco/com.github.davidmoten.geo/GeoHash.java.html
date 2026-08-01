@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoHash.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geo</a> &gt; <a href="index.source.html" class="el_package">com.github.davidmoten.geo</a> &gt; <span class="el_source">GeoHash.java</span></div><h1>GeoHash.java</h1><pre class="source lang-java linenums">package com.github.davidmoten.geo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import com.github.davidmoten.geo.util.Preconditions;
+
+/**
+ * &lt;p&gt;
+ * Utility functions for
+ * &lt;a href=&quot;http://en.wikipedia.org/wiki/Geohash&quot;&gt;geohashing&lt;/a&gt;.
+ * &lt;/p&gt;
+ * 
+ */
+public final class GeoHash {
+
+    private static final double PRECISION = 0.000000000001;
+
+    /**
+     * The standard practical maximum length for geohashes.
+     */
+    public static final int MAX_HASH_LENGTH = 12;
+
+    /**
+     * Default maximum number of hashes for covering a bounding box.
+     */
+    public static final int DEFAULT_MAX_HASHES = 12;
+
+    /**
+     * Powers of 2 from 32 down to 1.
+     */
+<span class="fc" id="L37">    private static final int[] BITS = new int[] { 16, 8, 4, 2, 1 };</span>
+
+    /**
+     * The characters used in base 32 representations.
+     */
+    private static final String BASE32 = &quot;0123456789bcdefghjkmnpqrstuvwxyz&quot;;
+
+    /**
+     * Utility lookup for neighbouring hashes.
+     */
+<span class="fc" id="L47">    private static final Map&lt;Direction, Map&lt;Parity, String&gt;&gt; NEIGHBOURS = createNeighbours();</span>
+
+    /**
+     * Utility lookup for hash borders.
+     */
+<span class="fc" id="L52">    private static final Map&lt;Direction, Map&lt;Parity, String&gt;&gt; BORDERS = createBorders();</span>
+
+    /**
+     * Private constructor.
+     */
+    private GeoHash() {
+        // prevent instantiation
+    }
+
+    /**
+     * Returns a map to be used in hash border calculations.
+     * 
+     * @return map of borders
+     */
+    private static Map&lt;Direction, Map&lt;Parity, String&gt;&gt; createBorders() {
+<span class="fc" id="L67">        Map&lt;Direction, Map&lt;Parity, String&gt;&gt; m = createDirectionParityMap();</span>
+
+<span class="fc" id="L69">        m.get(Direction.RIGHT).put(Parity.EVEN, &quot;bcfguvyz&quot;);</span>
+<span class="fc" id="L70">        m.get(Direction.LEFT).put(Parity.EVEN, &quot;0145hjnp&quot;);</span>
+<span class="fc" id="L71">        m.get(Direction.TOP).put(Parity.EVEN, &quot;prxz&quot;);</span>
+<span class="fc" id="L72">        m.get(Direction.BOTTOM).put(Parity.EVEN, &quot;028b&quot;);</span>
+
+<span class="fc" id="L74">        addOddParityEntries(m);</span>
+<span class="fc" id="L75">        return m;</span>
+    }
+
+    /**
+     * Returns a map to be used in adjacent hash calculations.
+     * 
+     * @return map
+     */
+    private static Map&lt;Direction, Map&lt;Parity, String&gt;&gt; createNeighbours() {
+<span class="fc" id="L84">        Map&lt;Direction, Map&lt;Parity, String&gt;&gt; m = createDirectionParityMap();</span>
+
+<span class="fc" id="L86">        m.get(Direction.RIGHT).put(Parity.EVEN, &quot;bc01fg45238967deuvhjyznpkmstqrwx&quot;);</span>
+<span class="fc" id="L87">        m.get(Direction.LEFT).put(Parity.EVEN, &quot;238967debc01fg45kmstqrwxuvhjyznp&quot;);</span>
+<span class="fc" id="L88">        m.get(Direction.TOP).put(Parity.EVEN, &quot;p0r21436x8zb9dcf5h7kjnmqesgutwvy&quot;);</span>
+<span class="fc" id="L89">        m.get(Direction.BOTTOM).put(Parity.EVEN, &quot;14365h7k9dcfesgujnmqp0r2twvyx8zb&quot;);</span>
+<span class="fc" id="L90">        addOddParityEntries(m);</span>
+
+<span class="fc" id="L92">        return m;</span>
+    }
+
+    /**
+     * Create a direction and parity map for use in adjacent hash calculations.
+     * 
+     * @return map
+     */
+    private static Map&lt;Direction, Map&lt;Parity, String&gt;&gt; createDirectionParityMap() {
+<span class="fc" id="L101">        Map&lt;Direction, Map&lt;Parity, String&gt;&gt; m = newHashMap();</span>
+<span class="fc" id="L102">        m.put(Direction.BOTTOM, GeoHash.&lt;Parity, String&gt; newHashMap());</span>
+<span class="fc" id="L103">        m.put(Direction.TOP, GeoHash.&lt;Parity, String&gt; newHashMap());</span>
+<span class="fc" id="L104">        m.put(Direction.LEFT, GeoHash.&lt;Parity, String&gt; newHashMap());</span>
+<span class="fc" id="L105">        m.put(Direction.RIGHT, GeoHash.&lt;Parity, String&gt; newHashMap());</span>
+<span class="fc" id="L106">        return m;</span>
+    }
+
+    private static &lt;T, D&gt; Map&lt;T, D&gt; newHashMap() {
+<span class="fc" id="L110">        return new HashMap&lt;T, D&gt;();</span>
+    }
+
+    /**
+     * Puts odd parity entries in the map m based purely on the even entries.
+     * 
+     * @param m
+     *            map
+     */
+    private static void addOddParityEntries(Map&lt;Direction, Map&lt;Parity, String&gt;&gt; m) {
+<span class="fc" id="L120">        m.get(Direction.BOTTOM).put(Parity.ODD, m.get(Direction.LEFT).get(Parity.EVEN));</span>
+<span class="fc" id="L121">        m.get(Direction.TOP).put(Parity.ODD, m.get(Direction.RIGHT).get(Parity.EVEN));</span>
+<span class="fc" id="L122">        m.get(Direction.LEFT).put(Parity.ODD, m.get(Direction.BOTTOM).get(Parity.EVEN));</span>
+<span class="fc" id="L123">        m.get(Direction.RIGHT).put(Parity.ODD, m.get(Direction.TOP).get(Parity.EVEN));</span>
+<span class="fc" id="L124">    }</span>
+
+    /**
+     * Returns the adjacent hash in given {@link Direction}. Based on
+     * https://github.com/davetroy/geohash-js/blob/master/geohash.js. This
+     * method is an improvement on the original js method because it works at
+     * borders too (at the poles and the -180,180 longitude boundaries).
+     * 
+     * @param hash
+     *            string hash relative to which the adjacent is returned
+     * @param direction
+     *            direction relative to {@code hash} for which the adjacent is
+     *            returned
+     * @return hash of adjacent hash
+     */
+    public static String adjacentHash(String hash, Direction direction) {
+<span class="fc" id="L140">        checkHash(hash);</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        Preconditions.checkArgument(hash.length() &gt; 0,</span>
+                &quot;adjacent has no meaning for a zero length hash that covers the whole world&quot;);
+
+<span class="fc" id="L144">        String adjacentHashAtBorder = adjacentHashAtBorder(hash, direction);</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if (adjacentHashAtBorder != null)</span>
+<span class="nc" id="L146">            return adjacentHashAtBorder;</span>
+
+<span class="fc" id="L148">        String source = hash.toLowerCase(Locale.ENGLISH);</span>
+<span class="fc" id="L149">        char lastChar = source.charAt(source.length() - 1);</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        Parity parity = (source.length() % 2 == 0) ? Parity.EVEN : Parity.ODD;</span>
+<span class="fc" id="L151">        String base = source.substring(0, source.length() - 1);</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (BORDERS.get(direction).get(parity).indexOf(lastChar) != -1)</span>
+<span class="nc" id="L153">            base = adjacentHash(base, direction);</span>
+<span class="fc" id="L154">        return base + BASE32.charAt(NEIGHBOURS.get(direction).get(parity).indexOf(lastChar));</span>
+    }
+
+    private static String adjacentHashAtBorder(String hash, Direction direction) {
+        // check if hash is on edge and direction would push us over the edge
+        // if so, wrap round to the other limit for longitude
+        // or if at latitude boundary (a pole) then spin longitude around 180
+        // degrees.
+<span class="fc" id="L162">        LatLong centre = decodeHash(hash);</span>
+
+        // if rightmost hash
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">        if (Direction.RIGHT.equals(direction)) {</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            if (Math.abs(centre.getLon() + widthDegrees(hash.length()) / 2 - 180) &lt; PRECISION) {</span>
+<span class="nc" id="L167">                return encodeHash(centre.getLat(), -180, hash.length());</span>
+            }
+        }
+        // if leftmost hash
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        else if (Direction.LEFT.equals(direction)) {</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">            if (Math.abs(centre.getLon() - widthDegrees(hash.length()) / 2 + 180) &lt; PRECISION) {</span>
+<span class="nc" id="L173">                return encodeHash(centre.getLat(), 180, hash.length());</span>
+            }
+        }
+        // if topmost hash
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        else if (Direction.TOP.equals(direction)) {</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">            if (Math.abs(centre.getLat() + widthDegrees(hash.length()) / 2 - 90) &lt; PRECISION) {</span>
+<span class="nc" id="L179">                return encodeHash(centre.getLat(), centre.getLon() + 180, hash.length());</span>
+            }
+        }
+        // if bottommost hash
+        else {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">            if (Math.abs(centre.getLat() - widthDegrees(hash.length()) / 2 + 90) &lt; PRECISION) {</span>
+<span class="nc" id="L185">                return encodeHash(centre.getLat(), centre.getLon() + 180, hash.length());</span>
+            }
+        }
+
+<span class="fc" id="L189">        return null;</span>
+    }
+
+    /**
+     * Throws an {@link IllegalArgumentException} if and only if the hash is
+     * null or blank.
+     * 
+     * @param hash
+     *            to check
+     */
+    private static void checkHash(String hash) {
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">        Preconditions.checkArgument(hash != null, &quot;hash must be non-null&quot;);</span>
+<span class="fc" id="L201">    }</span>
+
+    /**
+     * Returns the adjacent hash to the right (east).
+     * 
+     * @param hash
+     *            to check
+     * @return hash on right of given hash
+     */
+    public static String right(String hash) {
+<span class="nc" id="L211">        return adjacentHash(hash, Direction.RIGHT);</span>
+    }
+
+    /**
+     * Returns the adjacent hash to the left (west).
+     * 
+     * @param hash
+     *            origin
+     * @return hash on left of origin hash
+     */
+    public static String left(String hash) {
+<span class="nc" id="L222">        return adjacentHash(hash, Direction.LEFT);</span>
+    }
+
+    /**
+     * Returns the adjacent hash to the top (north).
+     * 
+     * @param hash
+     *            origin
+     * @return hash above origin hash
+     */
+    public static String top(String hash) {
+<span class="nc" id="L233">        return adjacentHash(hash, Direction.TOP);</span>
+    }
+
+    /**
+     * Returns the adjacent hash to the bottom (south).
+     * 
+     * @param hash
+     *            origin
+     * @return hash below (south) of origin hash
+     */
+    public static String bottom(String hash) {
+<span class="nc" id="L244">        return adjacentHash(hash, Direction.BOTTOM);</span>
+    }
+
+    /**
+     * Returns the adjacent hash N steps in the given {@link Direction}. A
+     * negative N will use the opposite {@link Direction}.
+     * 
+     * @param hash
+     *            origin hash
+     * @param direction
+     *            to desired hash
+     * @param steps
+     *            number of hashes distance to desired hash
+     * @return hash at position in direction a number of hashes away (steps)
+     */
+    public static String adjacentHash(String hash, Direction direction, int steps) {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        if (steps &lt; 0)</span>
+<span class="nc" id="L261">            return adjacentHash(hash, direction.opposite(), Math.abs(steps));</span>
+        else {
+<span class="nc" id="L263">            String h = hash;</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">            for (int i = 0; i &lt; steps; i++)</span>
+<span class="nc" id="L265">                h = adjacentHash(h, direction);</span>
+<span class="nc" id="L266">            return h;</span>
+        }
+    }
+
+    /**
+     * Returns a list of the 8 surrounding hashes for a given hash in order
+     * left,right,top,bottom,left-top,left-bottom,right-top,right-bottom.
+     * 
+     * @param hash
+     *            source
+     * @return a list of neighbour hashes
+     */
+    public static List&lt;String&gt; neighbours(String hash) {
+<span class="nc" id="L279">        List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L280">        String left = adjacentHash(hash, Direction.LEFT);</span>
+<span class="nc" id="L281">        String right = adjacentHash(hash, Direction.RIGHT);</span>
+<span class="nc" id="L282">        list.add(left);</span>
+<span class="nc" id="L283">        list.add(right);</span>
+<span class="nc" id="L284">        list.add(adjacentHash(hash, Direction.TOP));</span>
+<span class="nc" id="L285">        list.add(adjacentHash(hash, Direction.BOTTOM));</span>
+<span class="nc" id="L286">        list.add(adjacentHash(left, Direction.TOP));</span>
+<span class="nc" id="L287">        list.add(adjacentHash(left, Direction.BOTTOM));</span>
+<span class="nc" id="L288">        list.add(adjacentHash(right, Direction.TOP));</span>
+<span class="nc" id="L289">        list.add(adjacentHash(right, Direction.BOTTOM));</span>
+<span class="nc" id="L290">        return list;</span>
+    }
+
+    /**
+     * Returns a geohash of length {@link GeoHash#MAX_HASH_LENGTH} (12) for the
+     * given WGS84 point (latitude,longitude).
+     * 
+     * @param latitude
+     *            in decimal degrees (WGS84)
+     * @param longitude
+     *            in decimal degrees (WGS84)
+     * @return hash at given point of default length
+     */
+    public static String encodeHash(double latitude, double longitude) {
+<span class="fc" id="L304">        return encodeHash(latitude, longitude, MAX_HASH_LENGTH);</span>
+    }
+
+    /**
+     * Returns a geohash of given length for the given WGS84 point.
+     * 
+     * @param p
+     *            point
+     * @param length
+     *            length of hash
+     * @return hash at point of given length
+     */
+    public static String encodeHash(LatLong p, int length) {
+<span class="nc" id="L317">        return encodeHash(p.getLat(), p.getLon(), length);</span>
+    }
+
+    /**
+     * Returns a geohash of of length {@link GeoHash#MAX_HASH_LENGTH} (12) for
+     * the given WGS84 point.
+     * 
+     * @param p
+     *            point
+     * @return hash of default length
+     */
+    public static String encodeHash(LatLong p) {
+<span class="nc" id="L329">        return encodeHash(p.getLat(), p.getLon(), MAX_HASH_LENGTH);</span>
+    }
+
+    /**
+     * Returns a geohash of given length for the given WGS84 point
+     * (latitude,longitude). If latitude is not between -90 and 90 throws an
+     * {@link IllegalArgumentException}.
+     * 
+     * @param latitude
+     *            in decimal degrees (WGS84)
+     * @param longitude
+     *            in decimal degrees (WGS84)
+     * @param length
+     *            length of desired hash
+     * @return geohash of given length for the given point
+     */
+    // Translated to java from:
+    // geohash.js
+    // Geohash library for Javascript
+    // (c) 2008 David Troy
+    // Distributed under the MIT License
+    public static String encodeHash(double latitude, double longitude, int length) {
+<span class="pc bpc" id="L351" title="2 of 4 branches missed.">        Preconditions.checkArgument(length &gt; 0 &amp;&amp; length &lt;=12, &quot;length must be between 1 and 12&quot;);</span>
+<span class="pc bpc" id="L352" title="1 of 4 branches missed.">        Preconditions.checkArgument(latitude &gt;= -90 &amp;&amp; latitude &lt;= 90,</span>
+                &quot;latitude must be between -90 and 90 inclusive&quot;);
+<span class="fc" id="L354">        return fromLongToString(encodeHashToLong(latitude, to180(longitude), length));</span>
+    }
+
+    /**
+     * Takes a hash represented as a long and returns it as a string.
+     *
+     * @param hash
+     *            the hash, with the length encoded in the 4 least significant
+     *            bits
+     * @return the string encoded geohash
+     */
+    static String fromLongToString(long hash) {
+<span class="fc" id="L366">        int length = (int) (hash &amp; 0xf);</span>
+<span class="pc bpc" id="L367" title="2 of 4 branches missed.">        if (length &gt; 12 || length &lt; 1)</span>
+<span class="nc" id="L368">            throw new IllegalArgumentException(&quot;invalid long geohash &quot; + hash);</span>
+<span class="fc" id="L369">        char[] geohash = new char[length];</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">        for (int pos = 0; pos &lt; length; pos++) {</span>
+<span class="fc" id="L371">            geohash[pos] = BASE32.charAt((int) (hash &gt;&gt;&gt; 59));</span>
+<span class="fc" id="L372">            hash &lt;&lt;= 5;</span>
+        }
+<span class="fc" id="L374">        return new String(geohash);</span>
+    }
+
+    static long encodeHashToLong(double latitude, double longitude, int length) {
+<span class="fc" id="L378">        boolean isEven = true;</span>
+<span class="fc" id="L379">        double minLat = -90.0, maxLat = 90;</span>
+<span class="fc" id="L380">        double minLon = -180.0, maxLon = 180.0;</span>
+<span class="fc" id="L381">        long bit = 0x8000000000000000L;</span>
+<span class="fc" id="L382">        long g = 0;</span>
+
+<span class="fc" id="L384">        long target = 0x8000000000000000L &gt;&gt;&gt; (5 * length);</span>
+<span class="fc bfc" id="L385" title="All 2 branches covered.">        while (bit != target) {</span>
+<span class="fc bfc" id="L386" title="All 2 branches covered.">            if (isEven) {</span>
+<span class="fc" id="L387">                double mid = (minLon + maxLon) / 2;</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">                if (longitude &gt;= mid) {</span>
+<span class="fc" id="L389">                    g |= bit;</span>
+<span class="fc" id="L390">                    minLon = mid;</span>
+                } else
+<span class="fc" id="L392">                    maxLon = mid;</span>
+<span class="fc" id="L393">            } else {</span>
+<span class="fc" id="L394">                double mid = (minLat + maxLat) / 2;</span>
+<span class="fc bfc" id="L395" title="All 2 branches covered.">                if (latitude &gt;= mid) {</span>
+<span class="fc" id="L396">                    g |= bit;</span>
+<span class="fc" id="L397">                    minLat = mid;</span>
+                } else
+<span class="fc" id="L399">                    maxLat = mid;</span>
+            }
+
+<span class="fc bfc" id="L402" title="All 2 branches covered.">            isEven = !isEven;</span>
+<span class="fc" id="L403">            bit &gt;&gt;&gt;= 1;</span>
+        }
+<span class="fc" id="L405">        return g | length;</span>
+    }
+
+    /**
+     * Returns a latitude,longitude pair as the centre of the given geohash.
+     * Latitude will be between -90 and 90 and longitude between -180 and 180.
+     * 
+     * @param geohash
+     *            hash to decode
+     * @return lat long point
+     */
+    // Translated to java from:
+    // geohash.js
+    // Geohash library for Javascript
+    // (c) 2008 David Troy
+    // Distributed under the MIT License
+    public static LatLong decodeHash(String geohash) {
+<span class="fc" id="L422">        Preconditions.checkNotNull(geohash, &quot;geohash cannot be null&quot;);</span>
+<span class="fc" id="L423">        boolean isEven = true;</span>
+<span class="fc" id="L424">        double[] lat = new double[2];</span>
+<span class="fc" id="L425">        double[] lon = new double[2];</span>
+<span class="fc" id="L426">        lat[0] = -90.0;</span>
+<span class="fc" id="L427">        lat[1] = 90.0;</span>
+<span class="fc" id="L428">        lon[0] = -180.0;</span>
+<span class="fc" id="L429">        lon[1] = 180.0;</span>
+
+<span class="fc bfc" id="L431" title="All 2 branches covered.">        for (int i = 0; i &lt; geohash.length(); i++) {</span>
+<span class="fc" id="L432">            char c = geohash.charAt(i);</span>
+<span class="fc" id="L433">            int cd = BASE32.indexOf(c);</span>
+<span class="fc bfc" id="L434" title="All 2 branches covered.">            for (int j = 0; j &lt; 5; j++) {</span>
+<span class="fc" id="L435">                int mask = BITS[j];</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">                if (isEven) {</span>
+<span class="fc" id="L437">                    refineInterval(lon, cd, mask);</span>
+                } else {
+<span class="fc" id="L439">                    refineInterval(lat, cd, mask);</span>
+                }
+<span class="fc bfc" id="L441" title="All 2 branches covered.">                isEven = !isEven;</span>
+            }
+        }
+<span class="fc" id="L444">        double resultLat = (lat[0] + lat[1]) / 2;</span>
+<span class="fc" id="L445">        double resultLon = (lon[0] + lon[1]) / 2;</span>
+
+<span class="fc" id="L447">        return new LatLong(resultLat, resultLon);</span>
+    }
+
+    /**
+     * Refines interval by a factor or 2 in either the 0 or 1 ordinate.
+     * 
+     * @param interval
+     *            two entry array of double values
+     * @param cd
+     *            used with mask
+     * @param mask
+     *            used with cd
+     */
+    private static void refineInterval(double[] interval, int cd, int mask) {
+<span class="fc bfc" id="L461" title="All 2 branches covered.">        if ((cd &amp; mask) != 0)</span>
+<span class="fc" id="L462">            interval[0] = (interval[0] + interval[1]) / 2;</span>
+        else
+<span class="fc" id="L464">            interval[1] = (interval[0] + interval[1]) / 2;</span>
+<span class="fc" id="L465">    }</span>
+
+    /**
+     * Returns the maximum length of hash that covers the bounding box. If no
+     * hash can enclose the bounding box then 0 is returned.
+     * 
+     * @param topLeftLat
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
+     * @param bottomRightLat
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
+     * @return length of the hash
+     */
+    public static int hashLengthToCoverBoundingBox(double topLeftLat, double topLeftLon,
+            double bottomRightLat, double bottomRightLon) {
+<span class="fc" id="L483">        boolean isEven = true;</span>
+<span class="fc" id="L484">        double minLat = -90.0, maxLat = 90;</span>
+<span class="fc" id="L485">        double minLon = -180.0, maxLon = 180.0;</span>
+
+<span class="pc bpc" id="L487" title="1 of 2 branches missed.">        for (int bits = 0; bits &lt; MAX_HASH_LENGTH * 5; bits++) {</span>
+<span class="fc bfc" id="L488" title="All 2 branches covered.">            if (isEven) {</span>
+<span class="fc" id="L489">                double mid = (minLon + maxLon) / 2;</span>
+<span class="fc bfc" id="L490" title="All 2 branches covered.">                if (topLeftLon &gt;= mid) {</span>
+<span class="pc bpc" id="L491" title="1 of 2 branches missed.">                    if (bottomRightLon &lt; mid)</span>
+<span class="nc" id="L492">                        return bits / 5;</span>
+<span class="fc" id="L493">                    minLon = mid;</span>
+                } else {
+<span class="pc bpc" id="L495" title="1 of 2 branches missed.">                    if (bottomRightLon &gt;= mid)</span>
+<span class="fc" id="L496">                        return bits / 5;</span>
+<span class="nc" id="L497">                    maxLon = mid;</span>
+                }
+<span class="fc" id="L499">            } else {</span>
+<span class="fc" id="L500">                double mid = (minLat + maxLat) / 2;</span>
+<span class="fc bfc" id="L501" title="All 2 branches covered.">                if (topLeftLat &gt;= mid) {</span>
+<span class="pc bpc" id="L502" title="1 of 2 branches missed.">                    if (bottomRightLat &lt; mid)</span>
+<span class="nc" id="L503">                        return bits / 5;</span>
+<span class="fc" id="L504">                    minLat = mid;</span>
+                } else {
+<span class="pc bpc" id="L506" title="1 of 2 branches missed.">                    if (bottomRightLat &gt;= mid)</span>
+<span class="nc" id="L507">                        return bits / 5;</span>
+<span class="fc" id="L508">                    maxLat = mid;</span>
+                }
+            }
+
+<span class="fc bfc" id="L512" title="All 2 branches covered.">            isEven = !isEven;</span>
+        }
+<span class="nc" id="L514">        return MAX_HASH_LENGTH;</span>
+    }
+
+    /**
+     * Returns true if and only if the bounding box corresponding to the hash
+     * contains the given lat and long.
+     * 
+     * @param hash
+     *            hash to test containment in
+     * @param lat
+     *            latitude
+     * @param lon
+     *            longitude
+     * @return true if and only if the hash contains the given lat and long
+     */
+    public static boolean hashContains(String hash, double lat, double lon) {
+<span class="nc" id="L530">        LatLong centre = decodeHash(hash);</span>
+<span class="nc bnc" id="L531" title="All 2 branches missed.">        return Math.abs(centre.getLat() - lat) &lt;= heightDegrees(hash.length()) / 2</span>
+<span class="nc bnc" id="L532" title="All 2 branches missed.">                &amp;&amp; Math.abs(to180(centre.getLon() - lon)) &lt;= widthDegrees(hash.length()) / 2;</span>
+    }
+
+    /**
+     * Returns the result of coverBoundingBoxMaxHashes with a maxHashes value of
+     * {@link GeoHash}.DEFAULT_MAX_HASHES.
+     * 
+     * @param topLeftLat
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
+     * @param bottomRightLat
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
+     * @return coverage
+     */
+    public static Coverage coverBoundingBox(double topLeftLat, final double topLeftLon,
+            final double bottomRightLat, final double bottomRightLon) {
+
+<span class="fc" id="L552">        return coverBoundingBoxMaxHashes(topLeftLat, topLeftLon, bottomRightLat, bottomRightLon,</span>
+                DEFAULT_MAX_HASHES);
+    }
+
+    /**
+     * Returns the hashes that are required to cover the given bounding box. The
+     * maximum length of hash is selected that satisfies the number of hashes
+     * returned is less than &lt;code&gt;maxHashes&lt;/code&gt;. Returns null if hashes
+     * cannot be found satisfying that condition. Maximum hash length returned
+     * will be {@link GeoHash}.MAX_HASH_LENGTH.
+     * 
+     * @param topLeftLat
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
+     * @param bottomRightLat
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
+     * @param maxHashes
+     *            maximum number of hashes to use to cover the box
+     * @return coverage
+     */
+    public static Coverage coverBoundingBoxMaxHashes(double topLeftLat, final double topLeftLon,
+            final double bottomRightLat, final double bottomRightLon, int maxHashes) {
+<span class="fc" id="L577">        CoverageLongs coverage = null;</span>
+<span class="fc" id="L578">        int startLength = hashLengthToCoverBoundingBox(topLeftLat, topLeftLon, bottomRightLat,</span>
+                bottomRightLon);
+<span class="pc bpc" id="L580" title="1 of 2 branches missed.">        if (startLength == 0)</span>
+<span class="fc" id="L581">            startLength = 1;</span>
+<span class="pc bpc" id="L582" title="1 of 2 branches missed.">        for (int length = startLength; length &lt;= MAX_HASH_LENGTH; length++) {</span>
+<span class="fc" id="L583">            CoverageLongs c = coverBoundingBoxLongs(topLeftLat, topLeftLon, bottomRightLat,</span>
+                    bottomRightLon, length);
+<span class="fc bfc" id="L585" title="All 2 branches covered.">            if (c.getCount() &gt; maxHashes)</span>
+<span class="pc bpc" id="L586" title="1 of 2 branches missed.">                return coverage == null ? null : new Coverage(coverage);</span>
+            else
+<span class="fc" id="L588">                coverage = c;</span>
+        }
+        // note coverage can never be null
+<span class="nc" id="L591">        return new Coverage(coverage);</span>
+    }
+
+    /**
+     * Returns the hashes of given length that are required to cover the given
+     * bounding box.
+     * 
+     * @param topLeftLat
+     *            latitude of top left point (north west)
+     * @param topLeftLon
+     *            longitude of top left point (north west)
+     * @param bottomRightLat
+     *            latitude of bottom right point (south east)
+     * @param bottomRightLon
+     *            longitude of bottom right point (south east)
+     * @param length
+     *            of hash
+     * @return number of hashes of given length required to cover the given
+     *         bounding box
+     */
+    public static Coverage coverBoundingBox(double topLeftLat, final double topLeftLon,
+            final double bottomRightLat, final double bottomRightLon, final int length) {
+<span class="fc" id="L613">        return new Coverage(coverBoundingBoxLongs(topLeftLat, topLeftLon, bottomRightLat,</span>
+                bottomRightLon, length));
+    }
+
+<span class="fc" id="L617">    private static class LongSet {</span>
+<span class="fc" id="L618">        int count = 0;</span>
+<span class="fc" id="L619">        private int cap = 16;</span>
+<span class="fc" id="L620">        long[] array = new long[cap];</span>
+
+        void add(long l) {
+<span class="fc bfc" id="L623" title="All 2 branches covered.">            for (int i = 0; i &lt; count; i++)</span>
+<span class="fc bfc" id="L624" title="All 2 branches covered.">                if (array[i] == l)</span>
+<span class="fc" id="L625">                    return;</span>
+<span class="fc bfc" id="L626" title="All 2 branches covered.">            if (count == cap) {</span>
+<span class="fc" id="L627">                long[] newArray = new long[cap *= 2];</span>
+<span class="fc" id="L628">                System.arraycopy(array, 0, newArray, 0, count);</span>
+<span class="fc" id="L629">                array = newArray;</span>
+            }
+<span class="fc" id="L631">            array[count++] = l;</span>
+<span class="fc" id="L632">        }</span>
+    }
+
+    static CoverageLongs coverBoundingBoxLongs(double topLeftLat, double topLeftLon,
+            double bottomRightLat, double bottomRightLon, final int length) {
+<span class="pc bpc" id="L637" title="1 of 2 branches missed.">        Preconditions.checkArgument(topLeftLat &gt;= bottomRightLat,</span>
+                &quot;topLeftLat must be &gt;= bottomRighLat&quot;);
+<span class="pc bpc" id="L639" title="1 of 2 branches missed.">        Preconditions.checkArgument(length &gt; 0, &quot;length must be greater than zero&quot;);</span>
+<span class="fc" id="L640">        final double actualWidthDegreesPerHash = widthDegrees(length);</span>
+<span class="fc" id="L641">        final double actualHeightDegreesPerHash = heightDegrees(length);</span>
+
+<span class="fc" id="L643">        LongSet hashes = new LongSet();</span>
+
+<span class="fc" id="L645">        double diff = bottomRightLon - topLeftLon;</span>
+<span class="pc bpc" id="L646" title="1 of 2 branches missed.">        if (diff &lt; 0) {</span>
+            // case where bottomRightLon cross the antimeridian
+<span class="nc" id="L648">            bottomRightLon += 360;</span>
+<span class="nc" id="L649">            diff = bottomRightLon - topLeftLon;</span>
+<span class="pc bpc" id="L650" title="1 of 2 branches missed.">        } else if (diff &gt; 360) {</span>
+            // case where this bounding box displays more than one copy of the world
+<span class="nc" id="L652">            topLeftLon = -180;</span>
+<span class="nc" id="L653">            bottomRightLon = 180;</span>
+<span class="nc" id="L654">            diff = 360;</span>
+        }
+
+<span class="fc bfc" id="L657" title="All 2 branches covered.">        for (double lat = bottomRightLat; lat &lt;= topLeftLat; lat += actualHeightDegreesPerHash) {</span>
+<span class="fc bfc" id="L658" title="All 2 branches covered.">            for (double lon = topLeftLon; lon &lt;= bottomRightLon; lon += actualWidthDegreesPerHash) {</span>
+<span class="fc" id="L659">                hashes.add(encodeHashToLong(lat, to180(lon), length));</span>
+            }
+        }
+        // ensure have the borders covered
+<span class="fc bfc" id="L663" title="All 2 branches covered.">        for (double lat = bottomRightLat; lat &lt;= topLeftLat; lat += actualHeightDegreesPerHash) {</span>
+<span class="fc" id="L664">            hashes.add(encodeHashToLong(lat, to180(bottomRightLon), length));</span>
+        }
+<span class="fc bfc" id="L666" title="All 2 branches covered.">        for (double lon = topLeftLon; lon &lt;= bottomRightLon; lon += actualWidthDegreesPerHash) {</span>
+<span class="fc" id="L667">            hashes.add(encodeHashToLong(topLeftLat, to180(lon), length));</span>
+        }
+        // ensure that the topRight corner is covered
+<span class="fc" id="L670">        hashes.add(encodeHashToLong(topLeftLat, to180(bottomRightLon), length));</span>
+
+<span class="fc" id="L672">        double areaDegrees = diff * (topLeftLat - bottomRightLat);</span>
+<span class="fc" id="L673">        double coverageAreaDegrees = hashes.count * widthDegrees(length) * heightDegrees(length);</span>
+<span class="fc" id="L674">        double ratio = coverageAreaDegrees / areaDegrees;</span>
+<span class="fc" id="L675">        return new CoverageLongs(hashes.array, hashes.count, ratio);</span>
+    }
+
+    /**
+     * Returns height in degrees of all geohashes of length {@code n}. Results are
+     * deterministic and cached to increase performance.
+     * 
+     * @param n
+     *            length of geohash
+     * @return height in degrees of the geohash with length {@code n}
+     */
+    public static double heightDegrees(int n) {
+<span class="pc bpc" id="L687" title="1 of 2 branches missed.">        if (n &gt; MAX_HASH_LENGTH)</span>
+<span class="nc" id="L688">            return calculateHeightDegrees(n);</span>
+        else
+<span class="fc" id="L690">            return HashHeights.values[n];</span>
+    }
+
+    private static final class HashHeights {
+
+<span class="fc" id="L695">        static final double[] values = createValues();</span>
+
+        private static double[] createValues() {
+<span class="fc" id="L698">            double d[] = new double[MAX_HASH_LENGTH + 1];</span>
+<span class="fc bfc" id="L699" title="All 2 branches covered.">            for (int i = 0; i &lt;= MAX_HASH_LENGTH; i++) {</span>
+<span class="fc" id="L700">                d[i] = calculateHeightDegrees(i);</span>
+            }
+<span class="fc" id="L702">            return d;</span>
+        }
+    }
+
+    /**
+     * Returns the height in degrees of the region represented by a geohash of
+     * length {@code n}.
+     * 
+     * @param n length of hash
+     * @return height in degrees of the region represented by a geohash of length {@code n}
+     */
+    private static double calculateHeightDegrees(int n) {
+        double a;
+<span class="fc bfc" id="L715" title="All 2 branches covered.">        if (n % 2 == 0)</span>
+<span class="fc" id="L716">            a = 0;</span>
+        else
+<span class="fc" id="L718">            a = -0.5;</span>
+<span class="fc" id="L719">        double result = 180 / Math.pow(2, 2.5 * n + a);</span>
+<span class="fc" id="L720">        return result;</span>
+    }
+
+    private static final class HashWidths {
+
+<span class="fc" id="L725">        static final double[] values = createValues();</span>
+
+        private static double[] createValues() {
+<span class="fc" id="L728">            double d[] = new double[MAX_HASH_LENGTH + 1];</span>
+<span class="fc bfc" id="L729" title="All 2 branches covered.">            for (int i = 0; i &lt;= MAX_HASH_LENGTH; i++) {</span>
+<span class="fc" id="L730">                d[i] = calculateWidthDegrees(i);</span>
+            }
+<span class="fc" id="L732">            return d;</span>
+        }
+    }
+
+    /**
+     * Returns width in degrees of all geohashes of length n. Results are
+     * deterministic and cached to increase performance (might be unnecessary,
+     * have not benchmarked).
+     * 
+     * @param n length of hash
+     * @return width in degrees
+     */
+    public static double widthDegrees(int n) {
+<span class="pc bpc" id="L745" title="1 of 2 branches missed.">        if (n &gt; MAX_HASH_LENGTH)</span>
+<span class="nc" id="L746">            return calculateWidthDegrees(n);</span>
+        else
+<span class="fc" id="L748">            return HashWidths.values[n];</span>
+    }
+
+    /**
+     * Returns the width in degrees of the region represented by a geohash of
+     * length n.
+     * 
+     * @param n length of geohash
+     * @return width in degrees
+     */
+    private static double calculateWidthDegrees(int n) {
+        double a;
+<span class="fc bfc" id="L760" title="All 2 branches covered.">        if (n % 2 == 0)</span>
+<span class="fc" id="L761">            a = -1;</span>
+        else
+<span class="fc" id="L763">            a = -0.5;</span>
+<span class="fc" id="L764">        double result = 180 / Math.pow(2, 2.5 * n + a);</span>
+<span class="fc" id="L765">        return result;</span>
+    }
+
+    /**
+     * &lt;p&gt;
+     * Returns a String of lines of hashes to represent the relative positions
+     * of hashes on a map. The grid is of height and width 2*size centred around
+     * the given hash. Highlighted hashes are displayed in upper case. For
+     * example, gridToString(&quot;dr&quot;,1,Collections.&amp;lt;String&amp;gt;emptySet()) returns:
+     * &lt;/p&gt;
+     * 
+     * &lt;pre&gt;
+     * f0 f2 f8 
+     * dp dr dx 
+     * dn dq dw
+     * &lt;/pre&gt;
+     * 
+     * @param hash central hash
+     * @param size size of square grid in hashes
+     * @param highlightThese hashes to highlight
+     * @return String representation of grid
+     */
+    public static String gridAsString(String hash, int size, Set&lt;String&gt; highlightThese) {
+<span class="nc" id="L788">        return gridAsString(hash, -size, -size, size, size, highlightThese);</span>
+    }
+
+    /**
+     * Returns a String of lines of hashes to represent the relative positions
+     * of hashes on a map.
+     * 
+     * @param hash reference hash
+     * @param fromRight
+     *            top left of the grid in hashes to the right (can be negative).
+     * @param fromBottom
+     *            top left of the grid in hashes to the bottom (can be
+     *            negative).
+     * @param toRight
+     *            bottom righth of the grid in hashes to the bottom (can be
+     *            negative).
+     * @param toBottom
+     *            bottom right of the grid in hashes to the bottom (can be
+     *            negative).
+     * @return string representation of grid
+     */
+    public static String gridAsString(String hash, int fromRight, int fromBottom, int toRight,
+            int toBottom) {
+<span class="nc" id="L811">        return gridAsString(hash, fromRight, fromBottom, toRight, toBottom,</span>
+<span class="nc" id="L812">                Collections.&lt;String&gt; emptySet());</span>
+    }
+
+    /**
+     * &lt;p&gt;Returns a String of lines of hashes to represent the relative positions
+     * of hashes on a map. Highlighted hashes are displayed in upper case. For
+     * example, gridToString(&quot;dr&quot;,-1,-1,1,1,Sets.newHashSet(&quot;f2&quot;,&quot;f8&quot;)) returns:
+     * &lt;/p&gt;
+     * 
+     * &lt;pre&gt;
+     * f0 F2 F8 
+     * dp dr dx 
+     * dn dq dw
+     * &lt;/pre&gt;
+     * 
+     * @param hash reference hash
+     * @param fromRight
+     *            top left of the grid in hashes to the right (can be negative).
+     * @param fromBottom
+     *            top left of the grid in hashes to the bottom (can be
+     *            negative).
+     * @param toRight
+     *            bottom righth of the grid in hashes to the bottom (can be
+     *            negative).
+     * @param toBottom
+     *            bottom right of the grid in hashes to the bottom (can be
+     *            negative).
+     * @param highlightThese hashes to highlight
+     * @return String representation of grid
+     */
+    public static String gridAsString(String hash, int fromRight, int fromBottom, int toRight,
+            int toBottom, Set&lt;String&gt; highlightThese) {
+<span class="nc" id="L844">        StringBuilder s = new StringBuilder();</span>
+<span class="nc bnc" id="L845" title="All 2 branches missed.">        for (int bottom = fromBottom; bottom &lt;= toBottom; bottom++) {</span>
+<span class="nc bnc" id="L846" title="All 2 branches missed.">            for (int right = fromRight; right &lt;= toRight; right++) {</span>
+<span class="nc" id="L847">                String h = adjacentHash(hash, Direction.RIGHT, right);</span>
+<span class="nc" id="L848">                h = adjacentHash(h, Direction.BOTTOM, bottom);</span>
+<span class="nc bnc" id="L849" title="All 2 branches missed.">                if (highlightThese.contains(h))</span>
+<span class="nc" id="L850">                    h = h.toUpperCase(Locale.ENGLISH);</span>
+<span class="nc" id="L851">                s.append(h).append(&quot; &quot;);</span>
+            }
+<span class="nc" id="L853">            s.append(&quot;\n&quot;);</span>
+        }
+<span class="nc" id="L855">        return s.toString();</span>
+    }
+
+    /**
+     * Converts an angle in degrees to range -180&lt; x &lt;= 180.
+     * 
+     * @param d angle in degrees
+     * @return converted angle in degrees
+     */
+    private static double to180(double d) {
+<span class="fc bfc" id="L865" title="All 2 branches covered.">        if (d &lt; 0)</span>
+<span class="fc" id="L866">            return -to180(Math.abs(d));</span>
+        else {
+<span class="pc bpc" id="L868" title="1 of 2 branches missed.">            if (d &gt; 180) {</span>
+<span class="nc" id="L869">                long n = Math.round(Math.floor((d + 180) / 360.0));</span>
+<span class="nc" id="L870">                return d - n * 360;</span>
+            } else
+<span class="fc" id="L872">                return d;</span>
+        }
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

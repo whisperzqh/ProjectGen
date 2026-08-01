@@ -1,0 +1,16 @@
+src
+  ├── main
+  │   ├── java
+  │   │   └── com
+  │   │       └── github
+  │   │           └── binarywang
+  │   │               └── java
+  │   │                   └── emoji
+  │   │                       ├── EmojiConverter.java
+  │   │                       ├── EmojiReader.java
+  │   │                       ├── model
+  │   │                       │   └── Emoji4Unicode.java
+  │   │                       └── util
+  │   │                           └── EmojiUtils.java
+  │   └── resources
+  │       └── emoji4unicode.xml

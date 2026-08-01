@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Property.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">Property.java</span></div><h1>Property.java</h1><pre class="source lang-java linenums">package org.json;
+
+/*
+Public Domain.
+*/
+
+import java.util.Enumeration;
+import java.util.Properties;
+
+/**
+ * Converts a Property file data into JSONObject and back.
+ * @author JSON.org
+ * @version 2015-05-05
+ */
+public class Property {
+
+    /**
+     * Constructs a new Property object.
+     */
+<span class="nc" id="L20">    public Property() {</span>
+<span class="nc" id="L21">    }</span>
+
+    /**
+     * Converts a property file object into a JSONObject. The property file object is a table of name value pairs.
+     * @param properties java.util.Properties
+     * @return JSONObject
+     * @throws JSONException if a called function has an error
+     */
+    public static JSONObject toJSONObject(java.util.Properties properties) throws JSONException {
+        // can't use the new constructor for Android support
+        // JSONObject jo = new JSONObject(properties == null ? 0 : properties.size());
+<span class="fc" id="L32">        JSONObject jo = new JSONObject();</span>
+<span class="fc bfc" id="L33" title="All 4 branches covered.">        if (properties != null &amp;&amp; !properties.isEmpty()) {</span>
+<span class="fc" id="L34">            Enumeration&lt;?&gt; enumProperties = properties.propertyNames();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            while(enumProperties.hasMoreElements()) {</span>
+<span class="fc" id="L36">                String name = (String)enumProperties.nextElement();</span>
+<span class="fc" id="L37">                jo.put(name, properties.getProperty(name));</span>
+<span class="fc" id="L38">            }</span>
+        }
+<span class="fc" id="L40">        return jo;</span>
+    }
+
+    /**
+     * Converts the JSONObject into a property file object.
+     * @param jo JSONObject
+     * @return java.util.Properties
+     * @throws JSONException if a called function has an error
+     */
+    public static Properties toProperties(JSONObject jo)  throws JSONException {
+<span class="fc" id="L50">        Properties  properties = new Properties();</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (jo != null) {</span>
+        	// Don't use the new entrySet API to maintain Android support
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            for (final String key : jo.keySet()) {</span>
+<span class="fc" id="L54">                Object value = jo.opt(key);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                if (!JSONObject.NULL.equals(value)) {</span>
+<span class="fc" id="L56">                    properties.put(key, value.toString());</span>
+                }
+<span class="fc" id="L58">            }</span>
+        }
+<span class="fc" id="L60">        return properties;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

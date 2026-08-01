@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLParserConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">XMLParserConfiguration.java</span></div><h1>XMLParserConfiguration.java</h1><pre class="source lang-java linenums">package org.json;
+/*
+Public Domain.
+*/
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+
+/**
+ * Configuration object for the XML parser. The configuration is immutable.
+ * @author AylwardJ
+ */
+@SuppressWarnings({&quot;&quot;})
+public class XMLParserConfiguration extends ParserConfiguration {
+
+    /**
+     * The default maximum nesting depth when parsing a XML document to JSON.
+     */
+//    public static final int DEFAULT_MAXIMUM_NESTING_DEPTH = 512; // We could override
+
+    /**
+     * Allow user to control how numbers are parsed
+     */
+    private boolean keepNumberAsString;
+
+    /**
+     * Allow user to control how booleans are parsed
+     */
+    private boolean keepBooleanAsString;
+
+    /** Original Configuration of the XML Parser. */
+<span class="fc" id="L36">    public static final XMLParserConfiguration ORIGINAL</span>
+        = new XMLParserConfiguration();
+    /** Original configuration of the XML Parser except that values are kept as strings. */
+<span class="fc" id="L39">    public static final XMLParserConfiguration KEEP_STRINGS</span>
+<span class="fc" id="L40">        = new XMLParserConfiguration().withKeepStrings(true);</span>
+
+    /**
+     * The name of the key in a JSON Object that indicates a CDATA section. Historically this has
+     * been the value &quot;content&quot; but can be changed. Use &lt;code&gt;null&lt;/code&gt; to indicate no CDATA
+     * processing.
+     */
+    private String cDataTagName;
+
+    /**
+     * When parsing the XML into JSON, specifies if values with attribute xsi:nil=&quot;true&quot;
+     * should be kept as attribute(&lt;code&gt;false&lt;/code&gt;), or they should be converted to
+     * &lt;code&gt;null&lt;/code&gt;(&lt;code&gt;true&lt;/code&gt;)
+     */
+    private boolean convertNilAttributeToNull;
+
+    /**
+     * When creating an XML from JSON Object, an empty tag by default will self-close.
+     * If it has to be closed explicitly, with empty content between start and end tag,
+     * this flag is to be turned on.
+     */
+    private boolean closeEmptyTag;
+
+    /**
+     * This will allow type conversion for values in XML if xsi:type attribute is defined
+     */
+    private Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt; xsiTypeMap;
+
+    /**
+     * When parsing the XML into JSON, specifies the tags whose values should be converted
+     * to arrays
+     */
+    private Set&lt;String&gt; forceList;
+
+
+    /**
+     * Flag to indicate whether white space should be trimmed when parsing XML.
+     * The default behaviour is to trim white space. When this is set to false, inputting XML
+     * with tags that are the same as the value of cDataTagName is unsupported. It is recommended to set cDataTagName
+     * to a distinct value in this case.
+     */
+    private boolean shouldTrimWhiteSpace;
+
+    /**
+     * Default parser configuration. Does not keep strings (tries to implicitly convert
+     * values), and the CDATA Tag Name is &quot;content&quot;. Trims whitespace.
+     */
+    public XMLParserConfiguration () {
+<span class="fc" id="L88">        super();</span>
+<span class="fc" id="L89">        this.cDataTagName = &quot;content&quot;;</span>
+<span class="fc" id="L90">        this.convertNilAttributeToNull = false;</span>
+<span class="fc" id="L91">        this.xsiTypeMap = Collections.emptyMap();</span>
+<span class="fc" id="L92">        this.forceList = Collections.emptySet();</span>
+<span class="fc" id="L93">        this.shouldTrimWhiteSpace = true;</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Configure the parser string processing and use the default CDATA Tag Name as &quot;content&quot;.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @deprecated This constructor has been deprecated in favor of using the new builder
+     *      pattern for the configuration.
+     *      This constructor may be removed in a future release.
+     */
+    @Deprecated
+    public XMLParserConfiguration (final boolean keepStrings) {
+<span class="nc" id="L106">        this(keepStrings, &quot;content&quot;, false);</span>
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * Configure the parser string processing to try and convert XML values to JSON values and
+     * use the passed CDATA Tag Name the processing value. Pass &lt;code&gt;null&lt;/code&gt; to
+     * disable CDATA processing
+     * @param cDataTagName &lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     * @deprecated This constructor has been deprecated in favor of using the new builder
+     *      pattern for the configuration.
+     *      This constructor may be removed in a future release.
+     */
+    @Deprecated
+    public XMLParserConfiguration (final String cDataTagName) {
+<span class="nc" id="L121">        this(false, cDataTagName, false);</span>
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * Configure the parser to use custom settings.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @param cDataTagName &lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     * @deprecated This constructor has been deprecated in favor of using the new builder
+     *      pattern for the configuration.
+     *      This constructor may be removed in a future release.
+     */
+    @Deprecated
+    public XMLParserConfiguration (final boolean keepStrings, final String cDataTagName) {
+<span class="nc" id="L136">        super(keepStrings, DEFAULT_MAXIMUM_NESTING_DEPTH);</span>
+<span class="nc" id="L137">        this.cDataTagName = cDataTagName;</span>
+<span class="nc" id="L138">        this.convertNilAttributeToNull = false;</span>
+<span class="nc" id="L139">    }</span>
+
+    /**
+     * Configure the parser to use custom settings.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @param cDataTagName &lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     * @param convertNilAttributeToNull &lt;code&gt;true&lt;/code&gt; to parse values with attribute xsi:nil=&quot;true&quot; as null.
+     *                                  &lt;code&gt;false&lt;/code&gt; to parse values with attribute xsi:nil=&quot;true&quot; as {&quot;xsi:nil&quot;:true}.
+     * @deprecated This constructor has been deprecated in favor of using the new builder
+     *      pattern for the configuration.
+     *      This constructor may be removed or marked private in a future release.
+     */
+    @Deprecated
+    public XMLParserConfiguration (final boolean keepStrings, final String cDataTagName, final boolean convertNilAttributeToNull) {
+<span class="nc" id="L155">        super(false, DEFAULT_MAXIMUM_NESTING_DEPTH);</span>
+<span class="nc" id="L156">        this.keepNumberAsString = keepStrings;</span>
+<span class="nc" id="L157">        this.keepBooleanAsString = keepStrings;</span>
+<span class="nc" id="L158">        this.cDataTagName = cDataTagName;</span>
+<span class="nc" id="L159">        this.convertNilAttributeToNull = convertNilAttributeToNull;</span>
+<span class="nc" id="L160">    }</span>
+
+    /**
+     * Configure the parser to use custom settings.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @param cDataTagName &lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     * @param convertNilAttributeToNull &lt;code&gt;true&lt;/code&gt; to parse values with attribute xsi:nil=&quot;true&quot; as null.
+     *                                  &lt;code&gt;false&lt;/code&gt; to parse values with attribute xsi:nil=&quot;true&quot; as {&quot;xsi:nil&quot;:true}.
+     * @param xsiTypeMap  &lt;code&gt;new HashMap&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt;()&lt;/code&gt; to parse values with attribute
+     *                   xsi:type=&quot;integer&quot; as integer,  xsi:type=&quot;string&quot; as string
+     * @param forceList  &lt;code&gt;new HashSet&lt;String&gt;()&lt;/code&gt; to parse the provided tags' values as arrays
+     * @param maxNestingDepth &lt;code&gt;int&lt;/code&gt; to limit the nesting depth
+     * @param closeEmptyTag &lt;code&gt;boolean&lt;/code&gt; to turn on explicit end tag for tag with empty value
+     */
+    private XMLParserConfiguration (final boolean keepStrings, final String cDataTagName,
+            final boolean convertNilAttributeToNull, final Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt; xsiTypeMap, final Set&lt;String&gt; forceList,
+            final int maxNestingDepth, final boolean closeEmptyTag, final boolean keepNumberAsString, final boolean keepBooleanAsString) {
+<span class="fc" id="L179">        super(false, maxNestingDepth);</span>
+<span class="fc" id="L180">        this.keepNumberAsString = keepNumberAsString;</span>
+<span class="fc" id="L181">        this.keepBooleanAsString = keepBooleanAsString;</span>
+<span class="fc" id="L182">        this.cDataTagName = cDataTagName;</span>
+<span class="fc" id="L183">        this.convertNilAttributeToNull = convertNilAttributeToNull;</span>
+<span class="fc" id="L184">        this.xsiTypeMap = Collections.unmodifiableMap(xsiTypeMap);</span>
+<span class="fc" id="L185">        this.forceList = Collections.unmodifiableSet(forceList);</span>
+<span class="fc" id="L186">        this.closeEmptyTag = closeEmptyTag;</span>
+<span class="fc" id="L187">    }</span>
+
+    /**
+     * Provides a new instance of the same configuration.
+     */
+    @Override
+    protected XMLParserConfiguration clone() {
+        // future modifications to this method should always ensure a &quot;deep&quot;
+        // clone in the case of collections. i.e. if a Map is added as a configuration
+        // item, a new map instance should be created and if possible each value in the
+        // map should be cloned as well. If the values of the map are known to also
+        // be immutable, then a shallow clone of the map is acceptable.
+<span class="fc" id="L199">        final XMLParserConfiguration config = new XMLParserConfiguration(</span>
+                this.keepStrings,
+                this.cDataTagName,
+                this.convertNilAttributeToNull,
+                this.xsiTypeMap,
+                this.forceList,
+                this.maxNestingDepth,
+                this.closeEmptyTag,
+                this.keepNumberAsString,
+                this.keepBooleanAsString
+        );
+<span class="fc" id="L210">        config.shouldTrimWhiteSpace = this.shouldTrimWhiteSpace;</span>
+<span class="fc" id="L211">        return config;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies if values should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string)
+     *
+     * @param newVal
+     *      new value to use for the &lt;code&gt;keepStrings&lt;/code&gt; configuration option.
+     *
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public XMLParserConfiguration withKeepStrings(final boolean newVal) {
+<span class="fc" id="L226">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L227">        newConfig.keepStrings = newVal;</span>
+<span class="fc" id="L228">        newConfig.keepNumberAsString = newVal;</span>
+<span class="fc" id="L229">        newConfig.keepBooleanAsString = newVal;</span>
+<span class="fc" id="L230">        return newConfig;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies if numbers should be kept as strings (&lt;code&gt;1&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string)
+     *
+     * @param newVal
+     *      new value to use for the &lt;code&gt;keepNumberAsString&lt;/code&gt; configuration option.
+     *
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    public XMLParserConfiguration withKeepNumberAsString(final boolean newVal) {
+<span class="fc" id="L243">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L244">        newConfig.keepNumberAsString = newVal;</span>
+<span class="fc bfc" id="L245" title="All 4 branches covered.">        newConfig.keepStrings = newConfig.keepBooleanAsString &amp;&amp; newConfig.keepNumberAsString;</span>
+<span class="fc" id="L246">        return newConfig;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies if booleans should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string)
+     *
+     * @param newVal
+     *      new value to use for the &lt;code&gt;withKeepBooleanAsString&lt;/code&gt; configuration option.
+     *
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    public XMLParserConfiguration withKeepBooleanAsString(final boolean newVal) {
+<span class="fc" id="L259">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L260">        newConfig.keepBooleanAsString = newVal;</span>
+<span class="fc bfc" id="L261" title="All 4 branches covered.">        newConfig.keepStrings = newConfig.keepBooleanAsString &amp;&amp; newConfig.keepNumberAsString;</span>
+<span class="fc" id="L262">        return newConfig;</span>
+    }
+
+    /**
+     * The name of the key in a JSON Object that indicates a CDATA section. Historically this has
+     * been the value &quot;content&quot; but can be changed. Use &lt;code&gt;null&lt;/code&gt; to indicate no CDATA
+     * processing.
+     *
+     * @return The &lt;code&gt;cDataTagName&lt;/code&gt; configuration value.
+     */
+    public String getcDataTagName() {
+<span class="fc" id="L273">        return this.cDataTagName;</span>
+    }
+
+    /**
+     * When parsing the XML into JSONML, specifies if numbers should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string).
+     *
+     * @return The &lt;code&gt;keepStrings&lt;/code&gt; configuration value.
+     */
+    public boolean isKeepNumberAsString() {
+<span class="fc" id="L283">        return this.keepNumberAsString;</span>
+    }
+
+    /**
+     * When parsing the XML into JSONML, specifies if booleans should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string).
+     *
+     * @return The &lt;code&gt;keepStrings&lt;/code&gt; configuration value.
+     */
+    public boolean isKeepBooleanAsString() {
+<span class="fc" id="L293">        return this.keepBooleanAsString;</span>
+    }
+
+    /**
+     * The name of the key in a JSON Object that indicates a CDATA section. Historically this has
+     * been the value &quot;content&quot; but can be changed. Use &lt;code&gt;null&lt;/code&gt; to indicate no CDATA
+     * processing.
+     *
+     * @param newVal
+     *      new value to use for the &lt;code&gt;cDataTagName&lt;/code&gt; configuration option.
+     *
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    public XMLParserConfiguration withcDataTagName(final String newVal) {
+<span class="fc" id="L307">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L308">        newConfig.cDataTagName = newVal;</span>
+<span class="fc" id="L309">        return newConfig;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies if values with attribute xsi:nil=&quot;true&quot;
+     * should be kept as attribute(&lt;code&gt;false&lt;/code&gt;), or they should be converted to
+     * &lt;code&gt;null&lt;/code&gt;(&lt;code&gt;true&lt;/code&gt;)
+     *
+     * @return The &lt;code&gt;convertNilAttributeToNull&lt;/code&gt; configuration value.
+     */
+    public boolean isConvertNilAttributeToNull() {
+<span class="fc" id="L320">        return this.convertNilAttributeToNull;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies if values with attribute xsi:nil=&quot;true&quot;
+     * should be kept as attribute(&lt;code&gt;false&lt;/code&gt;), or they should be converted to
+     * &lt;code&gt;null&lt;/code&gt;(&lt;code&gt;true&lt;/code&gt;)
+     *
+     * @param newVal
+     *      new value to use for the &lt;code&gt;convertNilAttributeToNull&lt;/code&gt; configuration option.
+     *
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    public XMLParserConfiguration withConvertNilAttributeToNull(final boolean newVal) {
+<span class="fc" id="L334">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L335">        newConfig.convertNilAttributeToNull = newVal;</span>
+<span class="fc" id="L336">        return newConfig;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies that the values with attribute xsi:type
+     * will be converted to target type defined to client in this configuration
+     * {@code Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt;} to parse values with attribute
+     * xsi:type=&quot;integer&quot; as integer,  xsi:type=&quot;string&quot; as string
+     * @return &lt;code&gt;xsiTypeMap&lt;/code&gt; unmodifiable configuration map.
+     */
+    public Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt; getXsiTypeMap() {
+<span class="fc" id="L347">        return this.xsiTypeMap;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies that the values with attribute xsi:type
+     * will be converted to target type defined to client in this configuration
+     * {@code Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt;} to parse values with attribute
+     * xsi:type=&quot;integer&quot; as integer,  xsi:type=&quot;string&quot; as string
+     * @param xsiTypeMap  {@code new HashMap&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt;()} to parse values with attribute
+     *                   xsi:type=&quot;integer&quot; as integer,  xsi:type=&quot;string&quot; as string
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    public XMLParserConfiguration withXsiTypeMap(final Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt; xsiTypeMap) {
+<span class="fc" id="L360">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L361">        Map&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt; cloneXsiTypeMap = new HashMap&lt;String, XMLXsiTypeConverter&lt;?&gt;&gt;(xsiTypeMap);</span>
+<span class="fc" id="L362">        newConfig.xsiTypeMap = Collections.unmodifiableMap(cloneXsiTypeMap);</span>
+<span class="fc" id="L363">        return newConfig;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies that tags that will be converted to arrays
+     * in this configuration {@code Set&lt;String&gt;} to parse the provided tags' values as arrays
+     * @return &lt;code&gt;forceList&lt;/code&gt; unmodifiable configuration set.
+     */
+    public Set&lt;String&gt; getForceList() {
+<span class="fc" id="L372">        return this.forceList;</span>
+    }
+
+    /**
+     * When parsing the XML into JSON, specifies that tags that will be converted to arrays
+     * in this configuration {@code Set&lt;String&gt;} to parse the provided tags' values as arrays
+     * @param forceList  {@code new HashSet&lt;String&gt;()} to parse the provided tags' values as arrays
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    public XMLParserConfiguration withForceList(final Set&lt;String&gt; forceList) {
+<span class="fc" id="L382">        XMLParserConfiguration newConfig = this.clone();</span>
+<span class="fc" id="L383">        Set&lt;String&gt; cloneForceList = new HashSet&lt;String&gt;(forceList);</span>
+<span class="fc" id="L384">        newConfig.forceList = Collections.unmodifiableSet(cloneForceList);</span>
+<span class="fc" id="L385">        return newConfig;</span>
+    }
+
+    /**
+     * Defines the maximum nesting depth that the parser will descend before throwing an exception
+     * when parsing the XML into JSON. The default max nesting depth is 512, which means the parser
+     * will throw a JsonException if the maximum depth is reached.
+     * Using any negative value as a parameter is equivalent to setting no limit to the nesting depth,
+     * which means the parses will go as deep as the maximum call stack size allows.
+     * @param maxNestingDepth the maximum nesting depth allowed to the XML parser
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public XMLParserConfiguration withMaxNestingDepth(int maxNestingDepth) {
+<span class="fc" id="L400">        return super.withMaxNestingDepth(maxNestingDepth);</span>
+    }
+
+    /**
+     * To enable explicit end tag with empty value.
+     * @param closeEmptyTag new value for the closeEmptyTag property
+     * @return same instance of configuration with empty tag config updated
+     */
+    public XMLParserConfiguration withCloseEmptyTag(boolean closeEmptyTag){
+<span class="fc" id="L409">        XMLParserConfiguration clonedConfiguration = this.clone();</span>
+<span class="fc" id="L410">        clonedConfiguration.closeEmptyTag = closeEmptyTag;</span>
+<span class="fc" id="L411">        return clonedConfiguration;</span>
+    }
+
+    /**
+     * Sets whether whitespace should be trimmed inside of tags. *NOTE* Do not use this if
+     * you expect your XML tags to have names that are the same as cDataTagName as this is unsupported.
+     * cDataTagName should be set to a distinct value in these cases.
+     * @param shouldTrimWhiteSpace boolean to set trimming on or off. Off is default.
+     * @return same instance of configuration with empty tag config updated
+     */
+    public XMLParserConfiguration withShouldTrimWhitespace(boolean shouldTrimWhiteSpace){
+<span class="fc" id="L422">        XMLParserConfiguration clonedConfiguration = this.clone();</span>
+<span class="fc" id="L423">        clonedConfiguration.shouldTrimWhiteSpace = shouldTrimWhiteSpace;</span>
+<span class="fc" id="L424">        return clonedConfiguration;</span>
+    }
+
+    /**
+     * Checks if the parser should automatically close empty XML tags.
+     *
+     * @return {@code true} if empty XML tags should be automatically closed, {@code false} otherwise.
+     */
+    public boolean isCloseEmptyTag() {
+<span class="fc" id="L433">        return this.closeEmptyTag;</span>
+    }
+
+    /**
+     * Checks if the parser should trim white spaces from XML content.
+     *
+     * @return {@code true} if white spaces should be trimmed, {@code false} otherwise.
+     */
+    public boolean shouldTrimWhiteSpace() {
+<span class="fc" id="L442">        return this.shouldTrimWhiteSpace;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

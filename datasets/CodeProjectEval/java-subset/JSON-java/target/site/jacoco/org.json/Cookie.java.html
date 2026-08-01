@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cookie.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">Cookie.java</span></div><h1>Cookie.java</h1><pre class="source lang-java linenums">package org.json;
+
+import java.util.Locale;
+
+/*
+Public Domain.
+*/
+
+/**
+ * Convert a web browser cookie specification to a JSONObject and back.
+ * JSON and Cookies are both notations for name/value pairs.
+ * See also: &lt;a href=&quot;https://tools.ietf.org/html/rfc6265&quot;&gt;https://tools.ietf.org/html/rfc6265&lt;/a&gt;
+ * @author JSON.org
+ * @version 2015-12-09
+ */
+public class Cookie {
+
+    /**
+     * Constructs a new Cookie object.
+     * @deprecated (Utility class cannot be instantiated)
+     */
+    @Deprecated()
+<span class="nc" id="L23">    public Cookie() {</span>
+<span class="nc" id="L24">    }</span>
+
+    /**
+     * Produce a copy of a string in which the characters '+', '%', '=', ';'
+     * and control characters are replaced with &quot;%hh&quot;. This is a gentle form
+     * of URL encoding, attempting to cause as little distortion to the
+     * string as possible. The characters '=' and ';' are meta characters in
+     * cookies. By convention, they are escaped using the URL-encoding. This is
+     * only a convention, not a standard. Often, cookies are expected to have
+     * encoded values. We encode '=' and ';' because we must. We encode '%' and
+     * '+' because they are meta characters in URL encoding.
+     * @param string The source string.
+     * @return       The escaped result.
+     */
+    public static String escape(String string) {
+        char            c;
+<span class="fc" id="L40">        String          s = string.trim();</span>
+<span class="fc" id="L41">        int             length = s.length();</span>
+<span class="fc" id="L42">        StringBuilder   sb = new StringBuilder(length);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for (int i = 0; i &lt; length; i += 1) {</span>
+<span class="fc" id="L44">            c = s.charAt(i);</span>
+<span class="fc bfc" id="L45" title="All 10 branches covered.">            if (c &lt; ' ' || c == '+' || c == '%' || c == '=' || c == ';') {</span>
+<span class="fc" id="L46">                sb.append('%');</span>
+<span class="fc" id="L47">                sb.append(Character.forDigit((char)((c &gt;&gt;&gt; 4) &amp; 0x0f), 16));</span>
+<span class="fc" id="L48">                sb.append(Character.forDigit((char)(c &amp; 0x0f), 16));</span>
+            } else {
+<span class="fc" id="L50">                sb.append(c);</span>
+            }
+        }
+<span class="fc" id="L53">        return sb.toString();</span>
+    }
+
+
+    /**
+     * Convert a cookie specification string into a JSONObject. The string
+     * must contain a name value pair separated by '='. The name and the value
+     * will be unescaped, possibly converting '+' and '%' sequences. The
+     * cookie properties may follow, separated by ';', also represented as
+     * name=value (except the Attribute properties like &quot;Secure&quot; or &quot;HttpOnly&quot;,
+     * which do not have a value. The value {@link Boolean#TRUE} will be used for these).
+     * The name will be stored under the key &quot;name&quot;, and the value will be
+     * stored under the key &quot;value&quot;. This method does not do checking or
+     * validation of the parameters. It only converts the cookie string into
+     * a JSONObject. All attribute names are converted to lower case keys in the
+     * JSONObject (HttpOnly =&amp;gt; httponly). If an attribute is specified more than
+     * once, only the value found closer to the end of the cookie-string is kept.
+     * @param string The cookie specification string.
+     * @return A JSONObject containing &quot;name&quot;, &quot;value&quot;, and possibly other
+     *  members.
+     * @throws JSONException If there is an error parsing the Cookie String.
+     * Cookie strings must have at least one '=' character and the 'name'
+     * portion of the cookie must not be blank.
+     */
+    public static JSONObject toJSONObject(String string) {
+<span class="fc" id="L78">        final JSONObject     jo = new JSONObject();</span>
+        String         name;
+        Object         value;
+        
+        
+<span class="fc" id="L83">        JSONTokener x = new JSONTokener(string);</span>
+        
+<span class="fc" id="L85">        name = unescape(x.nextTo('=').trim());</span>
+        //per RFC6265, if the name is blank, the cookie should be ignored.
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if(&quot;&quot;.equals(name)) {</span>
+<span class="fc" id="L88">            throw new JSONException(&quot;Cookies must have a 'name'&quot;);</span>
+        }
+<span class="fc" id="L90">        jo.put(&quot;name&quot;, name);</span>
+        // per RFC6265, if there is no '=', the cookie should be ignored.
+        // the 'next' call here throws an exception if the '=' is not found.
+<span class="fc" id="L93">        x.next('=');</span>
+<span class="fc" id="L94">        jo.put(&quot;value&quot;, unescape(x.nextTo(';')).trim());</span>
+        // discard the ';'
+<span class="fc" id="L96">        x.next();</span>
+        // parse the remaining cookie attributes
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        while (x.more()) {</span>
+<span class="fc" id="L99">            name = unescape(x.nextTo(&quot;=;&quot;)).trim().toLowerCase(Locale.ROOT);</span>
+            // don't allow a cookies attributes to overwrite its name or value.
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">            if(&quot;name&quot;.equalsIgnoreCase(name)) {</span>
+<span class="nc" id="L102">                throw new JSONException(&quot;Illegal attribute name: 'name'&quot;);</span>
+            }
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">            if(&quot;value&quot;.equalsIgnoreCase(name)) {</span>
+<span class="nc" id="L105">                throw new JSONException(&quot;Illegal attribute name: 'value'&quot;);</span>
+            }
+            // check to see if it's a flag property
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            if (x.next() != '=') {</span>
+<span class="fc" id="L109">                value = Boolean.TRUE;</span>
+            } else {
+<span class="fc" id="L111">                value = unescape(x.nextTo(';')).trim();</span>
+<span class="fc" id="L112">                x.next();</span>
+            }
+            // only store non-blank attributes
+<span class="pc bpc" id="L115" title="2 of 4 branches missed.">            if(!&quot;&quot;.equals(name) &amp;&amp; !&quot;&quot;.equals(value)) {</span>
+<span class="fc" id="L116">                jo.put(name, value);</span>
+            }
+        }
+<span class="fc" id="L119">        return jo;</span>
+    }
+
+
+    /**
+     * Convert a JSONObject into a cookie specification string. The JSONObject
+     * must contain &quot;name&quot; and &quot;value&quot; members (case insensitive).
+     * If the JSONObject contains other members, they will be appended to the cookie
+     * specification string. User-Agents are instructed to ignore unknown attributes,
+     * so ensure your JSONObject is using only known attributes.
+     * See also: &lt;a href=&quot;https://tools.ietf.org/html/rfc6265&quot;&gt;https://tools.ietf.org/html/rfc6265&lt;/a&gt;
+     * @param jo A JSONObject
+     * @return A cookie specification string
+     * @throws JSONException thrown if the cookie has no name.
+     */
+    public static String toString(JSONObject jo) throws JSONException {
+<span class="fc" id="L135">        StringBuilder sb = new StringBuilder();</span>
+        
+<span class="fc" id="L137">        String name = null;</span>
+<span class="fc" id="L138">        Object value = null;</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        for(String key : jo.keySet()){</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            if(&quot;name&quot;.equalsIgnoreCase(key)) {</span>
+<span class="fc" id="L141">                name = jo.getString(key).trim();</span>
+            }
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            if(&quot;value&quot;.equalsIgnoreCase(key)) {</span>
+<span class="fc" id="L144">                value=jo.getString(key).trim();</span>
+            }
+<span class="fc bfc" id="L146" title="All 4 branches covered.">            if(name != null &amp;&amp; value != null) {</span>
+<span class="fc" id="L147">                break;</span>
+            }
+<span class="fc" id="L149">        }</span>
+        
+<span class="pc bpc" id="L151" title="2 of 4 branches missed.">        if(name == null || &quot;&quot;.equals(name.trim())) {</span>
+<span class="nc" id="L152">            throw new JSONException(&quot;Cookie does not have a name&quot;);</span>
+        }
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if(value == null) {</span>
+<span class="nc" id="L155">            value = &quot;&quot;;</span>
+        }
+        
+<span class="fc" id="L158">        sb.append(escape(name));</span>
+<span class="fc" id="L159">        sb.append(&quot;=&quot;);</span>
+<span class="fc" id="L160">        sb.append(escape((String)value));</span>
+        
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        for(String key : jo.keySet()){</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            if(&quot;name&quot;.equalsIgnoreCase(key)</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                    || &quot;value&quot;.equalsIgnoreCase(key)) {</span>
+                // already processed above
+<span class="fc" id="L166">                continue;</span>
+            }
+<span class="fc" id="L168">            value = jo.opt(key);</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">            if(value instanceof Boolean) {</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">                if(Boolean.TRUE.equals(value)) {</span>
+<span class="fc" id="L171">                    sb.append(';').append(escape(key));</span>
+                }
+                // don't emit false values
+            } else {
+<span class="fc" id="L175">                sb.append(';')</span>
+<span class="fc" id="L176">                    .append(escape(key))</span>
+<span class="fc" id="L177">                    .append('=')</span>
+<span class="fc" id="L178">                    .append(escape(value.toString()));</span>
+            }
+<span class="fc" id="L180">        }</span>
+        
+<span class="fc" id="L182">        return sb.toString();</span>
+    }
+
+    /**
+     * Convert &lt;code&gt;%&lt;/code&gt;&lt;i&gt;hh&lt;/i&gt; sequences to single characters, and
+     * convert plus to space.
+     * @param string A string that may contain
+     *      &lt;code&gt;+&lt;/code&gt;&amp;nbsp;&lt;small&gt;(plus)&lt;/small&gt; and
+     *      &lt;code&gt;%&lt;/code&gt;&lt;i&gt;hh&lt;/i&gt; sequences.
+     * @return The unescaped string.
+     */
+    public static String unescape(String string) {
+<span class="fc" id="L194">        int length = string.length();</span>
+<span class="fc" id="L195">        StringBuilder sb = new StringBuilder(length);</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        for (int i = 0; i &lt; length; ++i) {</span>
+<span class="fc" id="L197">            char c = string.charAt(i);</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (c == '+') {</span>
+<span class="fc" id="L199">                c = ' ';</span>
+<span class="pc bpc" id="L200" title="1 of 4 branches missed.">            } else if (c == '%' &amp;&amp; i + 2 &lt; length) {</span>
+<span class="fc" id="L201">                int d = JSONTokener.dehexchar(string.charAt(i + 1));</span>
+<span class="fc" id="L202">                int e = JSONTokener.dehexchar(string.charAt(i + 2));</span>
+<span class="pc bpc" id="L203" title="2 of 4 branches missed.">                if (d &gt;= 0 &amp;&amp; e &gt;= 0) {</span>
+<span class="fc" id="L204">                    c = (char)(d * 16 + e);</span>
+<span class="fc" id="L205">                    i += 2;</span>
+                }
+            }
+<span class="fc" id="L208">            sb.append(c);</span>
+        }
+<span class="fc" id="L210">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

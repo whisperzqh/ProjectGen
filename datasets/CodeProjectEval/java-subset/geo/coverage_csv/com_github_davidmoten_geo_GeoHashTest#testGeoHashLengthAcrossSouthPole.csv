@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+geo,com.github.davidmoten.geo.util,Preconditions,19,0,4,0,6,0,4,0,2,0
+geo,com.github.davidmoten.geo,GeoHash.HashWidths,20,0,2,0,5,0,3,0,2,0
+geo,com.github.davidmoten.geo,GeoHash.LongSet,67,0,6,0,13,0,5,0,2,0
+geo,com.github.davidmoten.geo,LatLong,99,0,10,0,21,0,12,0,7,0
+geo,com.github.davidmoten.geo,GeoHash,1044,248,118,8,193,44,92,8,30,7
+geo,com.github.davidmoten.geo,Direction,17,27,6,0,7,2,4,1,1,1
+geo,com.github.davidmoten.geo,Coverage,82,0,4,0,16,0,8,0,6,0
+geo,com.github.davidmoten.geo,GeoHash.HashHeights,20,0,2,0,5,0,3,0,2,0
+geo,com.github.davidmoten.geo,Parity,0,15,0,0,0,2,0,1,0,1
+geo,com.github.davidmoten.geo,Base32,340,0,22,0,43,0,17,0,6,0
+geo,com.github.davidmoten.geo,CoverageLongs,63,0,2,0,14,0,7,0,6,0

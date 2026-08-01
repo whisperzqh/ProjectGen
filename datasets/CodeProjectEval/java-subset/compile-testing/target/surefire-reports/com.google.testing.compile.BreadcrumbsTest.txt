@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.google.testing.compile.BreadcrumbsTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.755 s -- in com.google.testing.compile.BreadcrumbsTest

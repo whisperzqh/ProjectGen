@@ -1,0 +1,752 @@
+test_name,coverage
+org_json_junit_JSONMLTest#testToJSONObject_reversibility,0.201933
+org_json_junit_JSONMLTest#toJSONObjectToJSONArray,0.198934
+org_json_junit_XMLConfigurationTest#contentOperations,0.183605
+org_json_junit_XMLTest#contentOperations,0.183605
+org_json_junit_XMLTest#testIndentComplicatedJsonObjectWithArrayAndWithConfig,0.181939
+org_json_junit_XMLTest#testIndentComplicatedJsonObject,0.168277
+org_json_junit_XMLTest#shouldHandleNestedArraytoString,0.159613
+org_json_junit_XMLConfigurationTest#shouldHandleNestedArraytoString,0.159280
+org_json_junit_JSONMLTest#toJSONArray,0.155948
+org_json_junit_XMLTest#testToJsonXML,0.152283
+org_json_junit_XMLTest#testIndentSimpleJsonObject,0.151949
+org_json_junit_XMLConfigurationTest#testToJsonXML,0.151616
+org_json_junit_XMLTest#testIndentSimpleJsonArray,0.149284
+org_json_junit_XMLConfigurationTest#testToJSONArray_jsonOutput_withKeepBooleanAsString,0.146951
+org_json_junit_JSONStringerTest#complexObjectString,0.144952
+org_json_junit_XMLTest#shouldHandleToString,0.144952
+org_json_junit_XMLTest#testToJSONArray_jsonOutput,0.144618
+org_json_junit_XMLConfigurationTest#shouldHandleSimpleXML,0.144618
+org_json_junit_XMLConfigurationTest#shouldHandleToString,0.144285
+org_json_junit_XMLConfigurationTest#testToJSONArray_jsonOutput,0.143952
+org_json_junit_XMLTest#shouldHandleSimpleXML,0.143952
+org_json_junit_XMLTest#testIssue537CaseSensitiveHexEscapeFullFile,0.141619
+org_json_junit_XMLConfigurationTest#testToJSONArray_jsonOutput_withKeepNumberAsString,0.141286
+org_json_junit_JSONMLTest#testToJSONArray_reversibility2,0.137621
+org_json_junit_JSONObjectTest#jsonObjectPut,0.135955
+org_json_junit_XMLConfigurationTest#testToJSONArray_jsonOutput_null_withKeepString,0.131290
+org_json_junit_XMLTest#shouldNotCreateExplicitEndTagWithEmptyValueWhenNotConfigured,0.130623
+org_json_junit_XMLTest#shouldCreateExplicitEndTagWithEmptyValueWhenConfigured,0.129957
+org_json_junit_JSONObjectTest#bigNumberOperations,0.128291
+org_json_junit_XMLTest#shouldTrimWhitespaceDoesNotSupportTagsEqualingCDataTagName,0.127624
+org_json_junit_JSONObjectTest#valueToString,0.127291
+org_json_junit_XMLTest#testToJsonWithXSITypeWhenTypeConversionNotEnabledOnOne,0.126291
+org_json_junit_XMLConfigurationTest#testConfig,0.125292
+org_json_junit_XMLTest#testToJsonWithTypeWhenTypeConversionDisabled,0.124625
+org_json_junit_JSONMLTest#testToJSONArray_jsonOutput,0.123625
+org_json_junit_JSONArrayTest#putIndex,0.123625
+org_json_junit_XMLTest#testToJSONArray_reversibility,0.122959
+org_json_junit_XMLConfigurationTest#testToJSONArray_reversibility,0.121959
+org_json_junit_JSONMLTest#commentsInXML,0.121626
+org_json_junit_JSONStringerTest#simpleObjectString,0.118960
+org_json_junit_JSONArrayTest#put,0.118294
+org_json_junit_XMLTest#testToJsonWithXSITypeWhenTypeConversionEnabled,0.117961
+org_json_junit_XMLTest#testToJsonWithTypeWhenTypeConversionEnabled,0.117961
+org_json_junit_XMLConfigurationTest#testLongForceList,0.117627
+org_json_junit_XMLConfigurationTest#testSimpleForceList,0.117294
+org_json_junit_JSONMLTest#testToJSONArray_reversibility,0.117294
+org_json_junit_XMLTest#testNestedWithWhitespaceTrimmingDisabled,0.116961
+org_json_junit_JSONArrayTest#join,0.115628
+org_json_junit_XMLTest#shouldHandleNoStartTag,0.115295
+org_json_junit_XMLConfigurationTest#shouldHandleNoStartTag,0.114962
+org_json_junit_XMLConfigurationTest#testMultipleTagForceList,0.114962
+org_json_junit_XMLConfigurationTest#shouldHandleCommentsInXML,0.113962
+org_json_junit_XMLTest#testXmlEscapeToJson,0.113962
+org_json_junit_JSONMLTest#testToJSONArray_reversibility3,0.113962
+org_json_junit_XMLTest#shouldHandleCommentsInXML,0.113296
+org_json_junit_JSONObjectTest#jsonObjectToString,0.112629
+org_json_junit_JSONObjectTest#wrapObject,0.110297
+org_json_junit_XMLConfigurationTest#testContentForceList,0.109630
+org_json_junit_XMLTest#testIssue537CaseSensitiveHexEscapeMinimal,0.107631
+org_json_junit_JSONArrayTest#jsonArrayToStringIndent,0.106631
+org_json_junit_JSONObjectTest#jsonObjectToStringIndent,0.106631
+org_json_junit_XMLTest#testUnescape,0.105965
+org_json_junit_XMLConfigurationTest#testUnescape,0.105631
+org_json_junit_XMLTest#shouldTrimWhitespaceEnabledDropsTagsEqualingCDataTagNameButValueRemains,0.105298
+org_json_junit_JSONStringerTest#simpleArrayString,0.105298
+org_json_junit_JSONArrayTest#write3Param,0.103965
+org_json_junit_XMLTest#testToJsonWithNullWhenNilConversionDisabled,0.100966
+org_json_junit_XMLTest#testToJsonWithNullWhenNilConversionEnabled,0.099967
+org_json_junit_JSONObjectTest#write3Param,0.099967
+org_json_junit_EnumTest#enumToString,0.099633
+org_json_junit_JSONObjectTest#jsonObjectValues,0.099300
+org_json_junit_CDLTest#textToJSONArrayAndBackToString,0.098634
+org_json_junit_XMLTest#testWithWhitespaceTrimmingDisabled,0.097967
+org_json_junit_JSONMLTest#invalidCDATABangInTagException,0.097967
+org_json_junit_CDLTest#textToJSONArrayAndBackToStringCustomDelimiter,0.097967
+org_json_junit_XMLTest#testWithWhitespaceTrimmingEnabled,0.097967
+org_json_junit_JSONObjectTest#jsonObjectOptDefault,0.097301
+org_json_junit_XMLTest#clarifyCurrentBehavior,0.097301
+org_json_junit_XMLTest#testWithWhitespaceTrimmingEnabledByDefault,0.096968
+org_json_junit_JSONArrayTest#write,0.096968
+org_json_junit_JSONObjectTest#jsonObjectIncrement,0.095968
+org_json_junit_JSONObjectTest#jsonObjectByNames,0.095635
+org_json_junit_JSONObjectTest#write,0.095302
+org_json_junit_JSONMLTest#invalidBangInTagException,0.094968
+org_json_junit_JSONMLTest#invalidBangNoCloseInTagException,0.094968
+org_json_junit_XMLConfigurationTest#shouldHandleInvalidCDATABangInTag,0.094635
+org_json_junit_JSONArrayTest#opt,0.093969
+org_json_junit_XMLTest#shouldHandleInvalidCDATABangInTag,0.093635
+org_json_junit_XMLTest#shouldHandleArraytoString,0.092969
+org_json_junit_XMLConfigurationTest#shouldHandleContentArraytoString,0.092636
+org_json_junit_XMLConfigurationTest#shouldHandleArraytoString,0.092636
+org_json_junit_XMLConfigurationTest#shouldHandleInvalidBangNoCloseInTag,0.091969
+org_json_junit_XMLTest#shouldHandleContentArraytoString,0.091969
+org_json_junit_XMLConfigurationTest#shouldHandleInvalidBangInTag,0.091969
+org_json_junit_XMLTest#shouldHandleInvalidBangInTag,0.091969
+org_json_junit_XMLTest#shouldHandleInvalidBangNoCloseInTag,0.091969
+org_json_junit_XMLTest#testMaxNestingDepthWithValidFittingXML,0.091636
+org_json_junit_XMLConfigurationTest#testEmptyForceList,0.090970
+org_json_junit_JSONPointerTest#uriFragmentNotation,0.089970
+org_json_junit_JSONPointerTest#objectPropertyQuery,0.089637
+org_json_junit_JSONObjectTest#jsonObjectNonAndWrongValues,0.086971
+org_json_junit_JSONMLTest#noCloseStartTagException,0.086638
+org_json_junit_JSONMLTest#noCloseEndTagException,0.086638
+org_json_junit_JSONMLTest#noCloseEndBraceException,0.086638
+org_json_junit_JSONMLTest#invalidSlashInTagException,0.086305
+org_json_junit_CookieTest#convertEncodedCookieToString,0.085638
+org_json_junit_XMLConfigurationTest#testEmptyTagForceList,0.085305
+org_json_junit_JSONObjectTest#verifyNumberOutput,0.084638
+org_json_junit_JSONMLTest#testToJSONObjectMaxNestingDepthWithValidFittingXML,0.083972
+org_json_junit_XMLTest#shouldHandleNoCloseStartTag,0.083639
+org_json_junit_XMLConfigurationTest#shouldHandleNoCloseStartTag,0.083639
+org_json_junit_JSONPointerTest#queryByEmptyKeySubObject,0.082972
+org_json_junit_JSONPointerTest#uriFragmentNotationRoot,0.082972
+org_json_junit_JSONObjectTest#jsonObjectByBean1,0.082972
+org_json_junit_JSONPointerTest#emptyPointer,0.082972
+org_json_junit_JSONPointerTest#optQueryFromJSONArrayUsingPointer,0.082306
+org_json_junit_JSONObjectTest#unexpectedDoubleToIntConversion,0.082306
+org_json_junit_JSONMLTest#testToJSONArrayMaxNestingDepthWithValidFittingXML,0.081973
+org_json_junit_JSONPointerTest#optQueryFromJSONObjectUsingPointer,0.081973
+org_json_junit_JSONPointerTest#queryFromJSONArray,0.081973
+org_json_junit_JSONPointerTest#queryFromJSONObject,0.081639
+org_json_junit_JSONPointerTest#queryFromJSONArrayUsingPointer,0.081639
+org_json_junit_JSONPointerTest#queryFromJSONObjectUsingPointer,0.081306
+org_json_junit_CookieTest#convertCookieToString,0.080640
+org_json_junit_XMLConfigurationTest#shouldHandleInvalidSlashInTag,0.080640
+org_json_junit_XMLTest#shouldHandleInvalidSlashInTag,0.080640
+org_json_junit_CDLTest#textToJSONArray,0.079973
+org_json_junit_JSONObjectTest#jsonObjectNames,0.079640
+org_json_junit_CDLTest#textToJSONArrayPipeDelimited,0.079640
+org_json_junit_JSONObjectTest#unquotedText,0.079640
+org_json_junit_JSONObjectTest#toMap,0.078974
+org_json_junit_JSONArrayTest#failedGetArrayValues,0.077974
+org_json_junit_JSONMLTest#testToJSONObjectUnlimitedNestingDepthIsPossible,0.077308
+org_json_junit_JSONArrayTest#getArrayValues,0.076974
+org_json_junit_JSONArrayTest#toList,0.076974
+org_json_junit_JSONPointerTest#arrayIndexQuery,0.076974
+org_json_junit_JSONPointerTest#arrayIndexFailure,0.076308
+org_json_junit_CDLTest#jsonArrayToJSONArray,0.075641
+org_json_junit_JSONParserConfigurationTest#shouldHandleNumericObject,0.075308
+org_json_junit_JSONMLTest#emptyTagException,0.074975
+org_json_junit_JSONPointerTest#stringPropOfArrayFailure,0.074975
+org_json_junit_JSONPointerTest#primitiveFailure,0.074642
+org_json_junit_JSONPointerTest#builderTest,0.074642
+org_json_junit_JSONPointerTest#queryFromJSONObjectUsingPointer0,0.074642
+org_json_junit_JSONObjectTest#verifyPutCollection,0.074642
+org_json_junit_JSONArrayTest#verifyPutMap,0.074309
+org_json_junit_EnumTest#jsonObjectFromEnum,0.074309
+org_json_junit_JSONMLTest#spaceInTagException,0.073642
+org_json_junit_JSONObjectTest#jsonObjectNamesToJsonAray,0.073642
+org_json_junit_JSONPointerTest#queryByEmptyKeySubObjectValue,0.073309
+org_json_junit_XMLTest#testJsonToXmlEscape,0.073309
+org_json_junit_CookieListTest#convertCookieListToString,0.072976
+org_json_junit_JSONPointerTest#queryByEmptyKeySubObjectSubOject,0.072642
+org_json_junit_JSONPointerTest#uriFragmentPercentHandling,0.072309
+org_json_junit_CDLTest#singleEscapedQuote,0.072309
+org_json_junit_HTTPTest#convertHTTPRequestToString,0.072309
+org_json_junit_JSONPointerTest#backslashHandling,0.071976
+org_json_junit_JSONPointerTest#slashEscaping,0.071976
+org_json_junit_JSONPointerTest#quotationHandling,0.071976
+org_json_junit_JSONPointerTest#whitespaceKey,0.071976
+org_json_junit_JSONPointerTest#tildeEscaping,0.071976
+org_json_junit_JSONPointerTest#queryByEmptyKey,0.071310
+org_json_junit_JSONPointerTest#toURIFragment,0.071310
+org_json_junit_EnumTest#wrap,0.070643
+org_json_junit_JSONParserConfigurationTest#givenCompliantJSONArrayFile_testStrictModeTrue_shouldNotThrowAnyException,0.070643
+org_json_junit_CDLTest#singleEscapedQuoteMiddleString,0.070643
+org_json_junit_JSONPointerTest#toStringEscaping,0.070310
+org_json_junit_JSONArrayTest#notSimilar,0.069643
+org_json_junit_HTTPTest#convertHTTPResponseToString,0.069643
+org_json_junit_JSONPointerTest#tokenListIsCopiedInConstructor,0.069643
+org_json_junit_JSONObjectTest#verifySimilar,0.069310
+org_json_junit_XMLConfigurationTest#shouldHandleContentNoArraytoString,0.068644
+org_json_junit_JSONParserConfigurationTest#givenValidNestedObject_testStrictModeTrue_shouldNotThrowJsonException,0.068644
+org_json_junit_JSONObjectTest#jsonObjectOptNoKey,0.068311
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObjects_testStrictModeTrue_shouldThrowJsonException,0.067977
+org_json_junit_CookieListTest#convertEncodedCookieListToString,0.067977
+org_json_junit_XMLTest#shouldHandleContentNoArraytoString,0.067977
+org_json_junit_JSONParserConfigurationTest#givenValidEmptyArrayInsideObject_testStrictModeTrue_shouldNotThrowJsonException,0.067644
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputArrays_testStrictModeFalse_shouldNotThrowAnyException,0.067311
+org_json_junit_JSONObjectTest#jsonObjectByMapWithUnsupportedValues,0.066978
+org_json_junit_CookieTest#multiPartCookie,0.066978
+org_json_junit_JSONArrayTest#length,0.066978
+org_json_junit_JSONParserConfigurationTest#givenInvalidInput_testStrictModeTrue_shouldThrowJsonException,0.066978
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObjects_testStrictModeFalse_shouldNotThrowAnyException,0.066311
+org_json_junit_JSONPointerTest#emptyPointerToString,0.066311
+org_json_junit_JSONParserConfigurationTest#givenCompliantJSONObjectFile_testStrictModeTrue_shouldNotThrowAnyException,0.066311
+org_json_junit_JSONMLTest#testToJSONObjectMaxNestingDepthIsRespectedWithValidXML,0.066311
+org_json_junit_JSONObjectTest#jsonObjectOptStringConversion,0.066311
+org_json_junit_JSONParserConfigurationTest#allowNullObjectInStrictMode,0.065978
+org_json_junit_JSONTokenerTest#testInvalidInput_JSONObject_withoutStrictModel_shouldParseInput,0.065978
+org_json_junit_JSONParserConfigurationTest#givenValidEmptyArrayInsideObject_testStrictModeFalse_shouldNotThrowJsonException,0.065978
+org_json_junit_JSONPointerTest#syntaxError,0.065645
+org_json_junit_JSONPointerTest#nullToken,0.065645
+org_json_junit_JSONTokenerTest#testValid,0.064978
+org_json_junit_JSONMLTest#testToJSONArrayMaxNestingDepthIsRespectedWithValidXML,0.064978
+org_json_junit_JSONPointerTest#nullPointer,0.064645
+org_json_junit_CookieListTest#multiPartCookieList,0.064645
+org_json_junit_JSONMLTest#testToJSONObjectMaxNestingDepthOf42IsRespected,0.064312
+org_json_junit_JSONArrayTest#iteratorTest,0.063979
+org_json_junit_JSONObjectTest#verifyPutMap,0.063979
+org_json_junit_JSONMLTest#testToJSONArrayMaxNestingDepthOf42IsRespected,0.062979
+org_json_junit_JSONObjectTest#testObjectToBigDecimal,0.062979
+org_json_junit_JSONMLTest#testToJSONObjectMaxDefaultNestingDepthIsRespected,0.062646
+org_json_junit_XMLTest#testMaxNestingDepthIsRespectedWithValidXML,0.062313
+org_json_junit_JSONStringTest#valuesToString,0.061979
+org_json_junit_JSONObjectTest#jsonObjectAccumulate,0.061646
+org_json_junit_JSONObjectTest#clarifyCurrentBehavior,0.061313
+org_json_junit_JSONObjectTest#verifyConstructor,0.061313
+org_json_junit_CookieListTest#simpleCookieList,0.060980
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_shouldThrowInvalidCharacterErrorMessage,0.060646
+org_json_junit_JSONMLTest#testIssue484InfinteLoop2,0.060646
+org_json_junit_JSONObjectTest#jsonObjectAppend,0.060646
+org_json_junit_JSONObjectTest#jsonInvalidNumberValues,0.060313
+org_json_junit_XMLTest#testMaxNestingDepthOf42IsRespected,0.060313
+org_json_junit_CookieListTest#simpleCookieListWithDelimiter,0.060313
+org_json_junit_HTTPTest#extendedHTTPRequest,0.059980
+org_json_junit_HTTPTest#extendedHTTPResponse,0.059647
+org_json_junit_JSONMLTest#testIssue484InfinteLoop1,0.059314
+org_json_junit_JSONObjectTest#jsonObjectOptCoercion,0.058980
+org_json_junit_JSONParserConfigurationTest#shouldHandleNumericArray,0.058314
+org_json_junit_JSONStringTest#writeValues,0.058314
+org_json_junit_JSONArrayTest#optStringConversion,0.057647
+org_json_junit_JSONObjectTest#parsingErrorIncrementWrongValue,0.057314
+org_json_junit_JSONObjectTest#parsingErrorAppendToWrongValue,0.056981
+org_json_junit_JSONArrayTest#verifyPutCollection,0.056315
+org_json_junit_XMLTest#shouldHandleMultiArray,0.056315
+org_json_junit_XMLConfigurationTest#shouldHandleMultiArray,0.055981
+org_json_junit_XMLTest#shouldHandleEmptyMultiArray,0.055648
+org_json_junit_JSONObjectTest#jsonValidNumberValuesNeitherLongNorIEEE754Compatible,0.055648
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[6: {"value":-50}],0.055315
+org_json_junit_XMLConfigurationTest#shouldHandleEmptyMultiArray,0.055315
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[6: {"value":-50}],0.054982
+org_json_junit_CookieTest#simpleCookie,0.054982
+org_json_junit_JSONObjectTest#jsonObjectToStringSuppressWarningOnCastToCollection,0.054982
+org_json_junit_EnumTest#enumPut,0.054648
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[0: {"value":50}],0.054315
+org_json_junit_HTTPTest#simpleHTTPResponse,0.054315
+org_json_junit_EnumTest#verifyEnumConsistency,0.053982
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[0: {"value":50}],0.053982
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputArray_testStrictModeFalse_shouldNotThrowAnyException,0.053649
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[6: {"value":-50}],0.053316
+org_json_junit_JSONArrayTest#verifyConstructor,0.053316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[6: {"value":-50}],0.053316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[6: {"value":-50}],0.053316
+org_json_junit_JSONObjectNumberTest#testOptFloat[6: {"value":-50}],0.053316
+org_json_junit_JSONObjectNumberTest#testOptDouble[6: {"value":-50}],0.053316
+org_json_junit_JSONObjectNumberTest#testOptLongObject[6: {"value":-50}],0.052982
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[6: {"value":-50}],0.052982
+org_json_junit_JSONObjectNumberTest#testOptInt[6: {"value":-50}],0.052982
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[6: {"value":-50}],0.052982
+org_json_junit_JSONObjectNumberTest#testOptLong[6: {"value":-50}],0.052982
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[4: {"value":5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[10: {"value":-5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetNumber[6: {"value":-50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[1: {"value":50_0}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[8: {"value":-5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[9: {"value":-5E1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[10: {"value":-5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testOptFloat[0: {"value":50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[4: {"value":5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetLong[6: {"value":-50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetInt[6: {"value":-50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[7: {"value":-50_0}],0.052316
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[0: {"value":50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetFloat[6: {"value":-50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[3: {"value":5E1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[9: {"value":-5E1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[2: {"value":5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[0: {"value":50}],0.052316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[0: {"value":50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[7: {"value":-50_0}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[3: {"value":5E1}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[1: {"value":50_0}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[2: {"value":5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testOptDouble[0: {"value":50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetDouble[6: {"value":-50}],0.052316
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[8: {"value":-5e1}],0.052316
+org_json_junit_JSONObjectNumberTest#testOptLong[0: {"value":50}],0.051983
+org_json_junit_JSONObjectNumberTest#testOptNumber[6: {"value":-50}],0.051983
+org_json_junit_JSONObjectNumberTest#testOptInt[0: {"value":50}],0.051983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[0: {"value":50}],0.051983
+org_json_junit_JSONObjectTest#jsonObjectByMapWithNullValue,0.051983
+org_json_junit_JSONParserConfigurationTest#givenValidNestedArray_testStrictModeTrue_shouldNotThrowJsonException,0.051983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[0: {"value":50}],0.051983
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[0: {"value":50}],0.051983
+org_json_junit_JSONObjectTest#jsonObjectByMap,0.051649
+org_json_junit_HTTPTest#simpleHTTPRequest,0.051649
+org_json_junit_JSONObjectNumberTest#testGetFloat[0: {"value":50}],0.051316
+org_json_junit_JSONObjectNumberTest#testGetNumber[0: {"value":50}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[2: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[3: {"value":5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[3: {"value":5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[8: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[1: {"value":50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[7: {"value":-50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[7: {"value":-50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[10: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[7: {"value":-50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[3: {"value":5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[4: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[2: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[4: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[10: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[1: {"value":50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[2: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[2: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testGetLong[0: {"value":50}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[9: {"value":-5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[4: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[8: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[1: {"value":50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[8: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[8: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[3: {"value":5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[10: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[1: {"value":50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[9: {"value":-5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testGetInt[0: {"value":50}],0.051316
+org_json_junit_JSONObjectNumberTest#testGetDouble[0: {"value":50}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[4: {"value":5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloat[9: {"value":-5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[10: {"value":-5e1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptDouble[7: {"value":-50_0}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[9: {"value":-5E1}],0.051316
+org_json_junit_JSONObjectNumberTest#testOptInt[1: {"value":50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptNumber[0: {"value":50}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[2: {"value":5e1}],0.050983
+org_json_junit_HTTPTest#emptyStringHTTPRequest,0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[4: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[3: {"value":5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[1: {"value":50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[10: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[3: {"value":5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[2: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[4: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[7: {"value":-50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[8: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[7: {"value":-50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[1: {"value":50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[10: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[2: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[3: {"value":5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[2: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[9: {"value":-5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[4: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[10: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[9: {"value":-5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[8: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[8: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[9: {"value":-5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[7: {"value":-50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[9: {"value":-5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[4: {"value":5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[8: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[1: {"value":50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLongObject[3: {"value":5E1}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptLong[7: {"value":-50_0}],0.050983
+org_json_junit_JSONObjectNumberTest#testOptInt[10: {"value":-5e1}],0.050983
+org_json_junit_JSONObjectTest#issue654StackOverflowInput,0.050983
+org_json_junit_CDLTest#emptyLinesToJSONArray,0.050650
+org_json_junit_JSONTokenerTest#testErrors,0.050650
+org_json_junit_XMLTest#shouldHandleNonEmptyArray,0.050650
+org_json_junit_JSONObjectNumberTest#testGetInt[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectTest#parsingErrorKeyIsNestedArrayWithMap,0.050317
+org_json_junit_XMLConfigurationTest#shouldHandleNonEmptyArray,0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[8: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[10: {"value":-5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[9: {"value":-5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetInt[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[4: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetDouble[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetLong[1: {"value":50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetNumber[2: {"value":5e1}],0.050317
+org_json_junit_JSONObjectNumberTest#testGetFloat[3: {"value":5E1}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[7: {"value":-50_0}],0.050317
+org_json_junit_JSONObjectNumberTest#testOptNumber[1: {"value":50_0}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[2: {"value":5e1}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[8: {"value":-5e1}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[4: {"value":5e1}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[10: {"value":-5e1}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[3: {"value":5E1}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[9: {"value":-5E1}],0.049983
+org_json_junit_JSONObjectNumberTest#testOptNumber[7: {"value":-50_0}],0.049983
+org_json_junit_JSONObjectTest#parsingErrorDuplicateKeyDoubleNestedWithinArrayExceptionMessage,0.049650
+org_json_junit_JSONObjectTest#parsingErrorDuplicateKeyWithinArrayExceptionMessage,0.049650
+org_json_junit_JSONArrayTest#testJSONArrayConstructor,0.049317
+org_json_junit_CDLTest#csvParsingCatchesLastRow,0.049317
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObjectWithNumericStrings_testStrictModeTrue_shouldThrowInvalidCharacterErrorMessage,0.048650
+org_json_junit_JSONObjectTest#jsonObjectByResourceBundle,0.048650
+org_json_junit_JSONArrayTest#testJSONArrayPutAll,0.048650
+org_json_junit_JSONParserConfigurationTest#allowNullArrayInStrictMode,0.048317
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputArray_testStrictModeTrue_shouldThrowValueNotSurroundedByQuotesErrorMessage,0.047984
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeFalse_shouldNotThrowAnyException,0.047651
+org_json_junit_JSONObjectTest#parsingErrorInvalidKey,0.046984
+org_json_junit_JSONObjectTest#jsonObjectNullOperations,0.046984
+org_json_junit_JSONTokenerTest#testInvalidInput_JSONArray_withoutStrictModel_shouldParseInput,0.046984
+org_json_junit_JSONObjectTest#jsonObjectByObjectAndNames,0.045985
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputArray_testStrictModeTrue_shouldThrowInvalidCharacterErrorMessage,0.045985
+org_json_junit_JSONObjectTest#jsonObjectToStringSuppressWarningOnCastToMap,0.045985
+org_json_junit_JSONObjectTest#testIssue548ObjectWithEmptyJsonArray,0.045651
+org_json_junit_JSONArrayTest#unquotedText,0.045318
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_7,0.045318
+org_json_junit_JSONMLTest#nonXMLException,0.044985
+org_json_junit_XMLTest#shouldHandleNonXML,0.044652
+org_json_junit_JSONObjectTest#testGenericIntBean,0.044652
+org_json_junit_JSONParserConfigurationTest#testOverwrite,0.044652
+org_json_junit_JSONArrayTest#objectArrayVsIsArray,0.044652
+org_json_junit_XMLConfigurationTest#shouldHandleNonXML,0.044319
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_shouldThrowValueNotSurroundedByQuotesErrorMessage,0.043652
+org_json_junit_EnumTest#jsonObjectFromEnumWithNames,0.042986
+org_json_junit_JSONParserConfigurationTest#givenValidEmptyArrayInsideArray_testStrictModeTrue_shouldNotThrowJsonException,0.042652
+org_json_junit_JSONObjectTest#parsingErrorKeyContainsBinaryZero,0.042652
+org_json_junit_JSONObjectTest#test_strictModeWithInappropriateKey,0.042319
+org_json_junit_JSONObjectRecordTest#genericBeanWithGetAndIsMethodsShouldNotBeIncluded,0.042319
+org_json_junit_JSONObjectTest#testRecursiveEquals,0.042319
+org_json_junit_JSONArrayTest#remove,0.042319
+org_json_junit_JSONObjectTest#test_strictModeWithMisCasedBooleanOrNullValue,0.041986
+org_json_junit_JSONParserConfigurationTest#givenInvalidStringObject_testStrictModeTrue_shouldThrowJsonException,0.041653
+org_json_junit_JSONObjectTest#jsonObjectByBean3,0.041653
+org_json_junit_JSONParserConfigurationTest#givenValidEmptyArrayInsideArray_testStrictModeFalse_shouldNotThrowJsonException,0.041653
+org_json_junit_JSONObjectTest#testLongRecursiveObject,0.041320
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[11: {"value":"-50"}],0.041320
+org_json_junit_JSONObjectTest#testLongSelfRecursiveObject,0.041320
+org_json_junit_JSONObjectNumberTest#testOptDouble[11: {"value":"-50"}],0.041320
+org_json_junit_XMLTest#shouldHandleIllegalJSONNodeNames,0.041320
+org_json_junit_XMLTokenerTest#testNextCDATA,0.041320
+org_json_junit_JSONObjectTest#testSimpleRecursiveObject,0.041320
+org_json_junit_JSONObjectNumberTest#testOptFloat[11: {"value":"-50"}],0.041320
+org_json_junit_JSONObjectTest#testSelfRecursiveObject,0.041320
+org_json_junit_JSONObjectTest#testRepeatObjectRecursive,0.041320
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[11: {"value":"-50"}],0.041320
+org_json_junit_JSONObjectNumberTest#testOptInt[11: {"value":"-50"}],0.040986
+org_json_junit_JSONObjectTest#testWierdListBean,0.040986
+org_json_junit_XMLConfigurationTest#shouldHandleIllegalJSONNodeNames,0.040986
+org_json_junit_JSONObjectNumberTest#testOptLong[11: {"value":"-50"}],0.040986
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[11: {"value":"-50"}],0.040986
+org_json_junit_JSONObjectNumberTest#testOptLongObject[11: {"value":"-50"}],0.040986
+org_json_junit_JSONObjectTest#parsingErrorNoCommaSeparator,0.040653
+org_json_junit_JSONObjectTest#testExceptionalBean,0.040653
+org_json_junit_JSONObjectTest#jsonObjectParseControlCharacters,0.040653
+org_json_junit_JSONObjectTest#testGenericBean,0.040653
+org_json_junit_JSONObjectNumberTest#testOptDoubleObject[5: {"value":"50"}],0.040320
+org_json_junit_JSONObjectNumberTest#testOptFloatObject[5: {"value":"50"}],0.040320
+org_json_junit_JSONObjectNumberTest#testOptDouble[5: {"value":"50"}],0.040320
+org_json_junit_JSONObjectTest#parsingErrorDuplicateKeyNestedWithArrayExceptionMessage,0.040320
+org_json_junit_JSONObjectNumberTest#testOptFloat[5: {"value":"50"}],0.040320
+org_json_junit_JSONObjectTest#parsingErrorDuplicateKeyDoubleNestedDictExceptionMessage,0.040320
+org_json_junit_JSONObjectTest#parsingErrorDuplicateKeyWithinNestedDictExceptionMessage,0.040320
+org_json_junit_JSONObjectNumberTest#testGetNumber[11: {"value":"-50"}],0.040320
+org_json_junit_JSONObjectNumberTest#testOptIntegerObject[5: {"value":"50"}],0.039987
+org_json_junit_JSONObjectTest#parsingErrorDuplicateKeyException,0.039987
+org_json_junit_JSONObjectTest#parsingErrorNestedDuplicateKeyWithArrayException,0.039987
+org_json_junit_JSONObjectNumberTest#testOptLong[5: {"value":"50"}],0.039987
+org_json_junit_JSONObjectNumberTest#testOptNumber[11: {"value":"-50"}],0.039987
+org_json_junit_JSONObjectNumberTest#testOptInt[5: {"value":"50"}],0.039987
+org_json_junit_JSONObjectNumberTest#testOptLongObject[5: {"value":"50"}],0.039987
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputArray_testStrictModeTrue_shouldThrowKeyNotSurroundedByQuotesErrorMessage,0.039987
+org_json_junit_JSONObjectTest#parsingErrorNestedDuplicateKeyException,0.039987
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[5: {"value":"50"}],0.039320
+org_json_junit_JSONObjectNumberTest#testGetBigInteger[11: {"value":"-50"}],0.039320
+org_json_junit_JSONObjectTest#jsonObjectByBean2,0.039320
+org_json_junit_JSONObjectTest#testSingletonEnumBean,0.039320
+org_json_junit_JSONObjectNumberTest#testGetNumber[5: {"value":"50"}],0.039320
+org_json_junit_CookieTest#booleanAttribute,0.038987
+org_json_junit_JSONObjectNumberTest#testOptNumber[5: {"value":"50"}],0.038987
+org_json_junit_JSONParserConfigurationTest#testThrowException,0.038654
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[5: {"value":"50"}],0.038321
+org_json_junit_JSONObjectNumberTest#testGetBigDecimal[11: {"value":"-50"}],0.038321
+org_json_junit_JSONObjectTest#testLongRepeatObjectNotRecursive,0.037987
+org_json_junit_JSONObjectTest#testNotRecursiveEquals,0.037987
+org_json_junit_JSONObjectTest#testRepeatObjectNotRecursive,0.037987
+org_json_junit_XMLTest#shouldHandleEmptyArray,0.037987
+org_json_junit_XMLConfigurationTest#shouldHandleEmptyArray,0.037654
+org_json_junit_JSONObjectTest#issue713BeanConstructorWithNonFiniteNumbers,0.037321
+org_json_junit_JSONObjectTest#testJSONWriterException,0.037321
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[5: {"value":"50"}],0.037321
+org_json_junit_JSONObjectNumberTest#testOptBigInteger[11: {"value":"-50"}],0.037321
+org_json_junit_CDLTest#unbalancedEscapedQuote,0.036988
+org_json_junit_XMLTokenerTest#testSkipPast,0.036988
+org_json_junit_XMLTokenerTest#testNextContentWithText,0.036988
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_JSONObjectUsingJSONTokener_shouldThrowJSONException,0.036654
+org_json_junit_CDLTest#badEscapedQuote,0.036654
+org_json_junit_JSONParserConfigurationTest#givenInvalidStringArray_testStrictModeTrue_shouldThrowJsonException,0.036654
+org_json_junit_JSONObjectTest#testStrictModeJSONTokener_expectException,0.036321
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[5: {"value":"50"}],0.036321
+org_json_junit_JSONObjectRecordTest#numberSubclassesShouldNotIncludeNumberMethods,0.036321
+org_json_junit_JSONObjectNumberTest#testOptBigDecimal[11: {"value":"-50"}],0.036321
+org_json_junit_CDLTest#unbalancedQuoteInValue,0.036321
+org_json_junit_JSONParserConfigurationTest#givenNonCompliantQuotesArray_testStrictModeTrue_shouldThrowJsonExceptionWithConcreteErrorDescription,0.035988
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_JSONObjectUsingString_shouldThrowJSONException,0.035988
+org_json_junit_JSONObjectNumberTest#testGetDouble[5: {"value":"50"}],0.035322
+org_json_junit_JSONObjectNumberTest#testGetInt[5: {"value":"50"}],0.035322
+org_json_junit_JSONObjectNumberTest#testGetFloat[11: {"value":"-50"}],0.035322
+org_json_junit_JSONObjectNumberTest#testGetLong[5: {"value":"50"}],0.035322
+org_json_junit_JSONObjectNumberTest#testGetInt[11: {"value":"-50"}],0.035322
+org_json_junit_JSONObjectNumberTest#testGetDouble[11: {"value":"-50"}],0.035322
+org_json_junit_XMLTest#shouldHandleNullNodeValue,0.035322
+org_json_junit_JSONObjectNumberTest#testGetLong[11: {"value":"-50"}],0.035322
+org_json_junit_JSONObjectNumberTest#testGetFloat[5: {"value":"50"}],0.035322
+org_json_junit_CDLTest#checkSpecialChars,0.034988
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputArrayWithNumericStrings_testStrictModeTrue_shouldThrowInvalidCharacterErrorMessage,0.034988
+org_json_junit_XMLConfigurationTest#shouldHandleNullNodeValue,0.034988
+org_json_junit_JSONObjectTest#equals,0.034988
+org_json_junit_JSONObjectTest#jsonObjectputNull,0.034988
+org_json_junit_CDLTest#onlyColumnNames,0.034988
+org_json_junit_JSONObjectTest#testSingletonBean,0.034655
+org_json_junit_JSONObjectTest#issue743SerializationMapWith500Objects,0.034655
+org_json_junit_JSONMLTest#emptyXMLException,0.034322
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_8,0.034322
+org_json_junit_JSONObjectTest#jsonObjectParseNullFieldsWithParserConfiguration,0.034322
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_5,0.033989
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_shouldThrowKeyNotSurroundedByQuotesErrorMessage,0.033989
+org_json_junit_JSONObjectLocaleTest#jsonObjectByLocaleBean,0.033989
+org_json_junit_XMLTokenerTest#testNextEntityKnown,0.033655
+org_json_junit_XMLTokenerTest#testNextEntityUnknown,0.033655
+org_json_junit_JSONObjectTest#parsingErrorKeyContainsSquareBrace,0.033655
+org_json_junit_JSONObjectTest#parsingErrorKeyContainsCurlyBrace,0.033655
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_JSONArrayUsingJSONTokener_shouldThrowJSONException,0.033322
+org_json_junit_JSONArrayTest#testStrictModeJSONTokener_expectException,0.032989
+org_json_junit_CDLTest#unbalancedQuoteInName,0.032989
+org_json_junit_JSONParserConfigurationTest#givenUnbalancedQuotesArray_testStrictModeFalse_shouldThrowJsonException,0.032656
+org_json_junit_JSONParserConfigurationTest#givenInvalidInputObject_testStrictModeTrue_JSONArrayUsingString_shouldThrowJSONException,0.032656
+org_json_junit_XMLConfigurationTest#shouldHandleEmptyNodeValue,0.032323
+org_json_junit_EnumTest#enumAPI,0.031989
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_6,0.031656
+org_json_junit_JSONObjectTest#issue743SerializationMapWith512Objects,0.031323
+org_json_junit_JSONObjectTest#valueToStringConfirmException,0.031323
+org_json_junit_XMLTest#shouldHandleEmptyXML,0.030990
+org_json_junit_JSONParserConfigurationTest#givenNonCompliantQuotesObject_testStrictModeTrue_shouldThrowJsonExceptionWithConcreteErrorDescription,0.030990
+org_json_junit_XMLTokenerTest#testNextContentWithTag,0.030656
+org_json_junit_JSONObjectTest#jsonObjectParseUTF8EncodingAssertExceptionMessage,0.030656
+org_json_junit_XMLConfigurationTest#shouldHandleEmptyXML,0.030656
+org_json_junit_JSONParserConfigurationTest#givenEmptyObject_testStrictModeTrue_shouldNotThrowJsonException,0.029990
+org_json_junit_CDLTest#nullInName,0.029990
+org_json_junit_JSONArrayTest#unclosedArray3,0.029657
+org_json_junit_JSONParserConfigurationTest#givenUnbalancedQuotesObject_testStrictModeFalse_shouldThrowJsonException,0.029324
+org_json_junit_JSONArrayTest#unclosedArray2,0.028990
+org_json_junit_JSONObjectTest#jsonObjectByMapWithNestedNullValueAndParserConfiguration,0.028990
+org_json_junit_JSONObjectTest#jsonObjectParseControlCharacterNewLineAssertExceptionMessage,0.028657
+org_json_junit_JSONParserConfigurationTest#givenEmptyArray_testStrictModeTrue_shouldNotThrowJsonException,0.028324
+org_json_junit_JSONStringerTest#exceedNestDepthException,0.027991
+org_json_junit_CookieTest#malFormedNameValueException,0.026991
+org_json_junit_JSONObjectTest#jsonObjectParseControlCharacterEOFAssertExceptionMessage,0.026991
+org_json_junit_JSONObjectTest#jsonObjectParseIllegalEscapeAssertExceptionMessage,0.026991
+org_json_junit_CookieListTest#malFormedCookieListException,0.026658
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_4,0.026658
+org_json_junit_JSONArrayTest#jsonArrayByListWithNestedNullValue,0.026325
+org_json_junit_JSONObjectTest#jsonObjectParseNullFieldsWithoutParserConfiguration,0.026325
+org_json_junit_JSONTokenerTest#testNextBackComboWithNewLines,0.025991
+org_json_junit_JSONObjectTest#testPutNullCollection,0.025658
+org_json_junit_JSONObjectTest#parsingErrorNoColon,0.025325
+org_json_junit_JSONObjectTest#invalidEscapeSequence,0.024992
+org_json_junit_JSONObjectTest#parsingErrorPutOnceDuplicateKey,0.024992
+org_json_junit_JSONObjectTest#issue654IncorrectNestingNoKey2,0.024992
+org_json_junit_JSONObjectTest#issue654IncorrectNestingNoKey1,0.024992
+org_json_junit_JSONObjectTest#parsingErrorKeyIsNestedMap,0.024992
+org_json_junit_JSONObjectRecordTest#enumsShouldNotIncludeEnumMethods,0.024992
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_3,0.024658
+org_json_junit_JSONObjectRecordTest#javaLibraryClassesShouldNotIncludeTheirMethods,0.024658
+org_json_junit_CookieTest#emptyNameCookieException,0.024325
+org_json_junit_JSONObjectTest#testPutNullMap,0.023992
+org_json_junit_JSONStringTest#testStringValue,0.023659
+org_json_junit_JSONStringTest#testEnumJSONString,0.023326
+org_json_junit_HTTPTest#notEnoughHTTPException,0.022659
+org_json_junit_JSONArrayTest#verifyPutAll,0.022659
+org_json_junit_JSONObjectTest#testPutNullBoolean,0.021326
+org_json_junit_JSONStringTest#testJSONNullStringValue,0.021326
+org_json_junit_JSONObjectTest#testPutNullInt,0.020993
+org_json_junit_JSONObjectTest#testPutNullObject,0.020993
+org_json_junit_JSONObjectTest#testPutNullFloat,0.020993
+org_json_junit_JSONObjectTest#testPutNullLong,0.020993
+org_json_junit_JSONObjectTest#testPutNullDouble,0.020993
+org_json_junit_XMLTest#shouldHandleEmptyJSONXML,0.020327
+org_json_junit_JSONArrayTest#testRecursiveDepthAtPosition1000Object,0.019993
+org_json_junit_XMLConfigurationTest#shouldHandleEmptyJSONXML,0.019993
+org_json_junit_JSONObjectTest#parsingErrorTrailingCurlyBrace,0.019660
+org_json_junit_XMLTest#shouldHandleNullJSONXML,0.018660
+org_json_junit_JSONStringerTest#missplacedArrayException,0.018660
+org_json_junit_JSONStringerTest#missplacedObjectException,0.018327
+org_json_junit_XMLConfigurationTest#shouldHandleNullJSONXML,0.018327
+org_json_junit_HTTPTokenerTest#throwExceptionOnUnterminatedString,0.018327
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_2,0.018327
+org_json_junit_JSONArrayTest#unclosedArray,0.017994
+org_json_junit_JSONObjectTest#parsingErrorInitialCurlyBrace,0.017994
+org_json_junit_CookieTest#emptyStringCookieException,0.017661
+org_json_junit_JSONObjectTest#jsonObjectQuote,0.017328
+org_json_junit_JSONObjectTest#jsonObjectByMapWithNullValueAndParserConfiguration,0.017328
+org_json_junit_JSONObjectTest#jsonObjectClearMethodTest,0.017328
+org_json_junit_JSONStringTest#testNullStringValue,0.017328
+org_json_junit_HTTPTokenerTest#parseWhitespaceOnly,0.016994
+org_json_junit_JSONArrayTest#testRecursiveDepthAtPositionDefaultObject,0.016661
+org_json_junit_JSONArrayTest#testObjectConstructor,0.016661
+org_json_junit_JSONObjectTest#testLongFromString,0.016661
+org_json_junit_HTTPTokenerTest#parseQuotedTokenWithSpaces,0.016328
+org_json_junit_CDLTest#emptyString,0.016328
+org_json_junit_HTTPTokenerTest#parseSingleQuotedToken,0.016328
+org_json_junit_HTTPTokenerTest#parseSimpleToken,0.016328
+org_json_junit_HTTPTokenerTest#parseDoubleQuotedToken,0.016328
+org_json_junit_HTTPTokenerTest#parseMultipleTokens,0.016328
+org_json_junit_HTTPTokenerTest#parseTokensWithMultipleWhitespace,0.016328
+org_json_junit_JSONTokenerTest#testSkipToFailureWithBufferedReader,0.015995
+org_json_junit_JSONTokenerTest#verifyBackFailureDoubleBack,0.015995
+org_json_junit_JSONArrayTest#testRecursiveDepthArrayFor1000Levels,0.015995
+org_json_junit_JSONObjectTest#jsonObjectOptBigDecimal,0.015995
+org_json_junit_JSONObjectTest#jsonObjectOptBigInteger,0.015328
+org_json_junit_XMLConfigurationTest#shouldHandleNullXML,0.014662
+org_json_junit_XMLTest#shouldHandleNullXML,0.014662
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_1,0.014662
+org_json_junit_JSONObjectTest#optQueryWithNoResult,0.014662
+org_json_junit_JSONObjectTest#testIssue682SimilarityOfJSONString,0.014662
+org_json_junit_XMLConfigurationTest#test_keepStringBehavior,0.014662
+org_json_junit_JSONStringerTest#missplacedEndArrayException,0.014329
+org_json_junit_JSONObjectTest#jsonObjectParseFromJson_0,0.014329
+org_json_junit_JSONArrayTest#emptyStr,0.014329
+org_json_junit_JSONArrayTest#verifySimilar,0.014329
+org_json_junit_XMLConfigurationTest#testMaxNestingDepthIsSet,0.013995
+org_json_junit_CookieListTest#emptyStringCookieList,0.013995
+org_json_junit_JSONStringerTest#nullKeyException,0.013662
+org_json_junit_XMLConfigurationTest#shouldKeepConfigurationIntactAndUpdateCloseEmptyTagChoice,0.013662
+org_json_junit_JSONObjectTest#queryWithNoResult,0.013662
+org_json_junit_JSONObjectTest#testCircleReferenceMultiplyLevel_notConfigured_expectedStackOverflow,0.013329
+org_json_junit_XMLTest#testXSITypeMapNotModifiable,0.013329
+org_json_junit_JSONStringTest#testJSONStringValue,0.012996
+org_json_junit_JSONTokenerTest#testSkipToSuccessWithStringReader,0.012996
+org_json_junit_EnumTest#enumValueToString,0.012996
+org_json_junit_HTTPTokenerTest#parseEmptyInput,0.012662
+org_json_junit_JSONArrayTest#testRecursiveDepthAtPosition1001Object,0.012662
+org_json_junit_JSONArrayTest#testRecursiveDepthArrayForDefaultLevels,0.012662
+org_json_junit_JSONArrayTest#testRecursiveDepth,0.012662
+org_json_junit_JSONArrayTest#testRecursiveDepthAtPosition,0.012662
+org_json_junit_JSONArrayTest#optQueryWithNoResult,0.012662
+org_json_junit_JSONObjectTest#testDifferentKeySameInstanceNotACircleReference,0.012329
+org_json_junit_JSONArrayTest#testIssue682SimilarityOfJSONString,0.011996
+org_json_junit_JSONObjectTest#testCircleReferenceFirstLevel,0.011663
+org_json_junit_JSONObjectTest#testCircularReferenceMultipleLevel,0.011663
+org_json_junit_JSONObjectTest#issue743SerializationMapWith1001Objects,0.011663
+org_json_junit_JSONObjectTest#testCircleReferenceMultiplyLevel_configured_expectedJSONException,0.011663
+org_json_junit_JSONObjectTest#issue743SerializationMap,0.011663
+org_json_junit_JSONArrayTest#queryWithNoResult,0.011663
+org_json_junit_XMLTest#testIssue537CaseSensitiveHexUnEscapeDirect,0.011330
+org_json_junit_JSONObjectTest#stringToValueNumbersTest,0.010996
+org_json_junit_PropertyTest#shouldHandleJSONProperty,0.010996
+org_json_junit_JSONStringerTest#missplacedEndObjectException,0.010663
+org_json_junit_JSONStringTest#testJSONStringExceptionValue,0.010330
+org_json_junit_JSONTokenerTest#testAutoClose,0.009997
+org_json_junit_JSONArrayTest#testRecursiveDepthArrayFor1001Levels,0.009663
+org_json_junit_JSONArrayTest#testRecursiveDepthArray,0.009663
+org_json_junit_JSONArrayTest#testRecursiveDepthArrayLimitedMaps,0.009663
+org_json_junit_PropertyTest#shouldHandleProperties,0.009330
+org_json_junit_JSONObjectTest#issue713MapConstructorWithNonFiniteNumbers,0.009330
+org_json_junit_JSONTokenerTest#verifyBackFailureZeroIndex,0.008664
+org_json_junit_JSONArrayTest#jsonArrayClearMethodTest,0.008331
+org_json_junit_CookieListTest#convertCookieListWithNullValueToString,0.007997
+org_json_junit_JSONParserConfigurationTest#verifyMaxDepthThenDuplicateKey,0.007331
+org_json_junit_JSONParserConfigurationTest#verifyDuplicateKeyThenMaxDepth,0.007331
+org_json_junit_JSONObjectTest#jsonObjectByNullMap,0.007331
+org_json_junit_JSONParserConfigurationTest#maxNestingDepthIsCloned,0.006998
+org_json_junit_JSONParserConfigurationTest#strictModeIsCloned,0.006998
+org_json_junit_JSONParserConfigurationTest#useNativeNullsIsCloned,0.006998
+org_json_junit_CookieTest#unescapeString,0.006331
+org_json_junit_JSONObjectTest#jsonObjectNumberToString,0.006331
+org_json_junit_JSONMLTest#nullXMLException,0.005332
+org_json_junit_JSONObjectTest#jsonObjectByNullBean,0.004998
+org_json_junit_JSONArrayTest#toJSONObject,0.004998
+org_json_junit_JSONObjectTest#jsonObjectDoubleToString,0.004665
+org_json_junit_JSONStringerTest#outOfSequenceException,0.004665
+org_json_junit_JSONObjectTest#optQueryWithSyntaxError,0.004332
+org_json_junit_CDLTest#emptyJSONArrayToString,0.003999
+org_json_junit_JSONObjectTest#jsonObjectPutOnceNull,0.003999
+org_json_junit_JSONObjectTest#emptyJsonObjectNamesToJsonAray,0.003665
+org_json_junit_PropertyTest#shouldHandleEmptyProperties,0.003665
+org_json_junit_PropertyTest#shouldHandleNullProperties,0.003665
+org_json_junit_StringBuilderWriterTest#testAppendCharSequenceWithStartAndEnd,0.003665
+org_json_junit_JSONMLTest#emptyJSONXMLException,0.003665
+org_json_junit_JSONObjectTest#parsingErrorInvalidFloat,0.003665
+org_json_junit_JSONObjectTest#parsingErrorInvalidDouble,0.003332
+org_json_junit_CookieTest#escapeString,0.003332
+org_json_junit_JSONObjectTest#emptyJsonObject,0.003332
+org_json_junit_StringBuilderWriterTest#testAppendChar,0.002999
+org_json_junit_JSONArrayTest#optQueryWithSyntaxError,0.002999
+org_json_junit_StringBuilderWriterTest#testWriteCharArray,0.002999
+org_json_junit_JSONObjectTest#toJSONArray,0.002999
+org_json_junit_StringBuilderWriterTest#testAppendCharSequence,0.002999
+org_json_junit_JSONObjectTest#parsingErrorNumberToString,0.002666
+org_json_junit_CookieTest#nullCookieException,0.002666
+org_json_junit_JSONArrayTest#badObject,0.002666
+org_json_junit_CookieListTest#nullCookieListException,0.002666
+org_json_junit_HTTPTest#nullHTTPException,0.002666
+org_json_junit_StringBuilderWriterTest#testWriteStringWithOffsetAndLength,0.002333
+org_json_junit_StringBuilderWriterTest#testWriteChar,0.002333
+org_json_junit_StringBuilderWriterTest#testWriteString,0.002333
+org_json_junit_JSONArrayTest#nullException,0.002333
+org_json_junit_JSONArrayTest#testJSONArrayInt,0.002333
+org_json_junit_JSONObjectTest#stringToValue,0.001999
+org_json_junit_CDLTest#nullJSONArraysToString,0.001000
+org_json_junit_PropertyTest#shouldHandleNullJSONProperty,0.001000
+org_json_junit_JSONMLTest#nullJSONXMLException,0.000333
+org_json_junit_CDLTest#exceptionOnNullString,0.000000
+org_json_junit_CDLTest#nullJSONArrayToString,0.000000
+org_json_junit_JSONObjectRecordTest#jsonObjectByRecord,0.000000
+org_json_junit_JSONObjectRecordTest#recordStyleClassShouldNotIncludeObjectMethods,0.000000
+org_json_junit_JSONObjectRecordTest#methodsStartingWithUppercaseShouldNotBeIncluded,0.000000
+org_json_junit_JSONObjectRecordTest#mixedGettersAndRecordStyleAccessors,0.000000
+org_json_junit_JSONObjectTest#timeNumberParsing,0.000000
+org_json_junit_JSONArrayTest#issue654StackOverflowInputWellFormed,0.000000
+org_json_junit_JSONObjectTest#issue654StackOverflowInputWellFormed,0.000000

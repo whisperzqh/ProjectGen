@@ -92,9 +92,11 @@ The outputs will be stored in the `CodeProjectEval_outputs/` folder.
 
 To better reflect real-world project scenarios and support evaluation through executable test cases, we construct a new project-level code generation dataset, CodeProjectEval, which consists of 18 Python repositories covering a wide range of topics.
 
+**We further extended the dataset to cover the Java language, incorporating a total of 12 repositories.**
+
 #### Detailed Information
 
-| Repository                    | #FILE    | #LOC        | Complexity | #Check Tests (cov.) | #Unit Tests (cov.) | #PRD tokens |
+| Repository (Python)           | #FILE    | #LOC        | Complexity | #Check Tests (cov.) | #Unit Tests (cov.) | #PRD tokens |
 | ----------------------------- | -------- | ----------- | ---------- | ------------------- | ------------------ | ----------- |
 | bplustree                     | 8        | 1,509       | 2.29       | 8 (82%)             | 356 (98%)          | 1,339       |
 | cookiecutter                  | 18       | 2,805       | 3.42       | 7 (55%)             | 375 (99%)          | 2,100       |
@@ -117,6 +119,23 @@ To better reflect real-world project scenarios and support evaluation through ex
 | **Avg.**                      | **12.7** | **2,388.6** | **3.03**   | **10 (63.4%)**      | **186 (90.7%)**    | **2,067**   |
 | **Mid.**                      | **11.5** | **2,092**   | **2.76**   | **8.5 (61.5%)**     | **168.5 (91.5%)**  | **2,100**   |
 
+
+| Repository (Java)    | # Files | # LOC | Complexity | # Check Test(cov.) | # Unit Test(cov.) | # PRD tokens |
+| -------------------- | ------- | ----- | ---------- | ------------------ | ----------------- | ------------ |
+| compile-testing      | 24      | 4571  | 267        | 10(50.91%)         | 305(82.52%)       | 1,919         |
+| fuzzy-matcher        | 19      | 1422  | 117        | 8(70.44%)          | 76(92.04%)        | 2,192         |
+| geo                  | 9       | 1243  | 114        | 7(61.99%)          | 88(99.46%)        | 1,124         |
+| geohash-java         | 13      | 1331  | 193        | 6(64.41%)          | 61(92.71%)        | 1,750         |
+| GoogleAuth           | 10      | 1689  | 84         | 2(61.80%)          | 9(71.12%)         | 1,826         |
+| hmm-lib              | 5       | 913   | 96         | 2(41.35%)          | 9(83.97%)         | 1,908         |
+| InMemoryJavaCompiler | 6       | 256   | 13         | 1(66.28%)          | 6(88.37%)         | 2,059         |
+| java-emoji-converter | 4       | 528   | 51         | 1(50.22%)          | 4(62.33%)         | 2,337         |
+| jetbrick-template-2x | 111     | 9558  | 1306       | 8(45.20%)          | 152(69.57%)       | 2,308         |
+| JSON-java            | 26      | 10536 | 874        | 10(43.45%)         | 741(89.37%)       | 2,158         |
+| password4j           | 29      | 7080  | 515        | 7(65.74%)          | 240(96.14%)       | 2,146         |
+| SerialKiller         | 2       | 174   | 10         | 4(57.63%)          | 15(93.22%)        | 1380         |
+| **Avg.**              | **21.5** | **3275.1** | **303.1** | **5.5(56.6%)** | **142.2(85.1%)** | **1,925** |
+| **Mid.**              | **11.5** | **1376.5** | **115.5** | **6.5(59.7%)** | **68.5(88.9%)** | **1,989** |
 
 **Each repository is supplemented with:**
 

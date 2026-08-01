@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.google.testing.compile.CompilationSubjectTest" time="1.619" tests="82" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/test-classes:/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/classes:/home/zhaoqianhui/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/zhaoqianhui/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/zhaoqianhui/.m2/repository/com/google/truth/truth/1.4.5/truth-1.4.5.jar:/home/zhaoqianhui/.m2/repository/org/ow2/asm/asm/9.8/asm-9.8.jar:/home/zhaoqianhui/.m2/repository/com/google/guava/guava/33.5.0-jre/guava-33.5.0-jre.jar:/home/zhaoqianhui/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar:/home/zhaoqianhui/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/zhaoqianhui/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.jar:/home/zhaoqianhui/.m2/repository/com/google/errorprone/error_prone_annotations/2.45.0/error_prone_annotations-2.45.0.jar:/home/zhaoqianhui/.m2/repository/com/google/auto/value/auto-value-annotations/1.11.1/auto-value-annotations-1.11.1.jar:/home/zhaoqianhui/.m2/repository/com/google/auto/auto-common/1.2.2/auto-common-1.2.2.jar:/home/zhaoqianhui/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/surefire/surefirebooter-20260427084318973_3.jar /workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/surefire 2026-04-27T08-43-18_904-jvmRun1 surefire-20260427084318973_1tmp surefire_0-20260427084318973_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/test-classes:/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/classes:/home/zhaoqianhui/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/zhaoqianhui/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/zhaoqianhui/.m2/repository/com/google/truth/truth/1.4.5/truth-1.4.5.jar:/home/zhaoqianhui/.m2/repository/org/ow2/asm/asm/9.8/asm-9.8.jar:/home/zhaoqianhui/.m2/repository/com/google/guava/guava/33.5.0-jre/guava-33.5.0-jre.jar:/home/zhaoqianhui/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar:/home/zhaoqianhui/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/zhaoqianhui/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.jar:/home/zhaoqianhui/.m2/repository/com/google/errorprone/error_prone_annotations/2.45.0/error_prone_annotations-2.45.0.jar:/home/zhaoqianhui/.m2/repository/com/google/auto/value/auto-value-annotations/1.11.1/auto-value-annotations-1.11.1.jar:/home/zhaoqianhui/.m2/repository/com/google/auto/auto-common/1.2.2/auto-common-1.2.2.jar:/home/zhaoqianhui/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/zhaoqianhui"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-01-20"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing/target/surefire/surefirebooter-20260427084318973_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.18+8-Ubuntu-122.04.1"/>
+    <property name="user.name" value="zhaoqianhui"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.8.0-107-generic"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/zhaoqianhui/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="17.0.18"/>
+    <property name="user.dir" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/compile-testing"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="17.0.18+8-Ubuntu-122.04.1"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="generatedFilePath_fail" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.024"/>
+  <testcase name="generatedFilePath" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.021"/>
+  <testcase name="generatedFilePackageFile" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.02"/>
+  <testcase name="generatedSourceFile" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.024"/>
+  <testcase name="generatedFileDefaultPackageFile_fail" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.021"/>
+  <testcase name="generatedSourceFile_fail" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.021"/>
+  <testcase name="generatedSourceFile_packageInfo" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.023"/>
+  <testcase name="generatedFilePackageFile_fail" classname="com.google.testing.compile.CompilationSubjectTest$GeneratedFilesTest" time="0.02"/>
+  <testcase name="hadErrorContaining_noSuchError" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.013"/>
+  <testcase name="hadErrorContainingInFile_wrongFile" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.013"/>
+  <testcase name="hadErrorContaining" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.018"/>
+  <testcase name="hadErrorContainingMatch_noSuchError" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.012"/>
+  <testcase name="hadErrorContainingMatch" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.025"/>
+  <testcase name="hadErrorCount" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.004"/>
+  <testcase name="hadErrorCount_wrongCount" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.012"/>
+  <testcase name="hadErrorContainingMatch_pattern_noSuchError" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.012"/>
+  <testcase name="hadErrorContainingInFileOnLineAtColumn_wrongColumn" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.012"/>
+  <testcase name="hadErrorContainingMatch_pattern" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.017"/>
+  <testcase name="hadErrorContainingInFileOnLine_wrongLine" classname="com.google.testing.compile.CompilationSubjectTest$ErrorTest" time="0.012"/>
+  <testcase name="hadWarningContainingInFileOnLineAtColumn_wrongColumn[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.021"/>
+  <testcase name="hadWarningContaining_noSuchWarning[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.02"/>
+  <testcase name="hadNoteContainingInFileOnLineContaining_wrongLine[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.026"/>
+  <testcase name="hadWarningContainingInFileOnLineAtColumn[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.038"/>
+  <testcase name="hadNoteContaining_noSuchNote[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadNoteContainingInFileOnLineAtColumn_wrongColumn[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.02"/>
+  <testcase name="hadWarningContainingInFileOnLine_lineTooBig[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.021"/>
+  <testcase name="hadWarningContainingInFileOnLineContaining[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.039"/>
+  <testcase name="hadWarningContainingInFileOnLine_wrongLine[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadWarningCount[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadNoteCount[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadWarningContainingMatch_pattern_noSuchWarning[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadWarningContainingInFileOnLineContaining_moreThanOneMatch[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadWarningContainingMatch[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.037"/>
+  <testcase name="hadNoteContainingMatch_noSuchNote[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.02"/>
+  <testcase name="hadNoteContainingInFileOnLine_wrongLine[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadNoteContainingMatch_pattern[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.038"/>
+  <testcase name="hadWarningContainingMatch_pattern[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.036"/>
+  <testcase name="hadNoteContainingMatch_pattern_noSuchNote[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadNoteContainingMatch[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.038"/>
+  <testcase name="hadNoteCount_wrongCount[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadWarningContainingInFile_wrongFile[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.018"/>
+  <testcase name="hadWarningContainingMatch_noSuchWarning[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadNoteContaining[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.036"/>
+  <testcase name="hadWarningCount_wrongCount[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadNoteContainingInFile_wrongFile[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.02"/>
+  <testcase name="hadWarningContainingMatchInFileOnLineContaining_noMatches[0]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.019"/>
+  <testcase name="hadWarningContainingInFileOnLineAtColumn_wrongColumn[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.015"/>
+  <testcase name="hadWarningContaining_noSuchWarning[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.015"/>
+  <testcase name="hadNoteContainingInFileOnLineContaining_wrongLine[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.015"/>
+  <testcase name="hadWarningContainingInFileOnLineAtColumn[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.029"/>
+  <testcase name="hadNoteContaining_noSuchNote[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.015"/>
+  <testcase name="hadNoteContainingInFileOnLineAtColumn_wrongColumn[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.015"/>
+  <testcase name="hadWarningContainingInFileOnLine_lineTooBig[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningContainingInFileOnLineContaining[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.029"/>
+  <testcase name="hadWarningContainingInFileOnLine_wrongLine[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningCount[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadNoteCount[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningContainingMatch_pattern_noSuchWarning[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningContainingInFileOnLineContaining_moreThanOneMatch[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningContainingMatch[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.027"/>
+  <testcase name="hadNoteContainingMatch_noSuchNote[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadNoteContainingInFileOnLine_wrongLine[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadNoteContainingMatch_pattern[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.028"/>
+  <testcase name="hadWarningContainingMatch_pattern[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.027"/>
+  <testcase name="hadNoteContainingMatch_pattern_noSuchNote[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.013"/>
+  <testcase name="hadNoteContainingMatch[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.028"/>
+  <testcase name="hadNoteCount_wrongCount[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningContainingInFile_wrongFile[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.013"/>
+  <testcase name="hadWarningContainingMatch_noSuchWarning[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadNoteContaining[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.027"/>
+  <testcase name="hadWarningCount_wrongCount[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadNoteContainingInFile_wrongFile[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="hadWarningContainingMatchInFileOnLineContaining_noMatches[1]" classname="com.google.testing.compile.CompilationSubjectTest$WarningAndNoteTest" time="0.014"/>
+  <testcase name="failedToCompile_compilationSucceeded" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.018"/>
+  <testcase name="succeeded_failureReportsWarnings" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.014"/>
+  <testcase name="succeeded_failureReportsNoGeneratedFiles" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.006"/>
+  <testcase name="succeededWithoutWarnings_failsWithWarnings" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.019"/>
+  <testcase name="failedToCompile" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.005"/>
+  <testcase name="succeededWithoutWarnings" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.017"/>
+  <testcase name="succeeded" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.033"/>
+  <testcase name="succeeded_failureReportsGeneratedFiles" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.016"/>
+  <testcase name="succeeded_exceptionCreatedOrPassedThrough" classname="com.google.testing.compile.CompilationSubjectTest$StatusTest" time="0.013"/>
+</testsuite>

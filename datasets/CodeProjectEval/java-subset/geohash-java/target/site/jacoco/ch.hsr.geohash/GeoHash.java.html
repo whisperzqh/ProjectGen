@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoHash.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geohash-java</a> &gt; <a href="index.source.html" class="el_package">ch.hsr.geohash</a> &gt; <span class="el_source">GeoHash.java</span></div><h1>GeoHash.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2010, Silvio Heuberger @ IFS www.ifs.hsr.ch
+ *
+ * This code is release under the Apache License 2.0.
+ * You should have received a copy of the license
+ * in the LICENSE file. If you have not, see
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+package ch.hsr.geohash;
+
+import java.io.Serializable;
+import java.util.Arrays;
+
+@SuppressWarnings(&quot;javadoc&quot;)
+public final class GeoHash implements Comparable&lt;GeoHash&gt;, Serializable {
+	public static final int MAX_BIT_PRECISION = 64;
+	public static final int MAX_CHARACTER_PRECISION = 12;
+	
+	private static final long serialVersionUID = -8553214249630252175L;
+<span class="fc" id="L20">	private static final int[] BITS = { 16, 8, 4, 2, 1 };</span>
+	private static final int BASE32_BITS = 5;
+	public static final long FIRST_BIT_FLAGGED = 0x8000000000000000l;
+<span class="fc" id="L23">	private static final char[] base32 = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'b', 'c', 'd', 'e', 'f',</span>
+			'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+<span class="fc" id="L26">	private static final int[] decodeArray = new int['z' + 1];</span>
+
+	static {
+<span class="fc" id="L29">		Arrays.fill(decodeArray, -1);</span>
+<span class="fc" id="L30">		int sz = base32.length;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">		for (int i = 0; i &lt; sz; i++) {</span>
+<span class="fc" id="L32">			decodeArray[base32[i]] = i;</span>
+		}
+<span class="fc" id="L34">	}</span>
+
+<span class="fc" id="L36">	protected long bits = 0;</span>
+	private WGS84Point point;
+
+	private BoundingBox boundingBox;
+
+<span class="fc" id="L41">	protected byte significantBits = 0;</span>
+
+<span class="fc" id="L43">	protected GeoHash() {</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * This method uses the given number of characters as the desired precision
+	 * value. The hash can only be 64bits long, thus a maximum precision of 12
+	 * characters can be achieved.
+	 */
+	public static GeoHash withCharacterPrecision(double latitude, double longitude, int numberOfCharacters) {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		if (numberOfCharacters &gt; MAX_CHARACTER_PRECISION) {</span>
+<span class="fc" id="L53">			throw new IllegalArgumentException(&quot;A geohash can only be &quot; + MAX_CHARACTER_PRECISION + &quot; character long.&quot;);</span>
+		}
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		int desiredPrecision = (numberOfCharacters * 5 &lt;= 60) ? numberOfCharacters * 5 : 60;</span>
+<span class="fc" id="L56">		return new GeoHash(latitude, longitude, desiredPrecision);</span>
+	}
+
+	/**
+	 * create a new {@link GeoHash} with the given number of bits accuracy. This
+	 * at the same time defines this hash's bounding box.
+	 */
+	public static GeoHash withBitPrecision(double latitude, double longitude, int numberOfBits) {
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		if (numberOfBits &lt; 0) {</span>
+<span class="fc" id="L65">			throw new IllegalArgumentException(&quot;A Geohash can't be of negative bits long!&quot;);</span>
+		}
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (numberOfBits &gt; MAX_BIT_PRECISION) {</span>
+<span class="fc" id="L68">			throw new IllegalArgumentException(&quot;A Geohash can only be &quot; + MAX_BIT_PRECISION + &quot; bits long!&quot;);</span>
+		}
+<span class="pc bpc" id="L70" title="2 of 4 branches missed.">		if (Math.abs(latitude) &gt; 90.0 || Math.abs(longitude) &gt; 180.0) {</span>
+<span class="nc" id="L71">			throw new IllegalArgumentException(&quot;Can't have lat/lon values out of (-90,90)/(-180/180)&quot;);</span>
+		}
+<span class="fc" id="L73">		return new GeoHash(latitude, longitude, numberOfBits);</span>
+	}
+
+	public static GeoHash fromBinaryString(String binaryString) {
+<span class="fc" id="L77">		GeoHash geohash = new GeoHash();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		for (int i = 0; i &lt; binaryString.length(); i++) {</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">			if (binaryString.charAt(i) == '1') {</span>
+<span class="fc" id="L80">				geohash.addOnBitToEnd();</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">			} else if (binaryString.charAt(i) == '0') {</span>
+<span class="fc" id="L82">				geohash.addOffBitToEnd();</span>
+			} else {
+<span class="nc" id="L84">				throw new IllegalArgumentException(binaryString + &quot; is not a valid geohash as a binary string&quot;);</span>
+			}
+		}
+<span class="fc" id="L87">		geohash.bits &lt;&lt;= (MAX_BIT_PRECISION - geohash.significantBits);</span>
+<span class="fc" id="L88">		long[] latitudeBits = geohash.getRightAlignedLatitudeBits();</span>
+<span class="fc" id="L89">		long[] longitudeBits = geohash.getRightAlignedLongitudeBits();</span>
+<span class="fc" id="L90">		return geohash.recombineLatLonBitsToHash(latitudeBits, longitudeBits);</span>
+	}
+
+	/**
+	 * build a new {@link GeoHash} from a base32-encoded {@link String}.&lt;br&gt;
+	 * This will also set up the hashes bounding box and other values, so it can
+	 * also be used with functions like within().
+	 */
+	public static GeoHash fromGeohashString(String geohash) {
+<span class="fc" id="L99">		double[] latitudeRange = { -90.0, 90.0 };</span>
+<span class="fc" id="L100">		double[] longitudeRange = { -180.0, 180.0 };</span>
+
+<span class="fc" id="L102">		boolean isEvenBit = true;</span>
+<span class="fc" id="L103">		GeoHash hash = new GeoHash();</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		for (int i = 0; i &lt; geohash.length(); i++) {</span>
+<span class="fc" id="L106">			char c = geohash.charAt(i);</span>
+			int cd;
+<span class="pc bpc" id="L108" title="1 of 4 branches missed.">			if (c &gt;= decodeArray.length || (cd = decodeArray[c]) &lt; 0) {</span>
+<span class="fc" id="L109">				throw new IllegalArgumentException(&quot;Invalid character character '&quot; + c + &quot;' in geohash '&quot;+geohash+&quot;'!&quot;);</span>
+			}
+<span class="fc bfc" id="L111" title="All 2 branches covered.">			for (int j = 0; j &lt; BASE32_BITS; j++) {</span>
+<span class="fc" id="L112">				int mask = BITS[j];</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">				if (isEvenBit) {</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">					divideRangeDecode(hash, longitudeRange, (cd &amp; mask) != 0);</span>
+				} else {
+<span class="fc bfc" id="L116" title="All 2 branches covered.">					divideRangeDecode(hash, latitudeRange, (cd &amp; mask) != 0);</span>
+				}
+<span class="fc bfc" id="L118" title="All 2 branches covered.">				isEvenBit = !isEvenBit;</span>
+			}
+		}
+
+<span class="fc" id="L122">		double latitude = (latitudeRange[0] + latitudeRange[1]) / 2;</span>
+<span class="fc" id="L123">		double longitude = (longitudeRange[0] + longitudeRange[1]) / 2;</span>
+
+<span class="fc" id="L125">		hash.point = new WGS84Point(latitude, longitude);</span>
+<span class="fc" id="L126">		setBoundingBox(hash, latitudeRange, longitudeRange);</span>
+<span class="fc" id="L127">		hash.bits &lt;&lt;= (MAX_BIT_PRECISION - hash.significantBits);</span>
+<span class="fc" id="L128">		return hash;</span>
+	}
+
+	public static GeoHash fromLongValue(long hashVal, int significantBits) {
+<span class="fc" id="L132">		double[] latitudeRange = { -90.0, 90.0 };</span>
+<span class="fc" id="L133">		double[] longitudeRange = { -180.0, 180.0 };</span>
+
+<span class="fc" id="L135">		boolean isEvenBit = true;</span>
+<span class="fc" id="L136">		GeoHash hash = new GeoHash();</span>
+
+<span class="fc" id="L138">		String binaryString = Long.toBinaryString(hashVal);</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		while (binaryString.length() &lt; MAX_BIT_PRECISION) {</span>
+<span class="fc" id="L140">			binaryString = &quot;0&quot; + binaryString;</span>
+		}
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		for (int j = 0; j &lt; significantBits; j++) {</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">			if (isEvenBit) {</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">				divideRangeDecode(hash, longitudeRange, binaryString.charAt(j) != '0');</span>
+			} else {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">				divideRangeDecode(hash, latitudeRange, binaryString.charAt(j) != '0');</span>
+			}
+<span class="fc bfc" id="L148" title="All 2 branches covered.">			isEvenBit = !isEvenBit;</span>
+		}
+
+<span class="fc" id="L151">		double latitude = (latitudeRange[0] + latitudeRange[1]) / 2;</span>
+<span class="fc" id="L152">		double longitude = (longitudeRange[0] + longitudeRange[1]) / 2;</span>
+
+<span class="fc" id="L154">		hash.point = new WGS84Point(latitude, longitude);</span>
+<span class="fc" id="L155">		setBoundingBox(hash, latitudeRange, longitudeRange);</span>
+<span class="fc" id="L156">		hash.bits &lt;&lt;= (MAX_BIT_PRECISION - hash.significantBits);</span>
+<span class="fc" id="L157">		return hash;</span>
+	}
+
+	/**
+	 * This method uses the given number of characters as the desired precision
+	 * value. The hash can only be 64bits long, thus a maximum precision of 12
+	 * characters can be achieved.
+	 */
+	public static String geoHashStringWithCharacterPrecision(double latitude, double longitude, int numberOfCharacters) {
+<span class="fc" id="L166">		GeoHash hash = withCharacterPrecision(latitude, longitude, numberOfCharacters);</span>
+<span class="fc" id="L167">		return hash.toBase32();</span>
+	}
+
+<span class="fc" id="L170">	private GeoHash(double latitude, double longitude, int desiredPrecision) {</span>
+<span class="fc" id="L171">		point = new WGS84Point(latitude, longitude);</span>
+<span class="fc" id="L172">		desiredPrecision = Math.min(desiredPrecision, MAX_BIT_PRECISION);</span>
+
+<span class="fc" id="L174">		boolean isEvenBit = true;</span>
+<span class="fc" id="L175">		double[] latitudeRange = { -90, 90 };</span>
+<span class="fc" id="L176">		double[] longitudeRange = { -180, 180 };</span>
+
+<span class="fc bfc" id="L178" title="All 2 branches covered.">		while (significantBits &lt; desiredPrecision) {</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">			if (isEvenBit) {</span>
+<span class="fc" id="L180">				divideRangeEncode(longitude, longitudeRange);</span>
+			} else {
+<span class="fc" id="L182">				divideRangeEncode(latitude, latitudeRange);</span>
+			}
+<span class="fc bfc" id="L184" title="All 2 branches covered.">			isEvenBit = !isEvenBit;</span>
+		}
+
+<span class="fc" id="L187">		setBoundingBox(this, latitudeRange, longitudeRange);</span>
+<span class="fc" id="L188">		bits &lt;&lt;= (MAX_BIT_PRECISION - desiredPrecision);</span>
+<span class="fc" id="L189">	}</span>
+
+	private static void setBoundingBox(GeoHash hash, double[] latitudeRange, double[] longitudeRange) {
+<span class="fc" id="L192">		hash.boundingBox = new BoundingBox(latitudeRange[0], latitudeRange[1], longitudeRange[0], longitudeRange[1]);</span>
+<span class="fc" id="L193">	}</span>
+
+	public GeoHash next(int step) {
+<span class="fc" id="L196">		return fromOrd(ord() + step, significantBits);</span>
+	}
+
+	public GeoHash next() {
+<span class="fc" id="L200">		return next(1);</span>
+	}
+
+	public GeoHash prev() {
+<span class="fc" id="L204">		return next(-1);</span>
+	}
+
+	public long ord() {
+<span class="fc" id="L208">		int insignificantBits = MAX_BIT_PRECISION - significantBits;</span>
+<span class="fc" id="L209">		return bits &gt;&gt;&gt; insignificantBits;</span>
+	}
+
+	/**
+	 * Returns the number of characters that represent this hash.
+	 * 
+	 * @throws IllegalStateException
+	 *             when the hash cannot be encoded in base32, i.e. when the
+	 *             precision is not a multiple of 5.
+	 */
+	public int getCharacterPrecision() {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">		if (significantBits % 5 != 0) {</span>
+<span class="fc" id="L221">			throw new IllegalStateException(</span>
+					&quot;precision of GeoHash is not divisble by 5: &quot; + this);
+		}
+<span class="fc" id="L224">		return significantBits / 5;</span>
+	}
+
+	public static GeoHash fromOrd(long ord, int significantBits) {
+<span class="fc" id="L228">		int insignificantBits = MAX_BIT_PRECISION - significantBits;</span>
+<span class="fc" id="L229">		return fromLongValue(ord &lt;&lt; insignificantBits, significantBits);</span>
+	}
+
+	/**
+	 * Counts the number of geohashes contained between the two (ie how many
+	 * times next() is called to increment from one to two) This value depends
+	 * on the number of significant bits.
+	 * 
+	 * @param one
+	 * @param two
+	 * @return number of steps
+	 */
+	public static long stepsBetween(GeoHash one, GeoHash two) {
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">		if (one.significantBits() != two.significantBits()) {</span>
+<span class="nc" id="L243">			throw new IllegalArgumentException(</span>
+					&quot;It is only valid to compare the number of steps between two hashes if they have the same number of significant bits&quot;);
+		}
+<span class="fc" id="L246">		return two.ord() - one.ord();</span>
+	}
+
+	private void divideRangeEncode(double value, double[] range) {
+<span class="fc" id="L250">		double mid = (range[0] + range[1]) / 2;</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">		if (value &gt;= mid) {</span>
+<span class="fc" id="L252">			addOnBitToEnd();</span>
+<span class="fc" id="L253">			range[0] = mid;</span>
+		} else {
+<span class="fc" id="L255">			addOffBitToEnd();</span>
+<span class="fc" id="L256">			range[1] = mid;</span>
+		}
+<span class="fc" id="L258">	}</span>
+
+	private static void divideRangeDecode(GeoHash hash, double[] range, boolean b) {
+<span class="fc" id="L261">		double mid = (range[0] + range[1]) / 2;</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		if (b) {</span>
+<span class="fc" id="L263">			hash.addOnBitToEnd();</span>
+<span class="fc" id="L264">			range[0] = mid;</span>
+		} else {
+<span class="fc" id="L266">			hash.addOffBitToEnd();</span>
+<span class="fc" id="L267">			range[1] = mid;</span>
+		}
+<span class="fc" id="L269">	}</span>
+
+	/**
+	 * returns the 8 adjacent hashes for this one. They are in the following
+	 * order:&lt;br&gt;
+	 * N, NE, E, SE, S, SW, W, NW
+	 */
+	public GeoHash[] getAdjacent() {
+<span class="fc" id="L277">		GeoHash northern = getNorthernNeighbour();</span>
+<span class="fc" id="L278">		GeoHash eastern = getEasternNeighbour();</span>
+<span class="fc" id="L279">		GeoHash southern = getSouthernNeighbour();</span>
+<span class="fc" id="L280">		GeoHash western = getWesternNeighbour();</span>
+<span class="fc" id="L281">		return new GeoHash[] { northern, northern.getEasternNeighbour(), eastern, southern.getEasternNeighbour(),</span>
+				southern,
+<span class="fc" id="L283">				southern.getWesternNeighbour(), western, northern.getWesternNeighbour() };</span>
+	}
+
+	/**
+	 * how many significant bits are there in this {@link GeoHash}?
+	 */
+	public int significantBits() {
+<span class="fc" id="L290">		return significantBits;</span>
+	}
+
+	public long longValue() {
+<span class="fc" id="L294">		return bits;</span>
+	}
+
+	/**
+	 * get the base32 string for this {@link GeoHash}.&lt;br&gt;
+	 * this method only makes sense, if this hash has a multiple of 5
+	 * significant bits.
+	 * 
+	 * @throws IllegalStateException
+	 *             when the number of significant bits is not a multiple of 5.
+	 */
+	public String toBase32() {
+<span class="fc bfc" id="L306" title="All 2 branches covered.">		if (significantBits % 5 != 0) {</span>
+<span class="fc" id="L307">			throw new IllegalStateException(&quot;Cannot convert a geohash to base32 if the precision is not a multiple of 5.&quot;);</span>
+		}
+<span class="fc" id="L309">		StringBuilder buf = new StringBuilder();</span>
+
+<span class="fc" id="L311">		long firstFiveBitsMask = 0xf800000000000000l;</span>
+<span class="fc" id="L312">		long bitsCopy = bits;</span>
+<span class="fc" id="L313">		int partialChunks = (int) Math.ceil(((double) significantBits / 5));</span>
+
+<span class="fc bfc" id="L315" title="All 2 branches covered.">		for (int i = 0; i &lt; partialChunks; i++) {</span>
+<span class="fc" id="L316">			int pointer = (int) ((bitsCopy &amp; firstFiveBitsMask) &gt;&gt;&gt; 59);</span>
+<span class="fc" id="L317">			buf.append(base32[pointer]);</span>
+<span class="fc" id="L318">			bitsCopy &lt;&lt;= 5;</span>
+		}
+<span class="fc" id="L320">		return buf.toString();</span>
+	}
+
+	/**
+	 * returns true iff this is within the given geohash bounding box.
+	 */
+	public boolean within(GeoHash boundingBox) {
+<span class="fc bfc" id="L327" title="All 2 branches covered.">		return (bits &amp; boundingBox.mask()) == boundingBox.bits;</span>
+	}
+
+	/**
+	 * find out if the given point lies within this hashes bounding box.&lt;br&gt;
+	 * &lt;i&gt;Note: this operation checks the bounding boxes coordinates, i.e. does
+	 * not use the {@link GeoHash}s special abilities.s&lt;/i&gt;
+	 */
+	public boolean contains(WGS84Point point) {
+<span class="fc" id="L336">		return boundingBox.contains(point);</span>
+	}
+
+	/**
+	 * returns the {@link WGS84Point} that was originally used to set up this.&lt;br&gt;
+	 * If it was built from a base32-{@link String}, this is the center point of
+	 * the bounding box.
+	 */
+	public WGS84Point getOriginatingPoint() {
+<span class="fc" id="L345">		return point;</span>
+	}
+
+	/**
+	 * return the center of this {@link GeoHash}s bounding box. this is rarely
+	 * the same point that was used to build the hash.
+	 */
+	// TODO: make sure this method works as intented for corner cases!
+	public WGS84Point getBoundingBoxCenter() {
+<span class="fc" id="L354">		return boundingBox.getCenter();</span>
+	}
+
+	public BoundingBox getBoundingBox() {
+<span class="fc" id="L358">		return boundingBox;</span>
+	}
+
+	public boolean enclosesCircleAroundPoint(WGS84Point point, double radius) {
+<span class="nc" id="L362">		return false;</span>
+	}
+
+	protected GeoHash recombineLatLonBitsToHash(long[] latBits, long[] lonBits) {
+<span class="fc" id="L366">		GeoHash hash = new GeoHash();</span>
+<span class="fc" id="L367">		boolean isEvenBit = false;</span>
+<span class="fc" id="L368">		latBits[0] &lt;&lt;= (MAX_BIT_PRECISION - latBits[1]);</span>
+<span class="fc" id="L369">		lonBits[0] &lt;&lt;= (MAX_BIT_PRECISION - lonBits[1]);</span>
+<span class="fc" id="L370">		double[] latitudeRange = { -90.0, 90.0 };</span>
+<span class="fc" id="L371">		double[] longitudeRange = { -180.0, 180.0 };</span>
+
+<span class="fc bfc" id="L373" title="All 2 branches covered.">		for (int i = 0; i &lt; latBits[1] + lonBits[1]; i++) {</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">			if (isEvenBit) {</span>
+<span class="fc bfc" id="L375" title="All 2 branches covered.">				divideRangeDecode(hash, latitudeRange, (latBits[0] &amp; FIRST_BIT_FLAGGED) == FIRST_BIT_FLAGGED);</span>
+<span class="fc" id="L376">				latBits[0] &lt;&lt;= 1;</span>
+			} else {
+<span class="fc bfc" id="L378" title="All 2 branches covered.">				divideRangeDecode(hash, longitudeRange, (lonBits[0] &amp; FIRST_BIT_FLAGGED) == FIRST_BIT_FLAGGED);</span>
+<span class="fc" id="L379">				lonBits[0] &lt;&lt;= 1;</span>
+			}
+<span class="fc bfc" id="L381" title="All 2 branches covered.">			isEvenBit = !isEvenBit;</span>
+		}
+<span class="fc" id="L383">		hash.bits &lt;&lt;= (MAX_BIT_PRECISION - hash.significantBits);</span>
+<span class="fc" id="L384">		setBoundingBox(hash, latitudeRange, longitudeRange);</span>
+<span class="fc" id="L385">		hash.point = hash.boundingBox.getCenter();</span>
+<span class="fc" id="L386">		return hash;</span>
+	}
+
+	public GeoHash getNorthernNeighbour() {
+<span class="fc" id="L390">		long[] latitudeBits = getRightAlignedLatitudeBits();</span>
+<span class="fc" id="L391">		long[] longitudeBits = getRightAlignedLongitudeBits();</span>
+<span class="fc" id="L392">		latitudeBits[0] += 1;</span>
+<span class="fc" id="L393">		latitudeBits[0] = maskLastNBits(latitudeBits[0], latitudeBits[1]);</span>
+<span class="fc" id="L394">		return recombineLatLonBitsToHash(latitudeBits, longitudeBits);</span>
+	}
+
+	public GeoHash getSouthernNeighbour() {
+<span class="fc" id="L398">		long[] latitudeBits = getRightAlignedLatitudeBits();</span>
+<span class="fc" id="L399">		long[] longitudeBits = getRightAlignedLongitudeBits();</span>
+<span class="fc" id="L400">		latitudeBits[0] -= 1;</span>
+<span class="fc" id="L401">		latitudeBits[0] = maskLastNBits(latitudeBits[0], latitudeBits[1]);</span>
+<span class="fc" id="L402">		return recombineLatLonBitsToHash(latitudeBits, longitudeBits);</span>
+	}
+
+	public GeoHash getEasternNeighbour() {
+<span class="fc" id="L406">		long[] latitudeBits = getRightAlignedLatitudeBits();</span>
+<span class="fc" id="L407">		long[] longitudeBits = getRightAlignedLongitudeBits();</span>
+<span class="fc" id="L408">		longitudeBits[0] += 1;</span>
+<span class="fc" id="L409">		longitudeBits[0] = maskLastNBits(longitudeBits[0], longitudeBits[1]);</span>
+<span class="fc" id="L410">		return recombineLatLonBitsToHash(latitudeBits, longitudeBits);</span>
+	}
+
+	public GeoHash getWesternNeighbour() {
+<span class="fc" id="L414">		long[] latitudeBits = getRightAlignedLatitudeBits();</span>
+<span class="fc" id="L415">		long[] longitudeBits = getRightAlignedLongitudeBits();</span>
+<span class="fc" id="L416">		longitudeBits[0] -= 1;</span>
+<span class="fc" id="L417">		longitudeBits[0] = maskLastNBits(longitudeBits[0], longitudeBits[1]);</span>
+<span class="fc" id="L418">		return recombineLatLonBitsToHash(latitudeBits, longitudeBits);</span>
+	}
+
+	protected long[] getRightAlignedLatitudeBits() {
+<span class="fc" id="L422">		long copyOfBits = bits &lt;&lt; 1;</span>
+<span class="fc" id="L423">		long value = extractEverySecondBit(copyOfBits, getNumberOfLatLonBits()[0]);</span>
+<span class="fc" id="L424">		return new long[] { value, getNumberOfLatLonBits()[0] };</span>
+	}
+
+	protected long[] getRightAlignedLongitudeBits() {
+<span class="fc" id="L428">		long copyOfBits = bits;</span>
+<span class="fc" id="L429">		long value = extractEverySecondBit(copyOfBits, getNumberOfLatLonBits()[1]);</span>
+<span class="fc" id="L430">		return new long[] { value, getNumberOfLatLonBits()[1] };</span>
+	}
+
+	private long extractEverySecondBit(long copyOfBits, int numberOfBits) {
+<span class="fc" id="L434">		long value = 0;</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">		for (int i = 0; i &lt; numberOfBits; i++) {</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">			if ((copyOfBits &amp; FIRST_BIT_FLAGGED) == FIRST_BIT_FLAGGED) {</span>
+<span class="fc" id="L437">				value |= 0x1;</span>
+			}
+<span class="fc" id="L439">			value &lt;&lt;= 1;</span>
+<span class="fc" id="L440">			copyOfBits &lt;&lt;= 2;</span>
+		}
+<span class="fc" id="L442">		value &gt;&gt;&gt;= 1;</span>
+<span class="fc" id="L443">		return value;</span>
+	}
+
+	protected int[] getNumberOfLatLonBits() {
+<span class="fc bfc" id="L447" title="All 2 branches covered.">		if (significantBits % 2 == 0) {</span>
+<span class="fc" id="L448">			return new int[] { significantBits / 2, significantBits / 2 };</span>
+		} else {
+<span class="fc" id="L450">			return new int[] { significantBits / 2, significantBits / 2 + 1 };</span>
+		}
+	}
+
+	protected final void addOnBitToEnd() {
+<span class="fc" id="L455">		significantBits++;</span>
+<span class="fc" id="L456">		bits &lt;&lt;= 1;</span>
+<span class="fc" id="L457">		bits = bits | 0x1;</span>
+<span class="fc" id="L458">	}</span>
+
+	protected final void addOffBitToEnd() {
+<span class="fc" id="L461">		significantBits++;</span>
+<span class="fc" id="L462">		bits &lt;&lt;= 1;</span>
+<span class="fc" id="L463">	}</span>
+
+	@Override
+	public String toString() {
+<span class="fc bfc" id="L467" title="All 2 branches covered.">		if (significantBits % 5 == 0) {</span>
+<span class="fc" id="L468">			return String.format(&quot;%s -&gt; %s -&gt; %s&quot;, padLeft(Long.toBinaryString(bits), 64, &quot;0&quot;), boundingBox, toBase32());</span>
+		} else {
+<span class="fc" id="L470">			return String.format(&quot;%s -&gt; %s, bits: %d&quot;, padLeft(Long.toBinaryString(bits), 64, &quot;0&quot;), boundingBox, significantBits);</span>
+		}
+	}
+
+	private static String padLeft(String s, int n, String pad) {
+<span class="fc" id="L475">		return String.format(&quot;%&quot; + n + &quot;s&quot;, s).replace(&quot; &quot;, pad);</span>
+	}
+
+	public String toBinaryString() {
+<span class="fc" id="L479">		StringBuilder bui = new StringBuilder();</span>
+<span class="fc" id="L480">		long bitsCopy = bits;</span>
+<span class="fc bfc" id="L481" title="All 2 branches covered.">		for (int i = 0; i &lt; significantBits; i++) {</span>
+<span class="fc bfc" id="L482" title="All 2 branches covered.">			if ((bitsCopy &amp; FIRST_BIT_FLAGGED) == FIRST_BIT_FLAGGED) {</span>
+<span class="fc" id="L483">				bui.append('1');</span>
+			} else {
+<span class="fc" id="L485">				bui.append('0');</span>
+			}
+<span class="fc" id="L487">			bitsCopy &lt;&lt;= 1;</span>
+		}
+<span class="fc" id="L489">		return bui.toString();</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="pc bpc" id="L494" title="1 of 2 branches missed.">		if (obj == this) {</span>
+<span class="nc" id="L495">			return true;</span>
+		}
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">		if (obj instanceof GeoHash) {</span>
+<span class="fc" id="L498">			GeoHash other = (GeoHash) obj;</span>
+<span class="fc bfc" id="L499" title="All 4 branches covered.">			if (other.significantBits == significantBits &amp;&amp; other.bits == bits) {</span>
+<span class="fc" id="L500">				return true;</span>
+			}
+		}
+<span class="fc" id="L503">		return false;</span>
+	}
+
+	@Override
+	public int hashCode() {
+<span class="fc" id="L508">		int f = 17;</span>
+<span class="fc" id="L509">		f = 31 * f + (int) (bits ^ (bits &gt;&gt;&gt; 32));</span>
+<span class="fc" id="L510">		f = 31 * f + significantBits;</span>
+<span class="fc" id="L511">		return f;</span>
+	}
+
+	/**
+	 * return a long mask for this hashes significant bits.
+	 */
+	private long mask() {
+<span class="pc bpc" id="L518" title="1 of 2 branches missed.">		if (significantBits == 0) {</span>
+<span class="nc" id="L519">			return 0;</span>
+		} else {
+<span class="fc" id="L521">			long value = FIRST_BIT_FLAGGED;</span>
+<span class="fc" id="L522">			value &gt;&gt;= (significantBits - 1);</span>
+<span class="fc" id="L523">			return value;</span>
+		}
+	}
+
+	private long maskLastNBits(long value, long n) {
+<span class="fc" id="L528">		long mask = 0xffffffffffffffffl;</span>
+<span class="fc" id="L529">		mask &gt;&gt;&gt;= (MAX_BIT_PRECISION - n);</span>
+<span class="fc" id="L530">		return value &amp; mask;</span>
+	}
+
+	@Override
+	public int compareTo(GeoHash o) {
+<span class="fc" id="L535">		int bitsCmp = Long.compare(bits ^ FIRST_BIT_FLAGGED, o.bits ^ FIRST_BIT_FLAGGED);</span>
+<span class="fc bfc" id="L536" title="All 2 branches covered.">		if (bitsCmp != 0) {</span>
+<span class="fc" id="L537">			return bitsCmp;</span>
+		} else {
+<span class="fc" id="L539">			return Integer.compare(significantBits, o.significantBits);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

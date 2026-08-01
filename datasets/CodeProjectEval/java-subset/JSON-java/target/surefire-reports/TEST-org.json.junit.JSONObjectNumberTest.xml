@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="org.json.junit.JSONObjectNumberTest" time="0.021" tests="216" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/test-classes:/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/classes:/home/zhaoqianhui/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/zhaoqianhui/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/zhaoqianhui/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/zhaoqianhui/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/home/zhaoqianhui/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/home/zhaoqianhui/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/home/zhaoqianhui/.m2/repository/org/slf4j/slf4j-api/2.0.11/slf4j-api-2.0.11.jar:/home/zhaoqianhui/.m2/repository/org/mockito/mockito-core/4.2.0/mockito-core-4.2.0.jar:/home/zhaoqianhui/.m2/repository/net/bytebuddy/byte-buddy/1.12.4/byte-buddy-1.12.4.jar:/home/zhaoqianhui/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.4/byte-buddy-agent-1.12.4.jar:/home/zhaoqianhui/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/surefire/surefirebooter-20260429033534987_3.jar /workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/surefire 2026-04-29T03-35-34_916-jvmRun1 surefire-20260429033534987_1tmp surefire_0-20260429033534987_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/test-classes:/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/classes:/home/zhaoqianhui/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/zhaoqianhui/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/zhaoqianhui/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/zhaoqianhui/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/home/zhaoqianhui/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/home/zhaoqianhui/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/home/zhaoqianhui/.m2/repository/org/slf4j/slf4j-api/2.0.11/slf4j-api-2.0.11.jar:/home/zhaoqianhui/.m2/repository/org/mockito/mockito-core/4.2.0/mockito-core-4.2.0.jar:/home/zhaoqianhui/.m2/repository/net/bytebuddy/byte-buddy/1.12.4/byte-buddy-1.12.4.jar:/home/zhaoqianhui/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.4/byte-buddy-agent-1.12.4.jar:/home/zhaoqianhui/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/zhaoqianhui"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-01-20"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java/target/surefire/surefirebooter-20260429033534987_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.18+8-Ubuntu-122.04.1"/>
+    <property name="user.name" value="zhaoqianhui"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.8.0-107-generic"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/zhaoqianhui/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="17.0.18"/>
+    <property name="user.dir" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/JSON-java"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="17.0.18+8-Ubuntu-122.04.1"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testOptLong[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testOptNumber[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[0: {&quot;value&quot;:50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[1: {&quot;value&quot;:50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testGetFloat[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testOptInt[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[2: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[3: {&quot;value&quot;:5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[4: {&quot;value&quot;:5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testOptInt[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[5: {&quot;value&quot;:&quot;50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[6: {&quot;value&quot;:-50}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testGetInt[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[7: {&quot;value&quot;:-50.0}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testGetFloat[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testGetDouble[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[8: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[9: {&quot;value&quot;:-5E1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigDecimal[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[10: {&quot;value&quot;:-5e1}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLong[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetFloat[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetLong[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptLongObject[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigDecimal[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDoubleObject[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptBigInteger[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptIntegerObject[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloat[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetDouble[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.001"/>
+  <testcase name="testGetBigDecimal[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetNumber[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetInt[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptDouble[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testGetBigInteger[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptInt[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptNumber[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+  <testcase name="testOptFloatObject[11: {&quot;value&quot;:&quot;-50&quot;}]" classname="org.json.junit.JSONObjectNumberTest" time="0.0"/>
+</testsuite>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.json.junit.JSONObjectNumberTest
+-------------------------------------------------------------------------------
+Tests run: 216, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in org.json.junit.JSONObjectNumberTest

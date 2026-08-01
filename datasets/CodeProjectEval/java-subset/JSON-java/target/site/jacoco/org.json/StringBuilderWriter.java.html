@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringBuilderWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">StringBuilderWriter.java</span></div><h1>StringBuilderWriter.java</h1><pre class="source lang-java linenums">package org.json;
+
+import java.io.IOException;
+import java.io.Writer;
+
+/**
+ * Performance optimised alternative for {@link java.io.StringWriter}
+ * using internally a {@link StringBuilder} instead of a {@link StringBuffer}.
+ */
+public class StringBuilderWriter extends Writer {
+    private final StringBuilder builder;
+
+    /**
+     * Create a new string builder writer using the default initial string-builder buffer size.
+     */
+<span class="fc" id="L16">    public StringBuilderWriter() {</span>
+<span class="fc" id="L17">        builder = new StringBuilder();</span>
+<span class="fc" id="L18">        lock = builder;</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Create a new string builder writer using the specified initial string-builder buffer size.
+     *
+     * @param initialSize The number of {@code char} values that will fit into this buffer
+     *                    before it is automatically expanded
+     *
+     * @throws IllegalArgumentException If {@code initialSize} is negative
+     */
+<span class="fc" id="L29">    public StringBuilderWriter(int initialSize) {</span>
+<span class="fc" id="L30">        builder = new StringBuilder(initialSize);</span>
+<span class="fc" id="L31">        lock = builder;</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public void write(int c) {
+<span class="fc" id="L36">        builder.append((char) c);</span>
+<span class="fc" id="L37">    }</span>
+
+    @Override
+    public void write(char[] cbuf, int offset, int length) {
+<span class="pc bpc" id="L41" title="5 of 10 branches missed.">        if ((offset &lt; 0) || (offset &gt; cbuf.length) || (length &lt; 0) ||</span>
+                ((offset + length) &gt; cbuf.length) || ((offset + length) &lt; 0)) {
+<span class="nc" id="L43">            throw new IndexOutOfBoundsException();</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        } else if (length == 0) {</span>
+<span class="nc" id="L45">            return;</span>
+        }
+<span class="fc" id="L47">        builder.append(cbuf, offset, length);</span>
+<span class="fc" id="L48">    }</span>
+
+    @Override
+    public void write(String str) {
+<span class="fc" id="L52">        builder.append(str);</span>
+<span class="fc" id="L53">    }</span>
+
+    @Override
+    public void write(String str, int offset, int length) {
+<span class="fc" id="L57">        builder.append(str, offset, offset + length);</span>
+<span class="fc" id="L58">    }</span>
+
+    @Override
+    public StringBuilderWriter append(CharSequence csq) {
+<span class="fc" id="L62">        write(String.valueOf(csq));</span>
+<span class="fc" id="L63">        return this;</span>
+    }
+
+    @Override
+    public StringBuilderWriter append(CharSequence csq, int start, int end) {
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (csq == null) {</span>
+<span class="nc" id="L69">            csq = &quot;null&quot;;</span>
+        }
+<span class="fc" id="L71">        return append(csq.subSequence(start, end));</span>
+    }
+
+    @Override
+    public StringBuilderWriter append(char c) {
+<span class="fc" id="L76">        write(c);</span>
+<span class="fc" id="L77">        return this;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L82">        return builder.toString();</span>
+    }
+
+    @Override
+    public void flush() {
+<span class="nc" id="L87">    }</span>
+
+    @Override
+    public void close() throws IOException {
+<span class="nc" id="L91">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

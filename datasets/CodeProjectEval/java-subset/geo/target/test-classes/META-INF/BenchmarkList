@@ -1,0 +1,2 @@
+JMH S 36 com.github.davidmoten.geo.Benchmarks S 69 com.github.davidmoten.geo.jmh_generated.Benchmarks_decodeHash_jmhTest S 10 decodeHash S 10 Throughput E A 1 1 1 E E E E E E E E E E E E E E E E E 
+JMH S 36 com.github.davidmoten.geo.Benchmarks S 71 com.github.davidmoten.geo.jmh_generated.Benchmarks_hashContains_jmhTest S 12 hashContains S 10 Throughput E A 1 1 1 E E E E E E E E E E E E E E E E E 

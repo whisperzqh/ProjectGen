@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoHashCircleQuery.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geohash-java</a> &gt; <a href="index.source.html" class="el_package">ch.hsr.geohash.queries</a> &gt; <span class="el_source">GeoHashCircleQuery.java</span></div><h1>GeoHashCircleQuery.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2010, Silvio Heuberger @ IFS www.ifs.hsr.ch
+ *
+ * This code is release under the Apache License 2.0.
+ * You should have received a copy of the license
+ * in the LICENSE file. If you have not, see
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+package ch.hsr.geohash.queries;
+
+import java.io.Serializable;
+import java.util.List;
+
+import ch.hsr.geohash.BoundingBox;
+import ch.hsr.geohash.GeoHash;
+import ch.hsr.geohash.WGS84Point;
+import ch.hsr.geohash.util.VincentyGeodesy;
+
+/**
+ * represents a radius search around a specific point via geohashes.
+ * Approximates the circle with a square!
+ */
+public class GeoHashCircleQuery implements GeoHashQuery, Serializable {
+	private static final long serialVersionUID = 1263295371663796291L;
+	private double radius;
+	private GeoHashBoundingBoxQuery query;
+	private WGS84Point center;
+
+	/**
+	 * create a {@link GeoHashCircleQuery} with the given center point and a radius in meters.
+	 */
+<span class="fc" id="L32">	public GeoHashCircleQuery(WGS84Point center, double radius) {</span>
+<span class="fc" id="L33">		this.radius = radius;</span>
+<span class="fc" id="L34">		this.center = center;</span>
+<span class="fc" id="L35">		WGS84Point northEastCorner = VincentyGeodesy.moveInDirection(VincentyGeodesy.moveInDirection(center, 0, radius), 90, radius);</span>
+<span class="fc" id="L36">		WGS84Point southWestCorner = VincentyGeodesy.moveInDirection(VincentyGeodesy.moveInDirection(center, 180, radius), 270, radius);</span>
+<span class="fc" id="L37">		BoundingBox bbox = new BoundingBox(southWestCorner, northEastCorner);</span>
+<span class="fc" id="L38">		query = new GeoHashBoundingBoxQuery(bbox);</span>
+<span class="fc" id="L39">	}</span>
+
+	@Override
+	public boolean contains(GeoHash hash) {
+<span class="nc" id="L43">		return query.contains(hash);</span>
+	}
+
+	@Override
+	public String getWktBox() {
+<span class="nc" id="L48">		return query.getWktBox();</span>
+	}
+
+	@Override
+	public List&lt;GeoHash&gt; getSearchHashes() {
+<span class="nc" id="L53">		return query.getSearchHashes();</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="nc" id="L58">		return &quot;Cicle Query [center=&quot; + center + &quot;, radius=&quot; + getRadiusString() + &quot;]&quot;;</span>
+	}
+
+	private String getRadiusString() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		if (radius &gt; 1000) {</span>
+<span class="nc" id="L63">			return radius / 1000 + &quot;km&quot;;</span>
+		} else {
+<span class="nc" id="L65">			return radius + &quot;m&quot;;</span>
+		}
+	}
+
+	@Override
+	public boolean contains(WGS84Point point) {
+<span class="fc" id="L71">		return query.contains(point);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

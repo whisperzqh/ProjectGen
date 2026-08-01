@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VincentyGeodesy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geohash-java</a> &gt; <a href="index.source.html" class="el_package">ch.hsr.geohash.util</a> &gt; <span class="el_source">VincentyGeodesy.java</span></div><h1>VincentyGeodesy.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2010, Silvio Heuberger @ IFS www.ifs.hsr.ch
+ *
+ * This code is release under the Apache License 2.0.
+ * You should have received a copy of the license
+ * in the LICENSE file. If you have not, see
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+package ch.hsr.geohash.util;
+
+import ch.hsr.geohash.WGS84Point;
+
+/**
+ * Ecapsulates Vincety's geodesy algorithm .
+ */
+<span class="nc" id="L16">public class VincentyGeodesy {</span>
+	static final double equatorRadius = 6378137, poleRadius = 6356752.3142, f = 1 / 298.257223563;
+	public static final double degToRad = 0.0174532925199433;
+	static final double equatorRadiusSquared = equatorRadius * equatorRadius, poleRadiusSquared = poleRadius
+			* poleRadius;
+	public static final double EPSILON = 1e-12;
+
+	/**
+	 * returns the {@link WGS84Point} that is in the given direction at the
+	 * following distance of the given point.&lt;br&gt;
+	 * Uses Vincenty's formula and the WGS84 ellipsoid.
+	 * 
+	 * @param bearingInDegrees
+	 *            : must be within 0 and 360
+	 * @param point : where to start
+	 * @param distanceInMeters: How far to move in the given direction
+	 */
+	public static WGS84Point moveInDirection(WGS84Point point, double bearingInDegrees, double distanceInMeters) {
+
+<span class="pc bpc" id="L35" title="2 of 4 branches missed.">		if (bearingInDegrees &lt; 0 || bearingInDegrees &gt; 360) {</span>
+<span class="nc" id="L36">			throw new IllegalArgumentException(&quot;direction must be in (0,360)&quot;);</span>
+		}
+
+<span class="fc" id="L39">		double a = 6378137, b = 6356752.3142, f = 1 / 298.257223563; // WGS-84</span>
+		// ellipsiod
+<span class="fc" id="L41">		double alpha1 = bearingInDegrees * degToRad;</span>
+<span class="fc" id="L42">		double sinAlpha1 = Math.sin(alpha1), cosAlpha1 = Math.cos(alpha1);</span>
+
+<span class="fc" id="L44">		double tanU1 = (1 - f) * Math.tan(point.getLatitude() * degToRad);</span>
+<span class="fc" id="L45">		double cosU1 = 1 / Math.sqrt((1 + tanU1 * tanU1)), sinU1 = tanU1 * cosU1;</span>
+<span class="fc" id="L46">		double sigma1 = Math.atan2(tanU1, cosAlpha1);</span>
+<span class="fc" id="L47">		double sinAlpha = cosU1 * sinAlpha1;</span>
+<span class="fc" id="L48">		double cosSqAlpha = 1 - sinAlpha * sinAlpha;</span>
+<span class="fc" id="L49">		double uSq = cosSqAlpha * (a * a - b * b) / (b * b);</span>
+<span class="fc" id="L50">		double A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));</span>
+<span class="fc" id="L51">		double B = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));</span>
+
+<span class="fc" id="L53">		double sinSigma = 0, cosSigma = 0, cos2SigmaM = 0;</span>
+<span class="fc" id="L54">		double sigma = distanceInMeters / (b * A), sigmaP = 2 * Math.PI;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		while (Math.abs(sigma - sigmaP) &gt; 1e-12) {</span>
+<span class="fc" id="L56">			cos2SigmaM = Math.cos(2 * sigma1 + sigma);</span>
+<span class="fc" id="L57">			sinSigma = Math.sin(sigma);</span>
+<span class="fc" id="L58">			cosSigma = Math.cos(sigma);</span>
+<span class="fc" id="L59">			double deltaSigma = B</span>
+					* sinSigma
+					* (cos2SigmaM + B
+							/ 4
+							* (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM
+									* (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
+<span class="fc" id="L65">			sigmaP = sigma;</span>
+<span class="fc" id="L66">			sigma = distanceInMeters / (b * A) + deltaSigma;</span>
+<span class="fc" id="L67">		}</span>
+
+<span class="fc" id="L69">		double tmp = sinU1 * sinSigma - cosU1 * cosSigma * cosAlpha1;</span>
+<span class="fc" id="L70">		double lat2 = Math.atan2(sinU1 * cosSigma + cosU1 * sinSigma * cosAlpha1, (1 - f)</span>
+<span class="fc" id="L71">				* Math.sqrt(sinAlpha * sinAlpha + tmp * tmp));</span>
+<span class="fc" id="L72">		double lambda = Math.atan2(sinSigma * sinAlpha1, cosU1 * cosSigma - sinU1 * sinSigma * cosAlpha1);</span>
+<span class="fc" id="L73">		double C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));</span>
+<span class="fc" id="L74">		double L = lambda - (1 - C) * f * sinAlpha</span>
+				* (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
+
+<span class="fc" id="L77">		double newLat = lat2 / degToRad;</span>
+<span class="fc" id="L78">		double newLon = point.getLongitude() + L / degToRad;</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		newLon = (newLon &gt; 180.0 ? newLon - 360 : newLon);</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">		newLon = (newLon &lt; -180.0 ? 360.0 + newLon : newLon);</span>
+
+<span class="fc" id="L83">		return new WGS84Point(newLat, newLon);</span>
+	}
+
+	public static double distanceInMeters(WGS84Point foo, WGS84Point bar) {
+<span class="fc" id="L87">		double a = 6378137, b = 6356752.3142, f = 1 / 298.257223563; // WGS-84</span>
+		// ellipsiod
+<span class="fc" id="L89">		double L = (bar.getLongitude() - foo.getLongitude()) * degToRad;</span>
+<span class="fc" id="L90">		double U1 = Math.atan((1 - f) * Math.tan(foo.getLatitude() * degToRad));</span>
+<span class="fc" id="L91">		double U2 = Math.atan((1 - f) * Math.tan(bar.getLatitude() * degToRad));</span>
+<span class="fc" id="L92">		double sinU1 = Math.sin(U1), cosU1 = Math.cos(U1);</span>
+<span class="fc" id="L93">		double sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);</span>
+
+		double cosSqAlpha, sinSigma, cos2SigmaM, cosSigma, sigma;
+
+<span class="fc" id="L97">		double lambda = L, lambdaP, iterLimit = 20;</span>
+		do {
+<span class="fc" id="L99">			double sinLambda = Math.sin(lambda), cosLambda = Math.cos(lambda);</span>
+<span class="fc" id="L100">			sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda)</span>
+					+ (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">			if (sinSigma == 0) {</span>
+<span class="nc" id="L103">				return 0; // co-incident points</span>
+			}
+<span class="fc" id="L105">			cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;</span>
+<span class="fc" id="L106">			sigma = Math.atan2(sinSigma, cosSigma);</span>
+<span class="fc" id="L107">			double sinAlpha = cosU1 * cosU2 * sinLambda / sinSigma;</span>
+<span class="fc" id="L108">			cosSqAlpha = 1 - sinAlpha * sinAlpha;</span>
+<span class="fc" id="L109">			cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha;</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">			if (Double.isNaN(cos2SigmaM)) {</span>
+<span class="nc" id="L111">				cos2SigmaM = 0; // equatorial line: cosSqAlpha=0</span>
+			}
+<span class="fc" id="L113">			double C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));</span>
+<span class="fc" id="L114">			lambdaP = lambda;</span>
+<span class="fc" id="L115">			lambda = L + (1 - C) * f * sinAlpha</span>
+					* (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">		} while (Math.abs(lambda - lambdaP) &gt; EPSILON &amp;&amp; --iterLimit &gt; 0);</span>
+
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (iterLimit == 0) {</span>
+<span class="nc" id="L120">			return Double.NaN;</span>
+		}
+<span class="fc" id="L122">		double uSquared = cosSqAlpha * (a * a - b * b) / (b * b);</span>
+<span class="fc" id="L123">		double A = 1 + uSquared / 16384 * (4096 + uSquared * (-768 + uSquared * (320 - 175 * uSquared)));</span>
+<span class="fc" id="L124">		double B = uSquared / 1024 * (256 + uSquared * (-128 + uSquared * (74 - 47 * uSquared)));</span>
+<span class="fc" id="L125">		double deltaSigma = B</span>
+				* sinSigma
+				* (cos2SigmaM + B
+						/ 4
+						* (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM
+								* (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
+<span class="fc" id="L131">		double s = b * A * (sigma - deltaSigma);</span>
+
+<span class="fc" id="L133">		return s;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

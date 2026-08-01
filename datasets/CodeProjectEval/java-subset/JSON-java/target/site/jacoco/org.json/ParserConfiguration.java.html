@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParserConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON in Java</a> &gt; <a href="index.source.html" class="el_package">org.json</a> &gt; <span class="el_source">ParserConfiguration.java</span></div><h1>ParserConfiguration.java</h1><pre class="source lang-java linenums">package org.json;
+/*
+Public Domain.
+*/
+
+/**
+ * Configuration base object for parsers. The configuration is immutable.
+ */
+@SuppressWarnings({&quot;&quot;})
+public class ParserConfiguration {
+    /**
+     * Used to indicate there's no defined limit to the maximum nesting depth when parsing a document.
+     */
+    public static final int UNDEFINED_MAXIMUM_NESTING_DEPTH = -1;
+
+    /**
+     * The default maximum nesting depth when parsing a document.
+     */
+    public static final int DEFAULT_MAXIMUM_NESTING_DEPTH = 512;
+
+    /**
+     * Specifies if values should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string).
+     */
+    protected boolean keepStrings;
+
+    /**
+     * The maximum nesting depth when parsing an object.
+     */
+    protected int maxNestingDepth;
+
+    /**
+     * Constructs a new ParserConfiguration with default settings.
+     */
+<span class="fc" id="L35">    public ParserConfiguration() {</span>
+<span class="fc" id="L36">        this.keepStrings = false;</span>
+<span class="fc" id="L37">        this.maxNestingDepth = DEFAULT_MAXIMUM_NESTING_DEPTH;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * Constructs a new ParserConfiguration with the specified settings.
+     *
+     * @param keepStrings     A boolean indicating whether to preserve strings during parsing.
+     * @param maxNestingDepth An integer representing the maximum allowed nesting depth.
+     */
+<span class="fc" id="L46">    protected ParserConfiguration(final boolean keepStrings, final int maxNestingDepth) {</span>
+<span class="fc" id="L47">        this.keepStrings = keepStrings;</span>
+<span class="fc" id="L48">        this.maxNestingDepth = maxNestingDepth;</span>
+<span class="fc" id="L49">    }</span>
+
+    /**
+     * Provides a new instance of the same configuration.
+     */
+    @Override
+    protected ParserConfiguration clone() {
+        // future modifications to this method should always ensure a &quot;deep&quot;
+        // clone in the case of collections. i.e. if a Map is added as a configuration
+        // item, a new map instance should be created and if possible each value in the
+        // map should be cloned as well. If the values of the map are known to also
+        // be immutable, then a shallow clone of the map is acceptable.
+<span class="nc" id="L61">        return new ParserConfiguration(</span>
+                this.keepStrings,
+                this.maxNestingDepth
+        );
+    }
+
+    /**
+     * When parsing the XML into JSONML, specifies if values should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string).
+     *
+     * @return The &lt;code&gt;keepStrings&lt;/code&gt; configuration value.
+     */
+    public boolean isKeepStrings() {
+<span class="fc" id="L74">        return this.keepStrings;</span>
+    }
+
+    /**
+     * When parsing the XML into JSONML, specifies if values should be kept as strings (&lt;code&gt;true&lt;/code&gt;), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string)
+     *
+     * @param newVal new value to use for the &lt;code&gt;keepStrings&lt;/code&gt; configuration option.
+     * @param &lt;T&gt;    the type of the configuration object
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T extends ParserConfiguration&gt; T withKeepStrings(final boolean newVal) {
+<span class="fc" id="L87">        T newConfig = (T) this.clone();</span>
+<span class="fc" id="L88">        newConfig.keepStrings = newVal;</span>
+<span class="fc" id="L89">        return newConfig;</span>
+    }
+
+    /**
+     * The maximum nesting depth that the parser will descend before throwing an exception
+     * when parsing an object (e.g. Map, Collection) into JSON-related objects.
+     *
+     * @return the maximum nesting depth set for this configuration
+     */
+    public int getMaxNestingDepth() {
+<span class="fc" id="L99">        return maxNestingDepth;</span>
+    }
+
+    /**
+     * Defines the maximum nesting depth that the parser will descend before throwing an exception
+     * when parsing an object (e.g. Map, Collection) into JSON-related objects.
+     * The default max nesting depth is 512, which means the parser will throw a JsonException if
+     * the maximum depth is reached.
+     * Using any negative value as a parameter is equivalent to setting no limit to the nesting depth,
+     * which means the parses will go as deep as the maximum call stack size allows.
+     *
+     * @param maxNestingDepth the maximum nesting depth allowed to the XML parser
+     * @param &lt;T&gt;             the type of the configuration object
+     * @return The existing configuration will not be modified. A new configuration is returned.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T extends ParserConfiguration&gt; T withMaxNestingDepth(int maxNestingDepth) {
+<span class="fc" id="L116">        T newConfig = (T) this.clone();</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (maxNestingDepth &gt; UNDEFINED_MAXIMUM_NESTING_DEPTH) {</span>
+<span class="fc" id="L119">            newConfig.maxNestingDepth = maxNestingDepth;</span>
+        } else {
+<span class="fc" id="L121">            newConfig.maxNestingDepth = UNDEFINED_MAXIMUM_NESTING_DEPTH;</span>
+        }
+
+<span class="fc" id="L124">        return newConfig;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

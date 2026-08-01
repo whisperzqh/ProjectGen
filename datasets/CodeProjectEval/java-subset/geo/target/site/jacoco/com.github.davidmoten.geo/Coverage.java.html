@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Coverage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geo</a> &gt; <a href="index.source.html" class="el_package">com.github.davidmoten.geo</a> &gt; <span class="el_source">Coverage.java</span></div><h1>Coverage.java</h1><pre class="source lang-java linenums">package com.github.davidmoten.geo;
+
+import java.util.Set;
+import java.util.TreeSet;
+
+/**
+ * A set of hashes and a measure of how well those hashes cover a region.
+ * Immutable.
+ * 
+ * @author dave
+ * 
+ */
+public class Coverage {
+
+    /**
+     * The hashes providing the coverage.
+     */
+    private final Set&lt;String&gt; hashes;
+
+    /**
+     * How well the coverage is covered by the hashes. Will be &gt;=1. Closer to 1
+     * the close the coverage is to the region in question.
+     */
+    private final double ratio;
+
+    /**
+     * Constructor.
+     * 
+     * @param hashes
+     *            set of hashes comprising the coverage
+     * @param ratio
+     *            ratio of area of hashes to the area of target region
+     */
+    public Coverage(Set&lt;String&gt; hashes, double ratio) {
+<span class="nc" id="L35">        super();</span>
+<span class="nc" id="L36">        this.hashes = hashes;</span>
+<span class="nc" id="L37">        this.ratio = ratio;</span>
+<span class="nc" id="L38">    }</span>
+
+<span class="fc" id="L40">    Coverage(CoverageLongs coverage) {</span>
+<span class="fc" id="L41">        this.ratio = coverage.getRatio();</span>
+<span class="fc" id="L42">        this.hashes = new TreeSet&lt;String&gt;();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for(Long l : coverage.getHashes()) {</span>
+<span class="fc" id="L44">            hashes.add(GeoHash.fromLongToString(l));</span>
+        }
+<span class="fc" id="L46">    }</span>
+
+/**
+     * Returns the hashes which are expected to be all of the same length.
+     * 
+     * @return set of hashes
+     */
+    public Set&lt;String&gt; getHashes() {
+<span class="fc" id="L54">        return hashes;</span>
+    }
+
+    /**
+     * Returns the measure of how well the hashes cover a region. The ratio is
+     * the total area of hashes divided by the area of the bounding box in
+     * degrees squared. The closer the ratio is to 1 the better the more closely
+     * the hashes approximate the bounding box.
+     * 
+     * @return ratio of area of hashes to area of target region.
+     */
+    public double getRatio() {
+<span class="nc" id="L66">        return ratio;</span>
+    }
+
+    /**
+     * Returns the length in characters of the first hash returned by an
+     * iterator on the hash set. All hashes should be of the same length in this
+     * coverage.
+     * 
+     * @return length of the hash
+     */
+    public int getHashLength() {
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (hashes.size() == 0)</span>
+<span class="nc" id="L78">            return 0;</span>
+        else
+<span class="fc" id="L80">            return hashes.iterator().next().length();</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L85">        return &quot;Coverage [hashes=&quot; + hashes + &quot;, ratio=&quot; + ratio + &quot;]&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

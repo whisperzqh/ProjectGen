@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+hmm-lib,com.bmw.hmm,ViterbiAlgorithm.ForwardStepResult,0,17,0,0,0,4,0,1,0,1
+hmm-lib,com.bmw.hmm,Transition,24,51,5,5,4,10,6,3,1,3
+hmm-lib,com.bmw.hmm,ForwardBackwardAlgorithm,591,0,54,0,117,0,44,0,17,0
+hmm-lib,com.bmw.hmm,SequenceState,0,15,0,0,0,6,0,1,0,1
+hmm-lib,com.bmw.hmm,ViterbiAlgorithm,311,344,44,38,68,82,38,24,7,14
+hmm-lib,com.bmw.hmm,ForwardBackwardAlgorithm.Step,21,0,0,0,7,0,1,0,1,0
+hmm-lib,com.bmw.hmm,Utils,47,8,6,0,7,1,6,1,3,1
+hmm-lib,com.bmw.hmm,ViterbiAlgorithm.ExtendedState,0,15,0,0,0,6,0,1,0,1

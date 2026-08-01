@@ -1,0 +1,8 @@
+{
+    "PRD": "docs/PRD.md",
+    "UML": "docs/UML.md",
+    "architecture_design": "docs/architecture_design.md",
+    "directory_tree": "docs/directory_tree.txt",
+    "language": "java",
+    "required_files": ["src/main/spotbugs", "src/test", "pom.xml"]
+}

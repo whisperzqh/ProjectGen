@@ -1,0 +1,27 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+JSON in Java,org.json,XMLTokener,64,441,21,82,18,125,19,52,0,11
+JSON in Java,org.json,JSONPointerException,0,9,0,0,0,4,0,2,0,2
+JSON in Java,org.json,XML.new Iterable() {...},0,11,0,0,0,2,0,2,0,2
+JSON in Java,org.json,JSONException,0,15,0,0,0,6,0,3,0,3
+JSON in Java,org.json,Property,3,63,1,11,2,16,2,7,1,2
+JSON in Java,org.json,JSONStringer,1,15,1,1,0,3,1,2,0,2
+JSON in Java,org.json,HTTP,42,198,7,19,9,40,7,9,1,2
+JSON in Java,org.json,JSONWriter,66,414,13,65,14,101,12,42,0,15
+JSON in Java,org.json,JSONMLParserConfiguration,0,40,0,0,0,11,0,6,0,6
+JSON in Java,org.json,HTTPTokener,0,59,0,14,0,17,0,9,0,2
+JSON in Java,org.json,CDL,26,422,16,78,6,100,21,46,5,15
+JSON in Java,org.json,StringBuilderWriter,9,100,7,7,5,25,9,10,2,10
+JSON in Java,org.json,JSONObject.Null,2,11,0,4,1,2,1,4,1,2
+JSON in Java,org.json,XML.1.new Iterator() {...},4,41,0,2,1,7,1,4,1,3
+JSON in Java,org.json,ParserConfiguration,8,47,0,2,1,18,1,7,1,6
+JSON in Java,org.json,Cookie,20,354,12,52,6,75,13,24,1,4
+JSON in Java,org.json,XMLParserConfiguration,40,226,0,8,14,64,4,26,4,22
+JSON in Java,org.json,JSONTokener,81,781,19,119,19,193,20,82,1,28
+JSON in Java,org.json,JSONObject,421,3763,112,627,88,865,99,431,3,153
+JSON in Java,org.json,JSONArray,225,1550,33,211,50,377,37,192,10,96
+JSON in Java,org.json,JSONPointer.Builder,0,36,0,2,0,10,0,5,0,4
+JSON in Java,org.json,XML,272,1416,85,233,50,331,74,117,3,27
+JSON in Java,org.json,CookieList,3,87,0,8,2,22,1,6,1,2
+JSON in Java,org.json,JSONPointer,26,290,0,32,6,64,0,25,0,9
+JSON in Java,org.json,JSONParserConfiguration,0,77,0,0,0,26,0,10,0,10
+JSON in Java,org.json,JSONML,156,704,29,109,27,178,36,50,8,9

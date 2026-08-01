@@ -1,0 +1,7 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+InMemoryJavaCompiler,org.mdkt.compiler,InMemoryJavaCompiler,69,178,10,10,14,35,12,7,5,4
+InMemoryJavaCompiler,org.mdkt.compiler,ExtendedStandardJavaFileManager,30,15,0,0,6,5,1,2,1,2
+InMemoryJavaCompiler,org.mdkt.compiler,SourceCode,0,34,0,0,0,7,0,3,0,3
+InMemoryJavaCompiler,org.mdkt.compiler,DynamicClassLoader,31,9,2,0,7,3,3,1,2,1
+InMemoryJavaCompiler,org.mdkt.compiler,CompiledCode,10,16,0,0,3,4,3,1,3,1
+InMemoryJavaCompiler,org.mdkt.compiler,CompilationException,0,4,0,0,0,2,0,1,0,1

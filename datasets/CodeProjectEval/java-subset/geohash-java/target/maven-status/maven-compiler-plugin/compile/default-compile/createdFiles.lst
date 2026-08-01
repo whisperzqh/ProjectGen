@@ -1,0 +1,13 @@
+ch/hsr/geohash/util/TwoGeoHashBoundingBox.class
+ch/hsr/geohash/queries/GeoHashQuery.class
+ch/hsr/geohash/BoundingBox.class
+ch/hsr/geohash/queries/GeoHashBoundingBoxQuery.class
+ch/hsr/geohash/queries/GeoHashCircleQuery.class
+ch/hsr/geohash/util/GeoHashSizeTable.class
+ch/hsr/geohash/GeoHash.class
+ch/hsr/geohash/util/DoubleUtil.class
+ch/hsr/geohash/util/BoundingBoxGeoHashIterator.class
+ch/hsr/geohash/util/LongUtil.class
+ch/hsr/geohash/util/VincentyGeodesy.class
+ch/hsr/geohash/WGS84Point.class
+ch/hsr/geohash/util/BoundingBoxSampler.class

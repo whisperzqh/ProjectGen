@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="35" failures="0" name="ch.hsr.geohash.GeoHashTest" time="0.474" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="java.vm.version" value="17.0.18+8-Ubuntu-122.04.1"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="maven.multiModuleProjectDirectory" value="/home/zhaoqianhui/workspace/project_level_dataset/java_subset/geohash-java"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/workspace/zhaoqianhui/project_level_dataset/java_subset/geohash-java"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="17.0.18+8-Ubuntu-122.04.1"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Linux"/>
+    <property name="classworlds.conf" value="/usr/share/maven/bin/m2.conf"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="maven.conf" value="/usr/share/maven/conf"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="61.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="6.8.0-107-generic"/>
+    <property name="library.jansi.path" value="/usr/share/maven/lib/jansi-native"/>
+    <property name="user.home" value="/home/zhaoqianhui"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="17"/>
+    <property name="user.name" value="zhaoqianhui"/>
+    <property name="java.class.path" value="/usr/share/maven/boot/plexus-classworlds-2.x.jar"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean test -Punit"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="17.0.18"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="sun.stderr.encoding" value="UTF-8"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="maven.home" value="/usr/share/maven"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.version.date" value="2026-01-20"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.stdout.encoding" value="UTF-8"/>
+  </properties>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testGetCharacterPrecisionWorksWhenPrecisionIsMultipleOfFive" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testThatAdjacentHashesHavePointInitialized" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="itShouldThrowWhenTheBitPrecisionIsMoreThan64Bits" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testMovingAroundWorldOnHashStrips" time="0.145"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testSecondCaseWhereOrdMustBePositive" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testToAndFromBinaryString" time="0.218"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testToBase32" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testToLongAndBack" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="itShouldCreateAHashWithMaximumPrecisionOf64Bits" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testNext" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="itShouldThrowANiceExceptionOnIllegalCharacters" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testNeighbourLocationCode" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testCompareTo" time="0.032"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testOrdIsPositive" time="0.001"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testKnownAdjacentNeighbours" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testSimpleWithin" time="0.001"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testGetCharacterPrecisionThrows" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="itShouldThrowWhenTheBitPrecisionIsLessThan0Bits" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testConstructorWithBitPrecision" time="0.002"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testAddingZeroes" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testAdjacentHashes" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="itShouldThrowWhenTheCharacterPrecisionIsTooBig" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testKnownNeighbouringHashes" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testLatLonBoundingBoxes" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testByCharacterPrecision" time="0.001"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testEqualsAndHashCode" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testIssue1" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testMovingInCircle" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testNeibouringHashesNearMeridian" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testStepsBetween" time="0.074"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testWithin" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testGetLongitudeBits" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testNotWithin" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="toBase32ShouldThrowWhenPrecisionIsNotAMultipleOf5" time="0"/>
+  <testcase classname="ch.hsr.geohash.GeoHashTest" name="testNextPrev" time="0"/>
+</testsuite>

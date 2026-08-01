@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoundingBox.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geohash-java</a> &gt; <a href="index.source.html" class="el_package">ch.hsr.geohash</a> &gt; <span class="el_source">BoundingBox.java</span></div><h1>BoundingBox.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2010, Silvio Heuberger @ IFS www.ifs.hsr.ch
+ *
+ * This code is release under the Apache License 2.0.
+ * You should have received a copy of the license
+ * in the LICENSE file. If you have not, see
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+package ch.hsr.geohash;
+
+import java.io.Serializable;
+import ch.hsr.geohash.util.DoubleUtil;
+
+public class BoundingBox implements Serializable {
+	private static final long serialVersionUID = -7145192134410261076L;
+	private double southLatitude;
+	private double northLatitude;
+	private double westLongitude;
+	private double eastLongitude;
+	private boolean intersects180Meridian;
+
+	/**
+	 * create a bounding box defined by two coordinates
+	 */
+	public BoundingBox(WGS84Point southWestCorner, WGS84Point northEastCorner) {
+<span class="fc" id="L26">		this(southWestCorner.getLatitude(), northEastCorner.getLatitude(), southWestCorner.getLongitude(), northEastCorner.getLongitude());</span>
+<span class="fc" id="L27">	}</span>
+
+	/**
+	 * Create a bounding box with the specified latitudes and longitudes. This constructor takes the order of the points into account.
+	 *
+	 * @param northLatitude
+	 * @param southLatitude
+	 * @param westLongitude
+	 * @param eastLongitude
+	 *
+	 * @throws IllegalArgumentException
+	 *             When the defined BoundingBox would go over one of the poles. This kind of box is not supported.
+	 */
+<span class="fc" id="L40">	public BoundingBox(double southLatitude, double northLatitude, double westLongitude, double eastLongitude) {</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">		if (southLatitude &gt; northLatitude)</span>
+<span class="nc" id="L42">			throw new IllegalArgumentException(&quot;The southLatitude must not be greater than the northLatitude&quot;);</span>
+
+<span class="pc bpc" id="L44" title="4 of 8 branches missed.">		if (Math.abs(southLatitude) &gt; 90 || Math.abs(northLatitude) &gt; 90 || Math.abs(westLongitude) &gt; 180 || Math.abs(eastLongitude) &gt; 180) {</span>
+<span class="nc" id="L45">			throw new IllegalArgumentException(&quot;The supplied coordinates are out of range.&quot;);</span>
+		}
+
+<span class="fc" id="L48">		this.northLatitude = northLatitude;</span>
+<span class="fc" id="L49">		this.westLongitude = westLongitude;</span>
+
+<span class="fc" id="L51">		this.southLatitude = southLatitude;</span>
+<span class="fc" id="L52">		this.eastLongitude = eastLongitude;</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		intersects180Meridian = eastLongitude &lt; westLongitude;</span>
+<span class="fc" id="L55">	}</span>
+
+	/**
+	 * Clone constructor
+	 *
+	 * @param that
+	 */
+	public BoundingBox(BoundingBox that) {
+<span class="fc" id="L63">		this(that.southLatitude, that.northLatitude, that.westLongitude, that.eastLongitude);</span>
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * Returns the NorthWestCorner of this BoundingBox as a new Point.
+	 *
+	 * @return
+	 */
+	public WGS84Point getNorthWestCorner() {
+<span class="fc" id="L72">		return new WGS84Point(northLatitude, westLongitude);</span>
+	}
+
+	/**
+	 * Returns the NorthEastCorner of this BoundingBox as a new Point.
+	 *
+	 * @return
+	 */
+	public WGS84Point getNorthEastCorner() {
+<span class="nc" id="L81">		return new WGS84Point(northLatitude, eastLongitude);</span>
+	}
+
+	/**
+	 * Returns the SouthEastCorner of this BoundingBox as a new Point.
+	 *
+	 * @return
+	 */
+	public WGS84Point getSouthEastCorner() {
+<span class="fc" id="L90">		return new WGS84Point(southLatitude, eastLongitude);</span>
+	}
+
+	/**
+	 * Returns the SouthWestCorner of this BoundingBox as a new Point.
+	 *
+	 * @return
+	 */
+	public WGS84Point getSouthWestCorner() {
+<span class="nc" id="L99">		return new WGS84Point(southLatitude, westLongitude);</span>
+	}
+
+	/**
+	 * Returns the size of the bounding box in degrees of latitude. The value returned will always be positive.
+	 *
+	 * @return
+	 */
+	public double getLatitudeSize() {
+<span class="fc" id="L108">		return northLatitude - southLatitude;</span>
+	}
+
+	/**
+	 * Returns the size of the bounding box in degrees of longitude. The value returned will always be positive.
+	 *
+	 * @return
+	 */
+	public double getLongitudeSize() {
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">		if (eastLongitude == 180.0 &amp;&amp; westLongitude == -180.0)</span>
+<span class="nc" id="L118">			return 360.0;</span>
+<span class="fc" id="L119">		double size = (eastLongitude - westLongitude) % 360;</span>
+
+		// Remainder fix for earlier java versions
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if (size &lt; 0)</span>
+<span class="fc" id="L123">			size += 360.0;</span>
+<span class="fc" id="L124">		return size;</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">		if (this == obj) {</span>
+<span class="nc" id="L130">			return true;</span>
+		}
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">		if (obj instanceof BoundingBox) {</span>
+<span class="fc" id="L133">			BoundingBox that = (BoundingBox) obj;</span>
+<span class="pc bpc" id="L134" title="2 of 8 branches missed.">			return southLatitude == that.southLatitude &amp;&amp; westLongitude == that.westLongitude &amp;&amp; northLatitude == that.northLatitude &amp;&amp; eastLongitude == that.eastLongitude;</span>
+		} else {
+<span class="nc" id="L136">			return false;</span>
+		}
+	}
+
+	@Override
+	public int hashCode() {
+<span class="fc" id="L142">		int result = 17;</span>
+<span class="fc" id="L143">		result = 37 * result + hashCode(southLatitude);</span>
+<span class="fc" id="L144">		result = 37 * result + hashCode(northLatitude);</span>
+<span class="fc" id="L145">		result = 37 * result + hashCode(westLongitude);</span>
+<span class="fc" id="L146">		result = 37 * result + hashCode(eastLongitude);</span>
+<span class="fc" id="L147">		return result;</span>
+	}
+
+	private static int hashCode(double x) {
+<span class="fc" id="L151">		long f = Double.doubleToLongBits(x);</span>
+<span class="fc" id="L152">		return (int) (f ^ (f &gt;&gt;&gt; 32));</span>
+	}
+
+	public boolean contains(WGS84Point point) {
+<span class="fc bfc" id="L156" title="All 4 branches covered.">		return containsLatitude(point.getLatitude()) &amp;&amp; containsLongitude(point.getLongitude());</span>
+	}
+
+	public boolean intersects(BoundingBox other) {
+		// Check latitude first cause it's the same for all cases
+<span class="fc bfc" id="L161" title="All 4 branches covered.">		if (other.southLatitude &gt; northLatitude || other.northLatitude &lt; southLatitude) {</span>
+<span class="fc" id="L162">			return false;</span>
+		} else {
+<span class="fc bfc" id="L164" title="All 4 branches covered.">			if (!intersects180Meridian &amp;&amp; !other.intersects180Meridian) {</span>
+<span class="fc bfc" id="L165" title="All 4 branches covered.">				return !(other.eastLongitude &lt; westLongitude || other.westLongitude &gt; eastLongitude);</span>
+<span class="fc bfc" id="L166" title="All 4 branches covered.">			} else if (intersects180Meridian &amp;&amp; !other.intersects180Meridian) {</span>
+<span class="fc bfc" id="L167" title="All 4 branches covered.">				return !(eastLongitude &lt; other.westLongitude &amp;&amp; westLongitude &gt; other.eastLongitude);</span>
+<span class="pc bpc" id="L168" title="1 of 4 branches missed.">			} else if (!intersects180Meridian &amp;&amp; other.intersects180Meridian) {</span>
+<span class="fc bfc" id="L169" title="All 4 branches covered.">				return !(westLongitude &gt; other.eastLongitude &amp;&amp; eastLongitude &lt; other.westLongitude);</span>
+			} else
+<span class="fc" id="L171">				return true;</span>
+		}
+	}
+
+	@Override
+	public String toString() {
+<span class="fc" id="L177">		return getNorthWestCorner() + &quot; -&gt; &quot; + getSouthEastCorner();</span>
+	}
+
+	public WGS84Point getCenter() {
+<span class="fc" id="L181">		double centerLatitude = (southLatitude + northLatitude) / 2;</span>
+<span class="fc" id="L182">		double centerLongitude = (westLongitude + eastLongitude) / 2;</span>
+
+		// This can happen if the bBox crosses the 180-Meridian
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">		if (centerLongitude &gt; 180)</span>
+<span class="nc" id="L186">			centerLongitude -= 360;</span>
+
+<span class="fc" id="L188">		return new WGS84Point(centerLatitude, centerLongitude);</span>
+	}
+	
+	/**
+	 * Expands this bounding box to include the provided point. The expansion is done in the direction with the minimal distance. If both distances are the same it'll expand
+	 * in east direction. It will not cross poles, but it will cross the 180-Meridian, if thats the shortest distance.&lt;br&gt;
+	 *
+	 * @param point The point to include
+	 */
+	public void expandToInclude(WGS84Point point) {
+		
+		// Expand Latitude
+<span class="fc bfc" id="L200" title="All 2 branches covered.">		if(point.getLatitude() &lt; southLatitude)</span>
+<span class="fc" id="L201">			southLatitude = point.getLatitude();</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">		else if(point.getLatitude() &gt; northLatitude)</span>
+<span class="fc" id="L203">			northLatitude = point.getLatitude();</span>
+		
+		// Already done in this case
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if(containsLongitude(point.getLongitude()))</span>
+<span class="fc" id="L207">			return;</span>
+		
+		// If this is not the case compute the distance between the endpoints in east direction
+<span class="fc" id="L210">		double distanceEastToPoint = DoubleUtil.remainderWithFix(point.getLongitude() - eastLongitude, 360);</span>
+<span class="fc" id="L211">		double distancePointToWest = DoubleUtil.remainderWithFix(westLongitude - point.getLongitude(), 360);</span>
+
+		// The minimal distance needs to be extended
+<span class="fc bfc" id="L214" title="All 2 branches covered.">		if(distanceEastToPoint &lt;= distancePointToWest)</span>
+<span class="fc" id="L215">			eastLongitude = point.getLongitude();</span>
+		else
+<span class="fc" id="L217">			westLongitude = point.getLongitude();</span>
+		
+<span class="fc bfc" id="L219" title="All 2 branches covered.">		intersects180Meridian = eastLongitude &lt; westLongitude;</span>
+<span class="fc" id="L220">	}</span>
+
+	/**
+	 * Expands this bounding box to include the provided bounding box. The expansion is done in the direction with the minimal distance. If both distances are the same it'll expand
+	 * in east direction. It will not cross poles, but it will cross the 180-Meridian, if thats the shortest distance.&lt;br&gt;
+	 * If a precise specification of the northEast and southWest points is needed, please create a new bounding box where you can specify the points separately.
+	 *
+	 * @param other
+	 */
+	public void expandToInclude(BoundingBox other) {
+
+		// Expand Latitude
+<span class="fc bfc" id="L232" title="All 2 branches covered.">		if (other.southLatitude &lt; southLatitude) {</span>
+<span class="fc" id="L233">			southLatitude = other.southLatitude;</span>
+		}
+<span class="fc bfc" id="L235" title="All 2 branches covered.">		if (other.northLatitude &gt; northLatitude) {</span>
+<span class="fc" id="L236">			northLatitude = other.northLatitude;</span>
+		}
+
+		// Expand Longitude
+		// At first check whether the two boxes contain each other or not
+<span class="fc bfc" id="L241" title="All 4 branches covered.">		boolean thisContainsOther = containsLongitude(other.eastLongitude) &amp;&amp; containsLongitude(other.westLongitude);</span>
+<span class="fc bfc" id="L242" title="All 4 branches covered.">		boolean otherContainsThis = other.containsLongitude(eastLongitude) &amp;&amp; other.containsLongitude(westLongitude);</span>
+
+		// The new box needs to span the whole globe
+<span class="fc bfc" id="L245" title="All 4 branches covered.">		if (thisContainsOther &amp;&amp; otherContainsThis) {</span>
+<span class="fc" id="L246">			eastLongitude = 180.0;</span>
+<span class="fc" id="L247">			westLongitude = -180.0;</span>
+<span class="fc" id="L248">			intersects180Meridian = false;</span>
+<span class="fc" id="L249">			return;</span>
+		}
+		// Already done in this case
+<span class="fc bfc" id="L252" title="All 2 branches covered.">		if (thisContainsOther)</span>
+<span class="fc" id="L253">			return;</span>
+		// Expand to match the bigger box
+<span class="fc bfc" id="L255" title="All 2 branches covered.">		if (otherContainsThis) {</span>
+<span class="fc" id="L256">			eastLongitude = other.eastLongitude;</span>
+<span class="fc" id="L257">			westLongitude = other.westLongitude;</span>
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">			intersects180Meridian = eastLongitude &lt; westLongitude;</span>
+<span class="fc" id="L259">			return;</span>
+		}
+
+		// If this is not the case compute the distance between the endpoints in east direction
+<span class="fc" id="L263">		double distanceEastToOtherEast = DoubleUtil.remainderWithFix(other.eastLongitude - eastLongitude, 360);</span>
+<span class="fc" id="L264">		double distanceOtherWestToWest = DoubleUtil.remainderWithFix(westLongitude - other.westLongitude, 360);</span>
+
+		// The minimal distance needs to be extended
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">		if (distanceEastToOtherEast &lt;= distanceOtherWestToWest) {</span>
+<span class="fc" id="L268">			eastLongitude = other.eastLongitude;</span>
+		} else {
+<span class="nc" id="L270">			westLongitude = other.westLongitude;</span>
+		}
+
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		intersects180Meridian = eastLongitude &lt; westLongitude;</span>
+<span class="fc" id="L274">	}</span>
+
+	private boolean containsLatitude(double latitude) {
+<span class="fc bfc" id="L277" title="All 4 branches covered.">		return latitude &gt;= southLatitude &amp;&amp; latitude &lt;= northLatitude;</span>
+	}
+
+	private boolean containsLongitude(double longitude) {
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (intersects180Meridian) {</span>
+<span class="fc bfc" id="L282" title="All 4 branches covered.">			return longitude &lt;= eastLongitude || longitude &gt;= westLongitude;</span>
+		} else {
+<span class="fc bfc" id="L284" title="All 4 branches covered.">			return longitude &gt;= westLongitude &amp;&amp; longitude &lt;= eastLongitude;</span>
+		}
+	}
+
+	public double getEastLongitude() {
+<span class="fc" id="L289">		return eastLongitude;</span>
+	}
+
+	public double getWestLongitude() {
+<span class="fc" id="L293">		return westLongitude;</span>
+	}
+
+	public double getNorthLatitude() {
+<span class="fc" id="L297">		return northLatitude;</span>
+	}
+
+	public double getSouthLatitude() {
+<span class="fc" id="L301">		return southLatitude;</span>
+	}
+
+	public boolean intersects180Meridian() {
+<span class="fc" id="L305">		return intersects180Meridian;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

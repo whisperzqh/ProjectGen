@@ -1,0 +1,11 @@
+src
+    ├── main
+    │   └── java
+    │       └── com
+    │           └── bmw
+    │               └── hmm
+    │                   ├── ForwardBackwardAlgorithm.java
+    │                   ├── SequenceState.java
+    │                   ├── Transition.java
+    │                   ├── Utils.java
+    │                   └── ViterbiAlgorithm.java

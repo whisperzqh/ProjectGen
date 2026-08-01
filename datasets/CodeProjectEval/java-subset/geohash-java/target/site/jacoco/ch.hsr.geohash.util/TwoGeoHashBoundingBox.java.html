@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TwoGeoHashBoundingBox.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">geohash-java</a> &gt; <a href="index.source.html" class="el_package">ch.hsr.geohash.util</a> &gt; <span class="el_source">TwoGeoHashBoundingBox.java</span></div><h1>TwoGeoHashBoundingBox.java</h1><pre class="source lang-java linenums">package ch.hsr.geohash.util;
+
+import ch.hsr.geohash.BoundingBox;
+import ch.hsr.geohash.GeoHash;
+
+/**
+ * Created by IntelliJ IDEA. User: kevin Date: Jan 17, 2011 Time: 12:03:47 PM
+ */
+public class TwoGeoHashBoundingBox {
+	private BoundingBox boundingBox;
+	private GeoHash southWestCorner;
+	private GeoHash northEastCorner;
+
+	public static TwoGeoHashBoundingBox withCharacterPrecision(BoundingBox bbox, int numberOfCharacters) {
+<span class="fc" id="L15">		GeoHash southWestCorner = GeoHash.withCharacterPrecision(bbox.getSouthLatitude(), bbox.getWestLongitude(), numberOfCharacters);</span>
+<span class="fc" id="L16">		GeoHash northEastCorner = GeoHash.withCharacterPrecision(bbox.getNorthLatitude(), bbox.getEastLongitude(), numberOfCharacters);</span>
+<span class="fc" id="L17">		return new TwoGeoHashBoundingBox(southWestCorner, northEastCorner);</span>
+	}
+
+	public static TwoGeoHashBoundingBox withBitPrecision(BoundingBox bbox, int numberOfBits) {
+<span class="fc" id="L21">		GeoHash southWestCorner = GeoHash.withBitPrecision(bbox.getSouthLatitude(), bbox.getWestLongitude(), numberOfBits);</span>
+<span class="fc" id="L22">		GeoHash northEastCorner = GeoHash.withBitPrecision(bbox.getNorthLatitude(), bbox.getEastLongitude(), numberOfBits);</span>
+<span class="fc" id="L23">		return new TwoGeoHashBoundingBox(southWestCorner, northEastCorner);</span>
+	}
+
+<span class="fc" id="L26">	public TwoGeoHashBoundingBox(GeoHash southWestCorner, GeoHash northEastCorner) {</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">		if (southWestCorner.significantBits() != northEastCorner.significantBits()) {</span>
+<span class="nc" id="L28">			throw new IllegalArgumentException(&quot;Does it make sense to iterate between hashes that have different precisions?&quot;);</span>
+		}
+<span class="fc" id="L30">		this.southWestCorner = GeoHash.fromLongValue(southWestCorner.longValue(), southWestCorner.significantBits());</span>
+<span class="fc" id="L31">		this.northEastCorner = GeoHash.fromLongValue(northEastCorner.longValue(), northEastCorner.significantBits());</span>
+<span class="fc" id="L32">		boundingBox = new BoundingBox(southWestCorner.getBoundingBox().getSouthLatitude(), northEastCorner.getBoundingBox().getNorthLatitude(), southWestCorner.getBoundingBox().getWestLongitude(), northEastCorner.getBoundingBox().getEastLongitude());</span>
+<span class="fc" id="L33">	}</span>
+
+	public BoundingBox getBoundingBox() {
+<span class="fc" id="L36">		return boundingBox;</span>
+	}
+
+	public GeoHash getSouthWestCorner() {
+<span class="fc" id="L40">		return southWestCorner;</span>
+	}
+
+	public GeoHash getNorthEastCorner() {
+<span class="fc" id="L44">		return northEastCorner;</span>
+	}
+
+	public String toBase32() {
+<span class="nc" id="L48">		return southWestCorner.toBase32() + northEastCorner.toBase32();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
